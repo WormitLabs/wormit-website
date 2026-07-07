@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Claude Code / dev environment
+.agents/
+.claude/
+.mcp.json
+.playwright-mcp/
+
+# Root-level reference screenshots (not website assets)
+/*.png
+/*.jpeg
+/*.jpg
+Claude*.md
+
+# Node
+node_modules/
+npm-debug.log*
