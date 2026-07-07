@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lab — Wormit</title>
+  <meta name="description" content="Weird things we built. An independent creative lab.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --pr:   #125CFA;
+      --dark: #090909;
+      --text: #111111;
+      --t2:   #6A6A6A;
+      --t3:   #A0A0A0;
+      --bd:   #E5E5E5;
+      --alt:  #F6F6F7;
+
+      /* ── Type Scale ── */
+      --fs-2xs:     11px;
+      --fs-xs:      12px;
+      --fs-sm:      0.875rem;
+      --fs-base:    1rem;
+      --fs-body:    1.125rem;
+      --fs-body-lg: 1.375rem;
+      --fs-sub:     1.625rem;
+      --fs-h4:      clamp(1.5rem, 2.3vw, 2.875rem);
+      --fs-h3:      clamp(2.5rem, 4.4vw, 4.375rem);
+      --fs-h2:      clamp(3.25rem, 5.8vw, 6.125rem);
+      --fs-h1:      clamp(3.75rem, 7.25vw, 7.25rem);
+      --fs-display: clamp(4.5rem, 9.25vw, 9.25rem);
+      --fs-giant:   clamp(8.125rem, 13vw, 13.125rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: 'Urbanist', sans-serif; background: #0B0F1A; color: var(--text); overflow-x: clip; overflow-anchor: none; }
+    body { overflow-x: clip; cursor: none; overflow-anchor: none; }
+
+    /* ── Page Transition ── */
+    #pt {
+      position: fixed; inset: 0; z-index: 99990;
+      background: var(--pr);
+      transform: translateY(0);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* ── Cursor ── */
+    #cur {
+      position: fixed; top: 0; left: 0;
+      width: 7px; height: 7px;
+      background: var(--pr); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .08s linear;
+      will-change: transform;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--bd);
+      padding: 0 120px; height: 76px;
+      display: flex; align-items: center; justify-content: space-between;
+      transform: translateY(0);
+      transition: transform 420ms cubic-bezier(.165,.84,.44,1);
+    }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .nav-logo svg { height: 36px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 4px; list-style: none; align-items: center;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .nav-links > li > a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-sm); font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--t2); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 14px; border-radius: 100px;
+      transition: color 150ms ease, background 150ms ease;
+    }
+    .nav-links > li > a:hover { color: var(--text); background: var(--alt); }
+    .nav-links > li > a.nav-active { color: var(--text); background: var(--alt); }
+    .nav-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--pr); flex-shrink: 0; opacity: 0;
+      transition: opacity 150ms ease;
+    }
+    .nav-links > li > a:hover .nav-dot,
+    .nav-links > li > a.nav-active .nav-dot { opacity: 1; }
+    .nav-chevron {
+      color: var(--t2);
+      transition: color 150ms ease, transform 200ms cubic-bezier(.645,.045,.355,1);
+      flex-shrink: 0;
+    }
+    .nav-links > li > a:hover .nav-chevron { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-cta {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-sm); font-weight: 700; color: var(--text); background: transparent;
+      text-decoration: none; padding: 10px 18px 10px 22px;
+      border-radius: 100px; letter-spacing: .01em; border: 1px solid #DDDDDD;
+      transition: border-color 150ms ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .nav-cta:hover { border-color: var(--text); }
+    .nav-linkedin {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; background: transparent; color: var(--text);
+      text-decoration: none; border-radius: 100px; border: 1px solid #DDDDDD;
+      transition: border-color 150ms ease, background 150ms ease; flex-shrink: 0;
+    }
+    .nav-linkedin:hover { border-color: var(--text); background: var(--alt); }
+
+    /* Services Dropdown */
+    .nav-item-has-dropdown { position: relative; align-self: stretch; display: flex; align-items: center; }
+    .nav-item-has-dropdown::after { content: ''; position: absolute; top: 100%; left: -40px; right: -40px; height: 20px; }
+    .services-dropdown {
+      position: absolute; top: calc(100% + 10px); left: 50%;
+      transform-origin: top center;
+      transform: translateX(-50%) translateY(-6px) scale(0.97);
+      background: #fff; border-radius: 16px; padding: 12px; gap: 12px; display: flex;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06), 0 20px 56px rgba(0,0,0,.11);
+      border: 1px solid rgba(0,0,0,.06);
+      opacity: 0; pointer-events: none;
+      transition: opacity 180ms cubic-bezier(.165,.84,.44,1), transform 180ms cubic-bezier(.165,.84,.44,1);
+      z-index: 200;
+    }
+    .nav-item-has-dropdown:hover .services-dropdown { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
+    .nav-item-has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
+    .service-card {
+      display: flex; flex-direction: column; justify-content: space-between;
+      width: 200px; height: 220px; padding: 20px; border-radius: 12px;
+      text-decoration: none; color: inherit; flex-shrink: 0;
+      font-family: 'Urbanist', sans-serif; font-size: inherit; font-weight: 400;
+      letter-spacing: 0; text-transform: none; background: transparent;
+      transition: background 150ms ease;
+    }
+    .service-card:hover { color: inherit; background: #F4F6FB; }
+    .sc-ilus { position: relative; }
+    .sc-ilus img { display: block; }
+    .sc-body { display: flex; flex-direction: column; gap: 8px; }
+    .sc-title-row { display: flex; align-items: center; gap: 8px; }
+    .sc-title-row span { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 600; color: #0B0F1A; white-space: nowrap; line-height: 1; flex: 1; }
+    .service-arrow { flex-shrink: 0; color: #0B0F1A; transition: transform 150ms cubic-bezier(.215,.61,.355,1); }
+    .service-card:hover .service-arrow { transform: translate(2px, -2px); }
+    .sc-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-2xs); font-weight: 400; color: var(--t2); line-height: 1.5; }
+
+    /* ── Hamburger ── */
+    .nav-ham {
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      width: 40px; height: 40px; background: none; border: 1px solid #DDDDDD;
+      border-radius: 100px; cursor: pointer; padding: 0; flex-shrink: 0;
+      transition: border-color 150ms ease;
+    }
+    .nav-ham:hover { border-color: var(--text); }
+    .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.32s cubic-bezier(.77,0,.175,1), opacity 0.22s ease; }
+    .nav-ham.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.is-open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── Mobile Nav Drawer ── */
+    .nav-mobile {
+      position: fixed; top: 62px; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 490; display: flex; flex-direction: column; justify-content: center;
+      padding: 48px 32px 64px;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(.77,0,.175,1);
+      pointer-events: none; border-top: 1px solid var(--bd);
+    }
+    .nav-mobile.is-open { transform: translateX(0); pointer-events: auto; }
+    .nav-mobile-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 48px; }
+    .nav-mobile-links li { border-bottom: 1px solid var(--bd); }
+    .nav-mobile-links a {
+      font-family: 'Urbanist', sans-serif; font-size: clamp(32px, 9vw, 52px); font-weight: 800;
+      letter-spacing: -.03em; color: var(--text); text-decoration: none;
+      display: block; padding: 14px 0; opacity: 0; transform: translateX(28px);
+      transition: opacity 0.28s ease, transform 0.28s ease, color 0.15s ease;
+    }
+    .nav-mobile.is-open .nav-mobile-links a { opacity: 1; transform: translateX(0); }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(1) a { transition-delay: .04s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(2) a { transition-delay: .08s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(3) a { transition-delay: .12s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(4) a { transition-delay: .16s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(5) a { transition-delay: .20s; }
+    .nav-mobile-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 700;
+      color: var(--text); text-decoration: none; padding: 12px 20px 12px 24px;
+      border: 1px solid #DDDDDD; border-radius: 100px; width: fit-content;
+      opacity: 0; transform: translateX(28px);
+      transition: opacity 0.28s ease .24s, transform 0.28s ease .24s, border-color .15s ease;
+    }
+    .nav-mobile.is-open .nav-mobile-cta { opacity: 1; transform: translateX(0); }
+    .nav-mobile-cta:hover { border-color: var(--text); }
+
+    /* ── Lab Hero ── */
+    .lab-hero {
+      background: #fff;
+      padding: 76px 120px 0;
+      position: relative; z-index: 2;
+    }
+    .lab-hero-inner {
+      position: sticky; top: 62px;
+      height: calc(100vh - 62px);
+      display: flex; flex-direction: column; justify-content: center;
+      will-change: opacity;
+    }
+    .lb-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase;
+      color: var(--t2); margin-bottom: 28px;
+    }
+    .lb-heading {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-h1);
+      font-weight: 800; letter-spacing: -.04em; line-height: .96;
+      color: var(--text);
+    }
+    .lb-wave-wrap { position: relative; display: inline-block; }
+    .wv-cont {
+      position: absolute;
+      bottom: -11px; left: -4%; width: 108%;
+      height: 16px; display: block; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='16' viewBox='0 0 100 16'%3E%3Cpath d='M0 8 C13 3,37 3,50 8 C63 13,87 13,100 8' stroke='%23125CFA' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 100px 16px;
+      background-repeat: repeat-x;
+      background-position: 0 0;
+      animation: waveScroll 1.6s linear infinite;
+    }
+    @keyframes waveScroll {
+      to { background-position-x: 100px; }
+    }
+    .lb-scroll-hint {
+      margin-top: 44px; font-size: var(--fs-base); color: var(--t3);
+      display: inline-flex; align-items: center; gap: 8px;
+      animation: sbounce 1.8s ease-in-out infinite;
+    }
+    @keyframes sbounce {
+      0%, 100% { transform: translateY(0); }
+      60%       { transform: translateY(5px); }
+    }
+
+    /* ── Hero illustration triggers ── */
+    .lb-illus-trigger {
+      position: absolute;
+      width: 110px; height: 110px;
+    }
+    #lb-illus-float {
+      position: absolute;
+      pointer-events: none;
+      z-index: 10;
+      width: 0; height: 0;
+    }
+    .lb-illus {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      pointer-events: none;
+      width: 130px; height: auto;
+      will-change: transform, opacity;
+    }
+    @media (max-width: 900px) {
+      .lb-illus-trigger, #lb-illus-float { display: none; }
+    }
+
+    /* ── Lab Panel (word-cascade overlay) ── */
+    #lb-panel {
+      position: fixed; inset: 0; z-index: 60;
+      background: #fff;
+      display: flex; align-items: center;
+      padding: 0 120px;
+      transform: translateY(100%);
+      will-change: transform;
+      pointer-events: none;
+    }
+    .lb-panel-inner {
+      width: 100%;
+      max-width: 1440px;
+      display: grid;
+      grid-template-columns: 1fr 2.4fr;
+      gap: 0 80px;
+      align-items: start;
+    }
+    .lb-panel-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase;
+      color: var(--t2); display: block;
+      padding-top: 8px;
+    }
+    .lb-panel-body {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-h4);
+      font-weight: 500; line-height: 1.38; letter-spacing: -.015em;
+      color: var(--text);
+    }
+    .lb-line { display: inline; }
+    .lb-word { display: inline-block; }
+
+    /* ── Lab Work Section (Auvra-style staggered) ── */
+    .lab-work-section {
+      background: #fff;
+      padding: 100px 120px 80px;
+      position: relative; z-index: 2;
+    }
+    .lw-inner {
+      width: 100%;
+    }
+    .lw-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 80px;
+    }
+    .lw-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase;
+      color: var(--t2); margin-bottom: 16px;
+    }
+    .lw-heading {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-h3);
+      font-weight: 900; letter-spacing: -.03em; line-height: 1; color: var(--text);
+    }
+    .lw-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-sm); letter-spacing: .06em; color: var(--t3);
+      flex-shrink: 0; padding-bottom: 6px;
+    }
+    .lw-rows { display: flex; flex-direction: column; gap: 80px; }
+    .lw-row {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; width: 100%;
+    }
+    .lw-row--right { justify-content: flex-end; }
+    .lw-row--small { gap: 28px; }
+    .lw-col-l  { flex: 0 0 48.5%; }
+    .lw-col-r  { flex: 0 0 48.5%; padding-top: 180px; }
+    .lw-col-wide   { flex: 0 0 75%; }
+    .lw-col-narrow { flex: 0 0 40%; }
+    .lw-col-mid    { flex: 0 0 57%; padding-top: 120px; }
+    .lw-col-q  { flex: 1; min-width: 0; }
+    .lw-card { display: block; text-decoration: none; color: inherit; }
+    .lw-card-img { overflow: hidden; border-radius: 6px; width: 100%; }
+    .lw-card-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transform: scale(1);
+      transition: transform 0.75s cubic-bezier(.19,1,.22,1);
+      will-change: transform;
+    }
+    .lw-card:hover .lw-card-img img { transform: scale(1.06); }
+    .lw-card-info {
+      height: 32px;
+      overflow: hidden;
+      margin-top: 18px;
+    }
+    .lw-card-info-slide {
+      display: flex; flex-direction: column;
+      transition: transform 0.5s cubic-bezier(.19,1,.22,1);
+      will-change: transform;
+    }
+    .lw-card:hover .lw-card-info-slide { transform: translateY(-32px); }
+    .lw-card-row {
+      height: 32px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .lw-card-meta { display: flex; align-items: center; gap: 10px; min-width: 0; overflow: hidden; }
+    .lw-card-name {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-body); font-weight: 700; letter-spacing: -.02em; color: var(--text);
+      white-space: nowrap;
+    }
+    .lw-sep { width: 5px; height: 5px; border-radius: 50%; background: var(--t3); flex-shrink: 0; }
+    .lw-card-type {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-base); font-weight: 400; color: var(--t2);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .lw-card-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: var(--fs-xs); letter-spacing: .04em; color: var(--t3); flex-shrink: 0;
+    }
+
+    /* ── CTA Section ── */
+    .lb-cta-outer {
+      background: #fff;
+      padding: 0 80px 100px;
+      position: relative; z-index: 2;
+      border-radius: 0 0 28px 28px;
+    }
+    .lb-cta-card {
+      background: var(--pr);
+      border-radius: 28px; padding: 80px 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 48px; min-height: 400px;
+      position: relative; overflow: hidden;
+    }
+    .lb-cta-card::before {
+      content: ''; position: absolute;
+      bottom: -140px; right: -60px;
+      width: 560px; height: 560px;
+      border: 64px solid rgba(255,255,255,.07);
+      border-radius: 50%; pointer-events: none;
+    }
+    .lb-cta-card::after {
+      content: ''; position: absolute;
+      bottom: -60px; right: 160px;
+      width: 280px; height: 280px;
+      border: 40px solid rgba(255,255,255,.05);
+      border-radius: 50%; pointer-events: none;
+    }
+    .lb-cta-heading {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-h3);
+      font-weight: 700; letter-spacing: -.03em; line-height: .96;
+      color: #fff; position: relative; z-index: 1;
+    }
+    .lb-cta-btn {
+      background: #FFC940; color: #0B0F1A;
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-body); font-weight: 700;
+      padding: 14px 28px; border-radius: 10px;
+      text-decoration: none; white-space: nowrap;
+      flex-shrink: 0; position: relative; z-index: 1;
+      transition: transform .28s cubic-bezier(.34,1.38,.64,1), box-shadow .28s;
+    }
+    .lb-cta-btn:hover { transform: scale(1.06); box-shadow: 0 12px 36px rgba(255,201,64,.4); }
+
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .rd1 { transition-delay: .1s; }
+    .rd2 { transition-delay: .2s; }
+    .rd3 { transition-delay: .3s; }
+
+    section, .lb-cta-outer { position: relative; z-index: 2; }
+
+    /* ── Custom Cursors ── */
+    a[href], button, [role="button"] { cursor: none !important; }
+    #cur-dot {
+      position: fixed; top: 0; left: 0;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #fff;
+      mix-blend-mode: difference;
+      pointer-events: none; z-index: 100000;
+      will-change: transform; user-select: none;
+      opacity: 0;
+      transition: opacity 0.22s ease-out;
+    }
+    #cur-pointer, #cur-view {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+      mix-blend-mode: difference; opacity: 0; visibility: hidden; will-change: transform;
+      transition: opacity 0.28s ease-out, visibility 0s 0.28s; user-select: none;
+    }
+    #cur-pointer {
+      width: 76px; height: 76px; border-radius: 50%; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #cur-view {
+      padding: 16px 34px; border-radius: 100px; background: #fff;
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-base); font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: #111; white-space: nowrap;
+    }
+    #cur-pointer.cur-on, #cur-view.cur-on { opacity: 1; visibility: visible; transition: opacity 0.28s ease-out, visibility 0s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .lw-col-wide { flex: 0 0 85%; }
+      .lw-col-narrow { flex: 0 0 44%; }
+      .lw-col-mid { flex: 0 0 53%; }
+      .lw-col-r { padding-top: 120px; }
+    }
+    @media (min-width: 769px) and (max-width: 1100px) {
+      #main-nav { padding: 0 40px; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+      .lab-hero { padding: 0 40px; }
+      .lab-hero-inner { position: static !important; height: auto !important; padding: 72px 0 48px; pointer-events: auto; }
+      .lb-scroll-hint { display: none; }
+      #lb-panel {
+        position: relative !important; inset: auto !important;
+        transform: none !important; pointer-events: auto !important;
+        z-index: 2; background: #fff; padding: 64px 40px 72px; display: block;
+      }
+      .lb-panel-inner { grid-template-columns: 1fr; gap: 16px 0; }
+      #lb-panel .lb-word { opacity: 1 !important; }
+    }
+    @media (max-width: 768px) {
+      #main-nav { padding: 0 20px; }
+      #main-nav, #main-nav.nav-hidden { transform: translateY(0) !important; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+      .lab-hero { padding: 0 24px; }
+      .lab-hero-inner { position: static; height: auto; padding: 72px 0 48px; pointer-events: auto; }
+      .lb-heading { font-size: clamp(42px, 11vw, 72px); }
+      #lb-panel {
+        position: relative !important; inset: auto !important;
+        transform: none !important; pointer-events: auto !important;
+        z-index: 2; background: #fff; padding: 48px 24px 56px; display: block;
+      }
+      .lb-panel-inner { grid-template-columns: 1fr; gap: 16px 0; }
+      #lb-panel .lb-word { opacity: 1 !important; }
+      .lb-scroll-hint { display: none; }
+      .lab-work-section { padding: 64px 24px 48px; }
+      .lw-inner { width: 100%; }
+      .lw-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 48px; }
+      .lw-rows { gap: 48px; }
+      .lw-row, .lw-row--right, .lw-row--small { flex-direction: column; gap: 32px; }
+      .lw-col-l, .lw-col-r, .lw-col-wide, .lw-col-narrow, .lw-col-mid, .lw-col-q {
+        flex: 0 0 100%; width: 100%;
+      }
+      .lw-col-r, .lw-col-mid { padding-top: 0; }
+      .lw-card-img { aspect-ratio: 4/3 !important; height: auto !important; }
+      .lw-card-info { height: auto; overflow: visible; }
+      .lw-card-info-slide { transform: none !important; }
+      .lb-cta-outer { padding: 40px 20px 80px; border-radius: 0; }
+      .lb-cta-card { flex-direction: column; align-items: flex-start; padding: 48px 32px; min-height: auto; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Page Transition Overlay ── -->
+  <div id="pt"></div>
+
+  <!-- ── Cursor ── -->
+  <div id="cur"></div>
+
+  <!-- ── Nav ── -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo" aria-label="Wormit Labs">
+      <svg width="199" height="64" viewBox="0 0 199 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M63.4327 20.9119C63.4327 22.2833 62.3266 23.3953 60.9625 23.3953H57.9434V43.2625C57.9434 44.6339 56.8373 45.7459 55.4732 45.7459H48.0627C46.6986 45.7459 45.5925 44.6339 45.5925 43.2625V33.8808H43.1224V43.2625C43.1224 44.6339 42.0163 45.7459 40.6522 45.7459H33.2417C31.8776 45.7459 30.7715 44.6339 30.7715 43.2625V43.1356L31.0158 23.3953H27.7524C26.3883 23.3953 25.2822 22.2833 25.2822 20.9119C25.2822 19.5405 26.3883 18.4285 27.7524 18.4285H33.5161C34.8802 18.4285 35.9863 19.5405 35.9863 20.9119V21.0389L35.742 40.7791H38.182V31.3974C38.182 30.026 39.2881 28.914 40.6522 28.914H48.0627C49.4268 28.914 50.5329 30.026 50.5329 31.3974V40.7791H53.0031V20.9119C53.0031 19.5405 54.1091 18.4285 55.4732 18.4285H60.9625C62.3266 18.4285 63.4327 19.5405 63.4327 20.9119Z" fill="#125CFA"/>
+        <path d="M149.614 26.7064C150.978 26.7064 152.084 25.5945 152.084 24.223C152.084 22.8514 150.978 21.7396 149.614 21.7396C148.25 21.7396 147.144 22.8514 147.144 24.223C147.144 25.5945 148.25 26.7064 149.614 26.7064Z" fill="#125CFA"/>
+        <path d="M116.684 20.7546V21.0692C116.681 21.0168 116.679 20.9643 116.679 20.9119C116.679 20.8595 116.681 20.8071 116.684 20.7546Z" fill="#125CFA"/>
+        <path d="M172.943 20.9119C172.943 22.2833 171.837 23.3953 170.473 23.3953H167.056C167.095 29.1734 167.18 43.0445 167.18 43.2625C167.18 44.6339 166.074 45.7459 164.71 45.7459C163.345 45.7459 162.239 44.6339 162.239 43.2625L162.119 23.3953H158.671C157.307 23.3953 156.201 22.2833 156.201 20.9119C156.201 19.5405 157.307 18.4285 158.671 18.4285H170.473C171.837 18.4285 172.943 19.5405 172.943 20.9119Z" fill="#125CFA"/>
+        <path d="M152.084 31.6733V43.2625C152.084 44.6339 150.978 45.7459 149.614 45.7459H137.812C136.448 45.7459 135.342 44.6339 135.342 43.2625V27.4019L130.385 32.9757L130.363 33.0006L130.267 33.1082L130.256 33.122C129.806 33.591 129.177 33.8808 128.48 33.8808C127.783 33.8808 127.155 33.591 126.705 33.122L126.694 33.1082L126.598 33.0006L126.576 32.9757L121.616 27.4046V43.2625C121.619 44.6339 120.513 45.7459 119.149 45.7459H108.845L108.804 45.7431C108.777 45.7459 108.746 45.7459 108.719 45.7459C107.898 45.7459 107.171 45.343 106.721 44.7222L106.671 44.6504L98.5171 32.8985L98.5062 32.8819L98.4046 32.7329L98.3909 32.7136C98.1521 32.3328 98.0149 31.8803 98.0149 31.3974C98.0149 30.026 99.121 28.914 100.485 28.914H106.249V23.3953H95.8192V43.2625C95.8192 44.6339 94.7131 45.7459 93.349 45.7459H82.9194C81.5553 45.7459 80.4492 44.6339 80.4492 43.2625V23.3953H71.9408V40.7791H76.0578C77.4219 40.7791 78.528 41.8911 78.528 43.2625C78.528 44.6339 77.4219 45.7459 76.0578 45.7459H69.4707C68.1066 45.7459 67.0005 44.6339 67.0005 43.2625V20.9119C67.0005 19.5405 68.1066 18.4285 69.4707 18.4285H82.9194C84.2835 18.4285 85.3896 19.5405 85.3896 20.9119V40.7791H90.8788V20.9119C90.8788 19.5405 91.9849 18.4285 93.349 18.4285H108.719C110.083 18.4285 111.189 19.5405 111.189 20.9119V31.3974C111.189 32.7688 110.083 33.8808 108.719 33.8808H105.217L110.009 40.7819H116.678L116.684 21.0692V20.7381C116.774 19.4467 117.842 18.4285 119.149 18.4285C119.906 18.4285 120.584 18.7734 121.037 19.3143H121.04L128.48 27.6778L135.907 19.3336L135.929 19.3088L136.025 19.2011L136.036 19.1873C136.486 18.7183 137.115 18.4285 137.812 18.4285C139.176 18.4285 140.282 19.5405 140.282 20.9119C140.282 20.9699 140.28 21.0278 140.277 21.0858L140.282 40.7791H147.144V31.6733C147.144 30.3019 148.25 29.1899 149.614 29.1899C150.978 29.1899 152.084 30.3019 152.084 31.6733Z" fill="#125CFA"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#work"><span class="nav-dot"></span>Project</a></li>
+      <li><a href="services.html"><span class="nav-dot"></span>Services</a></li>
+      <li><a href="index.html#about"><span class="nav-dot"></span>About Us</a></li>
+      <li><a href="lab.html" class="nav-active"><span class="nav-dot"></span>The Lab</a></li>
+      <li><a href="#"><span class="nav-dot"></span>Blogs<svg class="nav-chevron" width="8" height="5" viewBox="0 0 8 5" fill="currentColor"><path d="M0 0L4 5L8 0H0Z"/></svg></a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="index.html#contact" class="nav-cta">
+        Contact
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/company/wormit-labs" target="_blank" rel="noopener" class="nav-linkedin" aria-label="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <button class="nav-ham" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true" aria-label="Navigation">
+    <ul class="nav-mobile-links">
+      <li><a href="index.html#work">Project</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="lab.html">The Lab</a></li>
+      <li><a href="#">Blogs</a></li>
+    </ul>
+    <a href="index.html#contact" class="nav-mobile-cta">
+      Contact
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="lab-hero" id="hero">
+    <div class="lab-hero-inner">
+      <p class="lb-eyebrow">[ The Lab ]</p>
+      <h1 class="lb-heading">
+        Some weird things<br>
+        <span class="lb-wave-wrap">we built<span class="wv-cont"></span></span>
+      </h1>
+      <p class="lb-scroll-hint">Scroll further <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M3 8l4 4 4-4"/></svg></p>
+
+      <!-- Invisible hover trigger zones (full hero area) -->
+      <div class="lb-illus-trigger" style="left:4%;top:7%"></div>
+      <div class="lb-illus-trigger" style="left:25%;top:5%"></div>
+      <div class="lb-illus-trigger" style="left:50%;top:6%"></div>
+      <div class="lb-illus-trigger" style="left:72%;top:8%"></div>
+      <div class="lb-illus-trigger" style="left:88%;top:12%"></div>
+      <div class="lb-illus-trigger" style="left:92%;top:32%"></div>
+      <div class="lb-illus-trigger" style="left:86%;top:55%"></div>
+      <div class="lb-illus-trigger" style="left:88%;top:76%"></div>
+      <div class="lb-illus-trigger" style="left:68%;top:86%"></div>
+      <div class="lb-illus-trigger" style="left:44%;top:88%"></div>
+      <div class="lb-illus-trigger" style="left:20%;top:84%"></div>
+      <div class="lb-illus-trigger" style="left:5%;top:72%"></div>
+      <div class="lb-illus-trigger" style="left:4%;top:44%"></div>
+      <div class="lb-illus-trigger" style="left:18%;top:24%"></div>
+      <div class="lb-illus-trigger" style="left:40%;top:45%"></div>
+
+      <!-- Floating illustration (GSAP-controlled) -->
+      <div id="lb-illus-float" aria-hidden="true">
+        <img src="Brand_assets/lab_Illus-01.svg" class="lb-illus" alt="">
+        <img src="Brand_assets/lab_Illus-02.svg" class="lb-illus" alt="">
+        <img src="Brand_assets/lab_Illus-03.svg" class="lb-illus" alt="">
+        <img src="Brand_assets/lab_Illus-04.svg" class="lb-illus" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lab Panel (word-cascade overlay, same mechanism as index.html lab-reveal) ── -->
+  <div id="lb-panel">
+    <div class="lb-panel-inner">
+      <span class="lb-panel-label">[ A few things from the lab ]</span>
+      <p class="lb-panel-body">
+        <span class="lb-line">Its a lab people. There are things we have built</span>
+        <span class="lb-line">that just exist on the internet. As a company that</span>
+        <span class="lb-line">vouches for innovation, we make things for the sheer</span>
+        <span class="lb-line">fun of building. Have a look at a few of those things.</span>
+        <span class="lb-line">They might just excite you!</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Lab Work ── -->
+  <section class="lab-work-section" id="lab-work">
+    <div class="lw-inner">
+
+      <div class="lw-header reveal">
+        <div>
+          <p class="lw-eyebrow">[ Weird things we built ]</p>
+          <h2 class="lw-heading">Some things<br>we made.</h2>
+        </div>
+        <span class="lw-count">08 projects</span>
+      </div>
+
+      <div class="lw-rows">
+
+        <!-- Row 1: two staggered cards — right drops 180px -->
+        <div class="lw-row">
+          <div class="lw-col-l">
+            <a href="lab-project.html" class="lw-card reveal rd1">
+              <div class="lw-card-img" style="height:560px">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80" alt="Figma Plugin">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Figma Plugin</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Design Tool</span>
+                </div>
+                <span class="lw-card-year">2024</span>
+              </div>
+            </a>
+          </div>
+          <div class="lw-col-r">
+            <a href="lab-project.html" class="lw-card reveal rd2">
+              <div class="lw-card-img" style="height:420px">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop&q=80" alt="Makthron">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Makthron</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Brand Identity</span>
+                </div>
+                <span class="lw-card-year">2024</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 2: wide hero card, right-aligned -->
+        <div class="lw-row lw-row--right">
+          <div class="lw-col-wide">
+            <a href="lab-project.html" class="lw-card reveal rd1">
+              <div class="lw-card-img" style="height:700px">
+                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1400&auto=format&fit=crop&q=80" alt="Illustrations">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Illustrations</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Visual Art</span>
+                </div>
+                <span class="lw-card-year">2025</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 3: narrow left + wider right (offset down) -->
+        <div class="lw-row">
+          <div class="lw-col-narrow">
+            <a href="lab-project.html" class="lw-card reveal rd1">
+              <div class="lw-card-img" style="height:500px">
+                <img src="https://images.unsplash.com/photo-1557683311-eac922347aa1?w=900&auto=format&fit=crop&q=80" alt="Motion Lab">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Motion Lab</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Animation</span>
+                </div>
+                <span class="lw-card-year">2025</span>
+              </div>
+            </a>
+          </div>
+          <div class="lw-col-mid">
+            <a href="lab-project.html" class="lw-card reveal rd2">
+              <div class="lw-card-img" style="height:520px">
+                <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=900&auto=format&fit=crop&q=80" alt="Color Studies">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Color Studies</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Research</span>
+                </div>
+                <span class="lw-card-year">2024</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 4: three equal small cards -->
+        <div class="lw-row lw-row--small">
+          <div class="lw-col-q">
+            <a href="lab-project.html" class="lw-card reveal rd1">
+              <div class="lw-card-img" style="height:320px">
+                <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&auto=format&fit=crop&q=80" alt="Type Forms">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Type Forms</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Typography</span>
+                </div>
+                <span class="lw-card-year">2025</span>
+              </div>
+            </a>
+          </div>
+          <div class="lw-col-q">
+            <a href="lab-project.html" class="lw-card reveal rd2">
+              <div class="lw-card-img" style="height:320px">
+                <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&auto=format&fit=crop&q=80" alt="Grid Works">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Grid Works</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Layout System</span>
+                </div>
+                <span class="lw-card-year">2024</span>
+              </div>
+            </a>
+          </div>
+          <div class="lw-col-q">
+            <a href="lab-project.html" class="lw-card reveal rd3">
+              <div class="lw-card-img" style="height:320px">
+                <img src="https://images.unsplash.com/photo-1605106702734-205df224ecce?w=800&auto=format&fit=crop&q=80" alt="Photo Stories">
+              </div>
+              <div class="lw-card-info">
+                <div class="lw-card-meta">
+                  <span class="lw-card-name">Photo Stories</span>
+                  <span class="lw-sep"></span>
+                  <span class="lw-card-type">Photography</span>
+                </div>
+                <span class="lw-card-year">2024</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <div class="lb-cta-outer">
+    <div class="lb-cta-card reveal">
+      <h2 class="lb-cta-heading">Still thinking,<br>lets talk,<br>it won't cost.</h2>
+      <a href="mailto:business@wormit.co" class="lb-cta-btn">Let's Talk →</a>
+    </div>
+  </div>
+
+<footer id="site-footer"></footer>
+
+  <script>
+    /* ── Page Transition ── */
+    const pt = document.getElementById('pt');
+
+    // Reveal: slide the overlay up off-screen after a brief hold
+    setTimeout(() => {
+      pt.style.transition = 'transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)';
+      pt.style.transform  = 'translateY(-100%)';
+    }, 320);
+
+    // Exit: intercept local navigation, slide overlay in from below, then navigate
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href]');
+      if (!a) return;
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || a.target === '_blank') return;
+      e.preventDefault();
+      // Reset to below viewport, then slide to cover
+      pt.style.transition = 'none';
+      pt.style.transform  = 'translateY(100%)';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          pt.style.transition = 'transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)';
+          pt.style.transform  = 'translateY(0)';
+          setTimeout(() => { window.location.href = href; }, 860);
+        });
+      });
+    });
+
+    /* ── Cursor ── */
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+
+    /* ── Nav hide/show on scroll ── */
+    (function() {
+      const nav = document.getElementById('main-nav');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (y > lastY && y > 80) nav.classList.add('nav-hidden');
+        else nav.classList.remove('nav-hidden');
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* ── Reveal on scroll ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ── Lab Panel scroll-driven word cascade ── */
+    (function initLabPanel() {
+      const heroSection = document.getElementById('hero');
+      const heroInner   = heroSection && heroSection.querySelector('.lab-hero-inner');
+      const panel       = document.getElementById('lb-panel');
+      const isDesktop   = window.innerWidth > 1100;
+
+      if (!isDesktop) {
+        // Mobile: static panel, words fully visible
+        if (panel) {
+          panel.style.cssText = 'position:static;inset:auto;transform:none;pointer-events:auto;z-index:2;background:#fff;padding:48px 24px 56px;display:block;';
+        }
+        document.querySelectorAll('#lb-panel .lb-word').forEach(w => { w.style.opacity = '1'; });
+        return;
+      }
+
+      // Split lb-line text into per-word spans
+      function wrapWordsIn(container) {
+        const words = [];
+        (function walk(node) {
+          Array.from(node.childNodes).forEach(child => {
+            if (child.nodeType === Node.TEXT_NODE) {
+              const frag = document.createDocumentFragment();
+              child.textContent.split(/(\s+)/).forEach(part => {
+                if (part === '') return;
+                if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+                const span = document.createElement('span');
+                span.className = 'lb-word';
+                span.style.opacity = '0';
+                span.textContent = part;
+                frag.appendChild(span);
+                words.push(span);
+              });
+              child.parentNode.replaceChild(frag, child);
+            } else if (child.nodeType === Node.ELEMENT_NODE) {
+              walk(child);
+            }
+          });
+        })(container);
+        return words;
+      }
+
+      const panelWords = [];
+      document.querySelectorAll('#lb-panel .lb-line').forEach(line => {
+        panelWords.push(...wrapWordsIn(line));
+      });
+
+      const SLIDE_START    = 380;
+      const SLIDE_END      = 860;
+      const STAGGER        = 22;
+      const WORD_DUR       = 140;
+      const TEXT_START     = SLIDE_END;
+      const TEXT_END       = TEXT_START + STAGGER * Math.max(0, panelWords.length - 1) + WORD_DUR;
+      const EXIT_DELAY     = 160;
+      const EXIT_DUR       = 600;
+      const EXIT_START     = TEXT_END + EXIT_DELAY;
+      const EXIT_END       = EXIT_START + EXIT_DUR;
+
+      heroSection.style.minHeight = (EXIT_END + 320) + 'px';
+
+      const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
+
+      function tick() {
+        const sy = window.scrollY;
+
+        // Fade hero content as panel comes up
+        if (heroInner) heroInner.style.opacity = String(Math.max(0, 1 - sy / 320));
+
+        const slideP = clamp((sy - SLIDE_START) / (SLIDE_END - SLIDE_START), 0, 1);
+        const exitP  = clamp((sy - EXIT_START)  / EXIT_DUR, 0, 1);
+        const done   = sy >= EXIT_END;
+
+        if (panel) {
+          if (done) {
+            panel.style.display = 'none';
+          } else {
+            panel.style.display = 'flex';
+            const eY = (1 - slideP) * 100;
+            const xY = -exitP * 100;
+            panel.style.transform = 'translateY(' + (eY + xY) + '%)';
+            panel.style.pointerEvents = (slideP >= 1 && exitP === 0) ? 'auto' : 'none';
+          }
+        }
+
+        // Word cascade
+        panelWords.forEach((word, i) => {
+          const start = TEXT_START + i * STAGGER;
+          const lp    = clamp((sy - start) / WORD_DUR, 0, 1);
+          const op    = lp < 0.5 ? lp * 0.8 : 0.4 + (lp - 0.5) * 1.2;
+          word.style.opacity = String(op);
+        });
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+
+
+    /* ── Smooth anchor scrolling ── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const t = document.getElementById(id);
+        if (!t) return;
+        e.preventDefault();
+        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    window.addEventListener('load', () => {
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    });
+
+    /* ── Hero illustration easter eggs ── */
+    (function() {
+      const heroInner = document.querySelector('.lab-hero-inner');
+      const float     = document.getElementById('lb-illus-float');
+      if (!heroInner || !float) return;
+
+      const illuses  = Array.from(float.querySelectorAll('.lb-illus'));
+      const triggers = Array.from(heroInner.querySelectorAll('.lb-illus-trigger'));
+      const W = 130, H = 120;
+      let current     = null;
+      let lastIdx     = -1;
+      let lastTrigger = null;
+
+      function show(trigger) {
+        illuses.forEach(il => { gsap.killTweensOf(il); gsap.set(il, { opacity: 0 }); });
+
+        let idx;
+        do { idx = Math.floor(Math.random() * illuses.length); } while (idx === lastIdx && illuses.length > 1);
+        lastIdx = idx;
+        current = illuses[idx];
+
+        const tr = trigger.getBoundingClientRect();
+        const hr = heroInner.getBoundingClientRect();
+        gsap.set(float, {
+          left: tr.left - hr.left + tr.width  / 2 - W / 2,
+          top:  tr.top  - hr.top  + tr.height / 2 - H / 2,
+        });
+
+        const rot = (Math.random() - 0.5) * 22;
+        gsap.fromTo(current,
+          { opacity: 0, scale: 0.6, rotation: rot, transformOrigin: '50% 50%' },
+          { opacity: 1, scale: 1,   rotation: 0,   duration: 0.5, ease: 'expo.out' }
+        );
+      }
+
+      function hide() {
+        if (!current) return;
+        const el = current;
+        current = null;
+        gsap.killTweensOf(el);
+        gsap.to(el, { opacity: 0, scale: 0.55, duration: 0.18, ease: 'power4.in' });
+      }
+
+      // Single mousemove handler on the container — no reliance on mouseleave/relatedTarget.
+      // Every frame the mouse moves, we check if it's over a trigger zone. The moment
+      // it leaves one, hide() fires on the very next mousemove — zero ghost window.
+      heroInner.addEventListener('mousemove', e => {
+        const hovered = triggers.find(t => {
+          const r = t.getBoundingClientRect();
+          return e.clientX >= r.left && e.clientX <= r.right &&
+                 e.clientY >= r.top  && e.clientY <= r.bottom;
+        });
+
+        if (hovered) {
+          if (hovered !== lastTrigger) {
+            lastTrigger = hovered;
+            show(hovered);
+          }
+        } else if (lastTrigger) {
+          lastTrigger = null;
+          hide();
+        }
+      });
+
+      // When mouse leaves the hero section entirely
+      heroInner.addEventListener('mouseleave', () => {
+        lastTrigger = null;
+        hide();
+      });
+    })();
+  </script>
+
+  <!-- Custom cursor elements -->
+  <div id="cur-dot" aria-hidden="true"></div>
+  <div id="cur-pointer" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 18L18 4M18 4H7M18 4v11"/>
+    </svg>
+  </div>
+  <div id="cur-view" aria-hidden="true">VIEW</div>
+
+  <script>
+    /* ── Card text slide (Auvra-style clip-slide on hover) ── */
+    document.querySelectorAll('.lw-card-info').forEach(info => {
+      const row = document.createElement('div');
+      row.className = 'lw-card-row';
+      while (info.firstChild) row.appendChild(info.firstChild);
+      const slide = document.createElement('div');
+      slide.className = 'lw-card-info-slide';
+      slide.appendChild(row);
+      slide.appendChild(row.cloneNode(true));
+      info.appendChild(slide);
+    });
+
+    /* ── Custom cursor ── */
+    (function initCursor() {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const dot = document.getElementById('cur-dot');
+      const cp  = document.getElementById('cur-pointer');
+      const cv  = document.getElementById('cur-view');
+      if (!dot || !cp) return;
+
+      let mx = -300, my = -300, cx = -300, cy = -300;
+      let mode = '', entered = false;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        if (!entered) { entered = true; dot.style.opacity = '1'; }
+      });
+
+      function setMode(m) {
+        if (mode === m) return;
+        mode = m;
+        dot.style.opacity = (m === '' && entered) ? '1' : '0';
+        cp.classList.toggle('cur-on', m === 'pointer');
+        if (cv) cv.classList.toggle('cur-on', m === 'view');
+      }
+
+      (function dotTick() {
+        dot.style.transform = `translate(${(mx - 6).toFixed(1)}px,${(my - 6).toFixed(1)}px)`;
+        requestAnimationFrame(dotTick);
+      })();
+
+      (function lerpTick() {
+        cx += (mx - cx) * 0.15;
+        cy += (my - cy) * 0.15;
+        cp.style.transform = `translate(${(cx - 38).toFixed(1)}px,${(cy - 38).toFixed(1)}px)`;
+        if (cv) cv.style.transform = `translate(${(cx - cv.offsetWidth / 2).toFixed(1)}px,${(cy - cv.offsetHeight / 2).toFixed(1)}px)`;
+        requestAnimationFrame(lerpTick);
+      })();
+
+      // VIEW cursor: lab project cards with thumbnails
+      let inView = false;
+      document.querySelectorAll('.lw-card').forEach(el => {
+        el.addEventListener('mouseenter', () => { inView = true;  setMode('view'); });
+        el.addEventListener('mouseleave', () => { inView = false; setMode('');     });
+      });
+
+      // POINTER cursor: links and buttons not inside thumbnail containers
+      document.querySelectorAll('a[href], button, [role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => { if (!inView) setMode('pointer'); });
+        el.addEventListener('mouseleave', () => { if (!inView) setMode('');        });
+      });
+    })();
+
+    /* ── Mobile hamburger menu ── */
+    (function() {
+      const ham    = document.querySelector('.nav-ham');
+      const drawer = document.getElementById('nav-mobile');
+      if (!ham || !drawer) return;
+
+      function close() {
+        ham.classList.remove('is-open');
+        drawer.classList.remove('is-open');
+        ham.setAttribute('aria-expanded', 'false');
+      }
+
+      ham.addEventListener('click', () => {
+        const open = ham.classList.toggle('is-open');
+        drawer.classList.toggle('is-open', open);
+        ham.setAttribute('aria-expanded', String(open));
+      });
+
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+  <script src="footer.js"></script>
+</body>
+</html>

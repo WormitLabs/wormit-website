@@ -1,0 +1,369 @@
+- generic [active] [ref=f9e1]:
+  - img [ref=f9e4]
+  - navigation [ref=f9e11]:
+    - link "Wormit Labs" [ref=f9e12] [cursor=pointer]:
+      - /url: "#"
+      - img [ref=f9e13]
+    - list [ref=f9e19]:
+      - listitem [ref=f9e20]:
+        - link "Project" [ref=f9e21] [cursor=pointer]:
+          - /url: "#work"
+          - text: Project
+      - listitem [ref=f9e23]:
+        - link "Services" [ref=f9e24] [cursor=pointer]:
+          - /url: "#services"
+          - text: Services
+          - img [ref=f9e26]
+        - generic:
+          - link "Product Design Interfaces that feel inevitable — from first click to final pixel.":
+            - /url: "#services"
+            - generic:
+              - generic:
+                - generic: Product Design
+                - img
+              - paragraph: Interfaces that feel inevitable — from first click to final pixel.
+          - link "Brand Identity A distinct voice and visual system that means something.":
+            - /url: "#services"
+            - generic:
+              - generic:
+                - generic: Brand Identity
+                - img
+              - paragraph: A distinct voice and visual system that means something.
+          - link "Websites Award-worthy websites that load fast and convert better.":
+            - /url: "#services"
+            - generic:
+              - generic:
+                - generic: Websites
+                - img
+              - paragraph: Award-worthy websites that load fast and convert better.
+          - link "Just Chit Chat No agenda, just ideas. Drop by and let's see where it goes.":
+            - /url: "#contact"
+            - generic:
+              - generic:
+                - generic: Just Chit Chat
+                - img
+              - paragraph: No agenda, just ideas. Drop by and let's see where it goes.
+      - listitem [ref=f9e28]:
+        - link "About Us" [ref=f9e29] [cursor=pointer]:
+          - /url: "#about"
+          - text: About Us
+      - listitem [ref=f9e31]:
+        - link "The Lab" [ref=f9e32] [cursor=pointer]:
+          - /url: "#"
+          - text: The Lab
+      - listitem [ref=f9e34]:
+        - link "Blogs" [ref=f9e35] [cursor=pointer]:
+          - /url: "#"
+          - text: Blogs
+          - img [ref=f9e37]
+    - generic [ref=f9e39]:
+      - link "Contact" [ref=f9e40] [cursor=pointer]:
+        - /url: "#contact"
+        - text: Contact
+        - img [ref=f9e41]
+      - link "Wormit Labs on LinkedIn" [ref=f9e43] [cursor=pointer]:
+        - /url: https://www.linkedin.com/company/wormit-labs
+        - img [ref=f9e44]
+  - generic [ref=f9e47]:
+    - generic [ref=f9e48]:
+      - heading "The Desıgn Lab" [level=1] [ref=f9e49]:
+        - text: The
+        - generic [ref=f9e50]: Desıgn
+        - generic [ref=f9e51]:
+          - text: Lab
+          - generic:
+            - img
+      - paragraph [ref=f9e52]:
+        - text: Scroll further
+        - img [ref=f9e53]
+    - button "Toggle mute" [ref=f9e58] [cursor=pointer]:
+      - img [ref=f9e59]
+    - generic:
+      - generic:
+        - heading "We design for version twenty, not version one." [level=2]:
+          - generic:
+            - generic: We
+            - generic: design
+            - generic: for
+            - generic:
+              - generic: version
+              - generic: twenty,
+              - generic:
+                - img
+          - generic:
+            - generic: not
+            - generic: version
+            - generic: one.
+        - paragraph:
+          - generic:
+            - generic: Products
+            - generic: change.
+            - generic: Businesses
+            - generic: change
+            - generic: with
+            - generic: them.
+          - generic:
+            - generic: The
+            - generic: challenge
+            - generic: isn't
+            - generic: shipping
+            - generic: software,
+            - generic: it's
+            - generic: keeping
+            - generic: it
+            - generic: usable
+            - generic: as
+            - generic: complexity
+            - generic: grows.
+          - generic:
+            - generic: At
+            - generic: Wormit,
+            - generic: we
+            - generic: design
+            - generic: products,
+            - generic: brands,
+            - generic: and
+            - generic: systems
+            - generic: that
+            - generic: stay
+            - generic: clear,
+            - generic: consistent,
+            - generic: and
+            - generic: easy
+            - generic: to
+            - generic: build
+            - generic: on.
+          - generic:
+            - generic: That's
+            - generic: what
+            - generic: makes
+            - generic: good
+            - generic: design
+            - generic: last.
+        - link "Read About Us":
+          - /url: "#about"
+          - text: Read About Us
+          - img
+  - generic [ref=f9e65]:
+    - generic [ref=f9e66]:
+      - heading "Recent Work" [level=2] [ref=f9e67]:
+        - text: Recent
+        - text: Work
+      - paragraph [ref=f9e69]:
+        - text: Joy delivered to the beautiful people
+        - text: who loved the process and results.
+    - generic [ref=f9e70]:
+      - generic [ref=f9e71]:
+        - img "Magure" [ref=f9e72]
+        - generic [ref=f9e73]:
+          - generic [ref=f9e74]:
+            - generic [ref=f9e75]: Brand Identity
+            - generic [ref=f9e76]: 01 / 03
+          - heading "Magure" [level=3] [ref=f9e77]
+          - paragraph [ref=f9e78]: A unified brand identity and digital product for a fast-growing B2B platform — clean forms, intuitive flows, and a visual language built to scale.
+      - generic [ref=f9e79]:
+        - img "Vault 2047" [ref=f9e80]
+        - generic [ref=f9e81]:
+          - generic [ref=f9e82]:
+            - generic [ref=f9e83]: Event Design
+            - generic [ref=f9e84]: 02 / 03
+          - heading "Vault 2047" [level=3] [ref=f9e85]
+          - paragraph [ref=f9e86]: Connecting experiences to simplify attendee engagement — innovators gathered to explore the future of technology and community.
+      - generic [ref=f9e87]:
+        - img "Adiabatic" [ref=f9e88]
+        - generic [ref=f9e89]:
+          - generic [ref=f9e90]:
+            - generic [ref=f9e91]: Product Design
+            - generic [ref=f9e92]: 03 / 03
+          - heading "Adiabatic" [level=3] [ref=f9e93]
+          - paragraph [ref=f9e94]: Deep product thinking and well-crafted digital experience — design that explores the future of technology and community, and ships.
+      - generic [ref=f9e96]:
+        - heading "On a journey to build something great?" [level=2] [ref=f9e97]:
+          - text: On a journey to build
+          - text: something great?
+        - paragraph [ref=f9e98]: We're an independent creative agency based in Raipur. We solve the complicated.
+        - link "Let's Talk →" [ref=f9e99] [cursor=pointer]:
+          - /url: "#contact"
+  - generic [ref=f9e101]:
+    - generic [ref=f9e102]:
+      - paragraph [ref=f9e103]: "[ A small snapshot of our effort ]"
+      - heading "Small team. Measurable impact." [level=2] [ref=f9e104]:
+        - text: Small team.
+        - text: Measurable impact.
+    - generic [ref=f9e105]:
+      - generic [ref=f9e106]:
+        - img
+        - generic [ref=f9e107]:
+          - generic [ref=f9e109]: 10+
+          - paragraph [ref=f9e110]:
+            - text: Products & brands
+            - text: delivered in a year
+        - paragraph [ref=f9e113]: Across SaaS, AI, Computer Vision and live events. That's almost close to 1 project each month with great collaboration.
+      - generic [ref=f9e114]:
+        - img
+        - generic [ref=f9e115]:
+          - generic [ref=f9e117]: "6"
+          - paragraph [ref=f9e118]: Industries Served
+        - paragraph [ref=f9e120]: We work with different industries, but same formula. Because problem solving is something we are always great at.
+      - generic [ref=f9e121]:
+        - img
+        - generic [ref=f9e122]:
+          - generic [ref=f9e124]: 100%
+          - paragraph [ref=f9e125]:
+            - text: Clients came
+            - text: through referrals
+        - paragraph [ref=f9e128]: Every project so far has come from people recommending our work.
+    - generic [ref=f9e129]:
+      - paragraph [ref=f9e130]: People that trust us
+      - generic [ref=f9e131]:
+        - img "Magure" [ref=f9e132]
+        - img "Trescon" [ref=f9e133]
+        - img "Adiabatic" [ref=f9e134]
+        - img "SHASN" [ref=f9e135]
+        - img "Prānaa" [ref=f9e136]
+        - img "Client" [ref=f9e137]
+        - img "Vatilaap" [ref=f9e138]
+  - generic [ref=f9e142]:
+    - paragraph [ref=f9e143]: "[ No surprises. Just a clear process ]"
+    - heading "Here’s how we work" [level=2] [ref=f9e144]:
+      - text: Here’s how
+      - text: we work
+  - generic [ref=f9e145]:
+    - paragraph [ref=f9e146]: Our Fuel
+    - heading "We dig. We test. We make." [level=2] [ref=f9e147]
+    - generic [ref=f9e148]:
+      - generic [ref=f9e149]:
+        - generic [ref=f9e150]:
+          - img [ref=f9e151]
+          - heading "Absorb" [level=3] [ref=f9e156]
+          - paragraph [ref=f9e157]: Before anything gets designed, everything gets understood. The business, the users, the gaps nobody's talking about. We go in with questions, not assumptions.
+        - generic [ref=f9e158]:
+          - img [ref=f9e159]
+          - heading "Refine" [level=3] [ref=f9e165]
+          - paragraph [ref=f9e166]: The direction that survives gets built properly. Flows, interfaces, systems, everything tightened until it's ready to ship.
+      - generic [ref=f9e167]:
+        - generic [ref=f9e168]:
+          - img [ref=f9e169]
+          - heading "Iteration Loops" [level=3] [ref=f9e177]
+          - paragraph [ref=f9e178]: Directions get explored, pressure-tested, and killed if they don't hold up. Not every idea survives, and that's the point. What comes out the other side is stronger for it.
+        - generic [ref=f9e179]:
+          - img [ref=f9e180]
+          - heading "Handover" [level=3] [ref=f9e195]
+          - paragraph [ref=f9e196]: Clean files. Documented systems. Work that makes sense without us in the room.
+  - generic [ref=f9e197]:
+    - heading "\"If you think good design is expensive, you should get to know how expensive are bad designs!\"" [level=2] [ref=f9e198]
+    - paragraph [ref=f9e199]: — Dr. Ralf Speth
+  - generic [ref=f9e200]:
+    - generic [ref=f9e201]:
+      - generic [ref=f9e202]:
+        - paragraph [ref=f9e203]: What does it cost?
+        - heading "Good work. Fair numbers." [level=2] [ref=f9e204]:
+          - text: Good work.
+          - text: Fair numbers.
+      - paragraph [ref=f9e205]:
+        - text: If you think good design is expensive,
+        - text: you should get to know how expensive
+        - text: are bad designs!
+    - generic [ref=f9e206]:
+      - generic [ref=f9e207]:
+        - img [ref=f9e209]
+        - generic [ref=f9e215]:
+          - generic [ref=f9e216]: "01"
+          - heading "Product Design" [level=3] [ref=f9e217]:
+            - text: Product
+            - text: Design
+          - paragraph [ref=f9e218]: End-to-end design for digital products. From early flows and wireframes to polished interfaces ready to ship. Built to scale, not just to launch.
+          - generic [ref=f9e219]:
+            - generic [ref=f9e220]: Pricing
+            - generic [ref=f9e221]: Starting from $2,110.00
+          - link "Book a call" [ref=f9e222] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=f9e223]:
+        - img [ref=f9e225]
+        - generic [ref=f9e228]:
+          - generic [ref=f9e229]: "02"
+          - heading "Brand Identity" [level=3] [ref=f9e230]:
+            - text: Brand
+            - text: Identity
+          - paragraph [ref=f9e231]: Logo, identity systems, brand guidelines, and the full visual toolkit your brand needs to stand apart and stay consistent.
+          - generic [ref=f9e232]:
+            - generic [ref=f9e233]: Pricing
+            - generic [ref=f9e234]: Starting from $2,110.00
+          - link "Book a call" [ref=f9e235] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=f9e236]:
+        - img [ref=f9e238]
+        - generic [ref=f9e243]:
+          - generic [ref=f9e244]: "03"
+          - heading "Website Design & Development" [level=3] [ref=f9e245]:
+            - text: Website Design &
+            - text: Development
+          - paragraph [ref=f9e246]: Pixel-perfect websites built with modern stacks — fast, accessible, and designed to convert. End-to-end from concept to launch.
+          - generic [ref=f9e247]:
+            - generic [ref=f9e248]: Pricing
+            - generic [ref=f9e249]: Starting from $2,110.00
+          - link "Book a call" [ref=f9e250] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=f9e251]:
+        - img [ref=f9e253]
+        - generic [ref=f9e259]:
+          - generic [ref=f9e260]: "04"
+          - heading "Consultancy & Chit Chat" [level=3] [ref=f9e261]:
+            - text: Consultancy
+            - text: "& Chit Chat"
+          - paragraph [ref=f9e262]: Independent expert review of your product's UX, conversion flows, and design system health. Straight talk, no fluff.
+          - generic [ref=f9e263]:
+            - generic [ref=f9e264]: Pricing
+            - generic [ref=f9e265]: Starting from a Chay
+          - link "Book a call" [ref=f9e266] [cursor=pointer]:
+            - /url: "#contact"
+  - generic [ref=f9e269]:
+    - generic [ref=f9e270]:
+      - paragraph [ref=f9e271]: Got a project in mind?
+      - heading "Still thinking, lets talk, it won't cost." [level=2] [ref=f9e272]:
+        - text: Still thinking,
+        - text: lets talk,
+        - text: it won't cost.
+    - link "Let's Talk →" [ref=f9e274] [cursor=pointer]:
+      - /url: mailto:hello@wormit.co
+  - contentinfo [ref=f9e275]:
+    - link "Wormit home" [ref=f9e277] [cursor=pointer]:
+      - /url: "#"
+      - img [ref=f9e278]
+    - generic [ref=f9e285]:
+      - list [ref=f9e286]:
+        - listitem [ref=f9e287]:
+          - link "Projects" [ref=f9e288] [cursor=pointer]:
+            - /url: "#work"
+        - listitem [ref=f9e289]:
+          - link "Services" [ref=f9e290] [cursor=pointer]:
+            - /url: "#services"
+        - listitem [ref=f9e291]:
+          - link "About Us" [ref=f9e292] [cursor=pointer]:
+            - /url: "#about"
+        - listitem [ref=f9e293]:
+          - link "Our Lab" [ref=f9e294] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=f9e295]:
+          - link "Blogs" [ref=f9e296] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=f9e297]:
+        - generic [ref=f9e298]:
+          - text: Raipur, Chhattisgarh, India
+          - text: Zenith co-working, 492001
+        - generic [ref=f9e299]:
+          - link "+91 6263068340" [ref=f9e300] [cursor=pointer]:
+            - /url: tel:+916263068340
+          - link "business@wormit.co" [ref=f9e301] [cursor=pointer]:
+            - /url: mailto:business@wormit.co
+        - generic [ref=f9e302]:
+          - link "LinkedIn" [ref=f9e303] [cursor=pointer]:
+            - /url: https://linkedin.com
+            - img [ref=f9e304]
+          - link "Instagram" [ref=f9e308] [cursor=pointer]:
+            - /url: https://instagram.com
+            - img [ref=f9e309]
+          - link "WhatsApp" [ref=f9e313] [cursor=pointer]:
+            - /url: https://wa.me/916263068340
+            - img [ref=f9e314]
+      - generic [ref=f9e316]: © 2024 wormit labs pvt ltd

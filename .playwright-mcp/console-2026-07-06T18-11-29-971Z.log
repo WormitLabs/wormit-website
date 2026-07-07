@@ -1,0 +1,11 @@
+[    1333ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/bundle.js:105162
+[ 1097262ms] [LOG] [Fast refresh] ./src/Root.tsx fast refreshed. @ http://localhost:3000/bundle.js:75293
+[ 1104841ms] [LOG] [Fast refresh] ./src/Root.tsx fast refreshed. @ http://localhost:3000/bundle.js:75293
+[ 1104841ms] [LOG] [Fast refresh] ./src/compositions/WordReel.tsx fast refreshed. @ http://localhost:3000/bundle.js:75293
+[ 1104841ms] [LOG] [Fast refresh] ./node_modules/@remotion/google-fonts/dist/esm/Anton.mjs fast refreshed. @ http://localhost:3000/bundle.js:75293
+[ 1122737ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/bundle.js:105452
+[ 2016626ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/api/unsubscribe-from-default-props:0
+[ 2016626ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/api/unsubscribe-from-sequence-props:0
+[ 2016626ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/api/unsubscribe-from-sequence-props:0
+[ 2017011ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/events:0
+[ 2020015ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/events:0

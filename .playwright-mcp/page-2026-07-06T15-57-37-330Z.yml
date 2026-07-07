@@ -1,0 +1,344 @@
+- generic [active] [ref=f6e1]:
+  - navigation [ref=f6e2]:
+    - link "Wormit Labs" [ref=f6e3]:
+      - /url: index.html
+      - img [ref=f6e4]
+    - button "Open menu" [ref=f6e10]
+  - dialog:
+    - list:
+      - listitem:
+        - link "Project":
+          - /url: index.html#work
+      - listitem:
+        - link "Services":
+          - /url: services.html
+      - listitem:
+        - link "About Us":
+          - /url: index.html#about
+      - listitem:
+        - link "The Lab":
+          - /url: lab.html
+      - listitem:
+        - link "Blogs":
+          - /url: "#"
+    - link "Contact":
+      - /url: index.html#contact
+      - text: Contact
+      - img
+  - generic [ref=f6e14]:
+    - paragraph [ref=f6e16]: "[ Our Services ]"
+    - generic [ref=f6e17]:
+      - heading "We design for version 20, not version 01." [level=1] [ref=f6e18]:
+        - text: We design for version 20,
+        - text: not version 01.
+      - paragraph [ref=f6e19]: Launching is the easy part. Keeping products, brands and websites clear as businesses grow is harder. Wormit partners with founders and growing teams to build systems that scale without losing clarity.
+      - link "Lets Build Together" [ref=f6e20]:
+        - /url: index.html#contact
+  - generic [ref=f6e22]:
+    - generic [ref=f6e23]:
+      - paragraph [ref=f6e24]: "[ No surprises. Just a clear process ]"
+      - heading "Who can we help" [level=2] [ref=f6e25]
+    - generic [ref=f6e26]:
+      - link "New Product Launch New Product Launch Startup & MVP 01 New Product Launch Startup & MVP 01" [ref=f6e27]:
+        - /url: index.html#contact
+        - img "New Product Launch" [ref=f6e29]
+        - generic [ref=f6e31]:
+          - generic [ref=f6e32]:
+            - generic [ref=f6e33]:
+              - generic [ref=f6e34]: New Product Launch
+              - generic [ref=f6e36]: Startup & MVP
+            - generic [ref=f6e37]: "01"
+          - generic [ref=f6e38]:
+            - generic [ref=f6e39]:
+              - generic [ref=f6e40]: New Product Launch
+              - generic [ref=f6e42]: Startup & MVP
+            - generic [ref=f6e43]: "01"
+      - link "Raise Funding Raise Funding Investor Ready 02 Raise Funding Investor Ready 02" [ref=f6e44]:
+        - /url: index.html#contact
+        - img "Raise Funding" [ref=f6e46]
+        - generic [ref=f6e48]:
+          - generic [ref=f6e49]:
+            - generic [ref=f6e50]:
+              - generic [ref=f6e51]: Raise Funding
+              - generic [ref=f6e53]: Investor Ready
+            - generic [ref=f6e54]: "02"
+          - generic [ref=f6e55]:
+            - generic [ref=f6e56]:
+              - generic [ref=f6e57]: Raise Funding
+              - generic [ref=f6e59]: Investor Ready
+            - generic [ref=f6e60]: "02"
+      - link "Rebrand Rebranding Brand Evolution 03 Rebranding Brand Evolution 03" [ref=f6e61]:
+        - /url: index.html#contact
+        - img "Rebrand" [ref=f6e63]
+        - generic [ref=f6e65]:
+          - generic [ref=f6e66]:
+            - generic [ref=f6e67]:
+              - generic [ref=f6e68]: Rebranding
+              - generic [ref=f6e70]: Brand Evolution
+            - generic [ref=f6e71]: "03"
+          - generic [ref=f6e72]:
+            - generic [ref=f6e73]:
+              - generic [ref=f6e74]: Rebranding
+              - generic [ref=f6e76]: Brand Evolution
+            - generic [ref=f6e77]: "03"
+      - link "Design System Design Systems Scale & Grow 04 Design Systems Scale & Grow 04" [ref=f6e78]:
+        - /url: index.html#contact
+        - img "Design System" [ref=f6e80]
+        - generic [ref=f6e82]:
+          - generic [ref=f6e83]:
+            - generic [ref=f6e84]:
+              - generic [ref=f6e85]: Design Systems
+              - generic [ref=f6e87]: Scale & Grow
+            - generic [ref=f6e88]: "04"
+          - generic [ref=f6e89]:
+            - generic [ref=f6e90]:
+              - generic [ref=f6e91]: Design Systems
+              - generic [ref=f6e93]: Scale & Grow
+            - generic [ref=f6e94]: "04"
+  - generic [ref=f6e96]:
+    - paragraph [ref=f6e98]: "[ Our Process ]"
+    - generic [ref=f6e99]:
+      - heading "We have, but ONE PROCESS" [level=2] [ref=f6e100]:
+        - text: We have, but
+        - text: ONE PROCESS
+      - paragraph [ref=f6e101]: "Every project follows the same four steps: Discover, Structure, Craft, Deploy. No shortcuts, no surprises. Just a clean sequence that delivers the same quality every time — regardless of budget or industry."
+      - link "Lets Build Together" [ref=f6e102]:
+        - /url: index.html#contact
+  - generic [ref=f6e104]:
+    - generic [ref=f6e105]:
+      - paragraph [ref=f6e106]: "[ Our Capabilities ]"
+      - heading "Things we can help with" [level=2] [ref=f6e107]
+    - generic [ref=f6e108]:
+      - generic [ref=f6e111]:
+        - generic [ref=f6e112]:
+          - heading "UI/UX & Product Design" [level=3] [ref=f6e113]
+          - paragraph [ref=f6e114]: End-to-end product design — from the first rough flow to pixel-perfect screens. We help you understand the problem clearly, then build the right interface around it.
+          - generic [ref=f6e115]:
+            - paragraph [ref=f6e116]: "What's included:"
+            - generic [ref=f6e117]:
+              - generic [ref=f6e118]:
+                - generic [ref=f6e119]: +
+                - generic [ref=f6e120]: Market Research
+              - generic [ref=f6e121]:
+                - generic [ref=f6e122]: +
+                - generic [ref=f6e123]: Full discovery & strategy workshop
+              - generic [ref=f6e124]:
+                - generic [ref=f6e125]: +
+                - generic [ref=f6e126]: Prototypes
+              - generic [ref=f6e127]:
+                - generic [ref=f6e128]: +
+                - generic [ref=f6e129]: Product Design
+              - generic [ref=f6e130]:
+                - generic [ref=f6e131]: +
+                - generic [ref=f6e132]: Solution Analysis
+              - generic [ref=f6e133]:
+                - generic [ref=f6e134]: +
+                - generic [ref=f6e135]: Motion design animations
+              - generic [ref=f6e136]:
+                - generic [ref=f6e137]: +
+                - generic [ref=f6e138]: Market Positioning Strategy
+              - generic [ref=f6e139]:
+                - generic [ref=f6e140]: +
+                - generic [ref=f6e141]: Slack Channel Communication
+              - generic [ref=f6e142]:
+                - generic [ref=f6e143]: +
+                - generic [ref=f6e144]: Handoff Documentation
+              - generic [ref=f6e145]:
+                - generic [ref=f6e146]: +
+                - generic [ref=f6e147]: Post-launch support (4 weeks)
+        - generic [ref=f6e148]:
+          - generic [ref=f6e149]:
+            - button "Monthly Retainer" [ref=f6e150]
+            - button "Project Contract" [ref=f6e151]
+          - generic [ref=f6e152]:
+            - paragraph [ref=f6e153]: Monthly Design Retainer
+            - paragraph [ref=f6e154]: On-going design & motion support. Dedicated hours, priority access.
+          - paragraph [ref=f6e156]: $4500/m
+          - link "Get Started" [ref=f6e157]:
+            - /url: index.html#contact
+      - generic [ref=f6e164]:
+        - generic [ref=f6e165]:
+          - heading "Branding" [level=3] [ref=f6e166]
+          - paragraph [ref=f6e167]: A brand built for where you're going, not just where you are. We create identity systems with room to grow — logomarks, voice, visual language, and everything in between.
+          - generic [ref=f6e168]:
+            - paragraph [ref=f6e169]: "What's included:"
+            - generic [ref=f6e170]:
+              - generic [ref=f6e171]:
+                - generic [ref=f6e172]: +
+                - generic [ref=f6e173]: Market Research
+              - generic [ref=f6e174]:
+                - generic [ref=f6e175]: +
+                - generic [ref=f6e176]: Full discovery & strategy workshop
+              - generic [ref=f6e177]:
+                - generic [ref=f6e178]: +
+                - generic [ref=f6e179]: 3–5 Original Ideas
+              - generic [ref=f6e180]:
+                - generic [ref=f6e181]: +
+                - generic [ref=f6e182]: Comprehensive Brand Book
+              - generic [ref=f6e183]:
+                - generic [ref=f6e184]: +
+                - generic [ref=f6e185]: Logo & Variation
+              - generic [ref=f6e186]:
+                - generic [ref=f6e187]: +
+                - generic [ref=f6e188]: Logo Animation
+              - generic [ref=f6e189]:
+                - generic [ref=f6e190]: +
+                - generic [ref=f6e191]: Branding Collaterals
+              - generic [ref=f6e192]:
+                - generic [ref=f6e193]: +
+                - generic [ref=f6e194]: Branding Assets Website
+              - generic [ref=f6e195]:
+                - generic [ref=f6e196]: +
+                - generic [ref=f6e197]: Social Templates
+              - generic [ref=f6e198]:
+                - generic [ref=f6e199]: +
+                - generic [ref=f6e200]: Slack Channel Communication
+              - generic [ref=f6e201]:
+                - generic [ref=f6e202]: +
+                - generic [ref=f6e203]: Handoff Documentation
+              - generic [ref=f6e204]:
+                - generic [ref=f6e205]: +
+                - generic [ref=f6e206]: Post-handoff support (2 weeks)
+        - generic [ref=f6e207]:
+          - generic [ref=f6e208]:
+            - paragraph [ref=f6e209]: Project Contract
+            - paragraph [ref=f6e210]: Fixed scope, clear deliverables, zero surprises.
+          - generic [ref=f6e211]:
+            - paragraph [ref=f6e212]: Starting from
+            - paragraph [ref=f6e213]: $1660
+          - link "Get Started" [ref=f6e214]:
+            - /url: index.html#contact
+      - generic [ref=f6e221]:
+        - generic [ref=f6e222]:
+          - heading "Website" [level=3] [ref=f6e223]
+          - paragraph [ref=f6e224]: Award-worthy websites that convert. Built for performance, designed for clarity. We handle UX, UI, and front-end — from landing pages to full product sites.
+          - generic [ref=f6e225]:
+            - paragraph [ref=f6e226]: "What's included:"
+            - generic [ref=f6e227]:
+              - generic [ref=f6e228]:
+                - generic [ref=f6e229]: +
+                - generic [ref=f6e230]: Market Research
+              - generic [ref=f6e231]:
+                - generic [ref=f6e232]: +
+                - generic [ref=f6e233]: Full discovery & strategy workshop
+              - generic [ref=f6e234]:
+                - generic [ref=f6e235]: +
+                - generic [ref=f6e236]: 3–5 Design Directions
+              - generic [ref=f6e237]:
+                - generic [ref=f6e238]: +
+                - generic [ref=f6e239]: UX Architecture & Sitemap
+              - generic [ref=f6e240]:
+                - generic [ref=f6e241]: +
+                - generic [ref=f6e242]: Responsive UI Design
+              - generic [ref=f6e243]:
+                - generic [ref=f6e244]: +
+                - generic [ref=f6e245]: Motion & Interactions
+              - generic [ref=f6e246]:
+                - generic [ref=f6e247]: +
+                - generic [ref=f6e248]: Figma Prototype
+              - generic [ref=f6e249]:
+                - generic [ref=f6e250]: +
+                - generic [ref=f6e251]: Slack Channel Communication
+              - generic [ref=f6e252]:
+                - generic [ref=f6e253]: +
+                - generic [ref=f6e254]: Dev-ready Handoff
+              - generic [ref=f6e255]:
+                - generic [ref=f6e256]: +
+                - generic [ref=f6e257]: Post-handoff support (2 weeks)
+        - generic [ref=f6e258]:
+          - generic [ref=f6e259]:
+            - paragraph [ref=f6e260]: Project Contract
+            - paragraph [ref=f6e261]: Fixed scope, clear deliverables, zero surprises.
+          - generic [ref=f6e262]:
+            - paragraph [ref=f6e263]: Starting from
+            - paragraph [ref=f6e264]: $1800
+          - link "Get Started" [ref=f6e265]:
+            - /url: index.html#contact
+  - generic [ref=f6e271]:
+    - heading "Still thinking, lets talk, it won't cost." [level=2] [ref=f6e272]:
+      - text: Still thinking,
+      - text: lets talk,
+      - text: it won't cost.
+    - link "Let's Talk →" [ref=f6e273]:
+      - /url: mailto:business@wormit.co
+  - generic [ref=f6e275]:
+    - paragraph [ref=f6e276]: "[ Frequently Asked Questions ]"
+    - generic [ref=f6e277]:
+      - generic [ref=f6e278]:
+        - button "How long does a typical project take?" [ref=f6e279]:
+          - generic [ref=f6e280]: How long does a typical project take?
+          - img [ref=f6e282]
+        - region:
+          - paragraph [ref=f6e283]: Brand identity projects usually run 3–5 weeks. Product design and websites range from 4–10 weeks depending on scope. We define timelines clearly before work begins — no open-ended engagements.
+      - generic [ref=f6e284]:
+        - button "Do you handle development, or just design?" [ref=f6e285]:
+          - generic [ref=f6e286]: Do you handle development, or just design?
+          - img [ref=f6e288]
+        - region:
+          - paragraph [ref=f6e289]: We specialise in design — brand identity, product UI, and web. For development, we partner with trusted engineers and can coordinate the full handoff, so your files never sit in limbo.
+      - generic [ref=f6e290]:
+        - button "What's the difference between a retainer and a project contract?" [ref=f6e291]:
+          - generic [ref=f6e292]: What's the difference between a retainer and a project contract?
+          - img [ref=f6e294]
+        - region:
+          - paragraph [ref=f6e295]: "A project contract is scoped and delivered once — fixed deliverables, fixed cost. A monthly retainer means we're your ongoing design partner: dedicated hours each month, faster turnaround, and no re-briefing overhead."
+      - generic [ref=f6e296]:
+        - button "What do I need to provide to get started?" [ref=f6e297]:
+          - generic [ref=f6e298]: What do I need to provide to get started?
+          - img [ref=f6e300]
+        - region:
+          - paragraph [ref=f6e301]: Not much. A brief conversation is enough. We'll ask about your goals, timeline, budget, and any references you love. From there we send a proposal within 48 hours.
+      - generic [ref=f6e302]:
+        - button "Do you work with early-stage startups?" [ref=f6e303]:
+          - generic [ref=f6e304]: Do you work with early-stage startups?
+          - img [ref=f6e306]
+        - region:
+          - paragraph [ref=f6e307]: Yes — and some of our best work has come from pre-revenue founders. We don't just push pixels; we help shape the story and the system from the ground up.
+      - generic [ref=f6e308]:
+        - button "What happens after the project is delivered?" [ref=f6e309]:
+          - generic [ref=f6e310]: What happens after the project is delivered?
+          - img [ref=f6e312]
+        - region:
+          - paragraph [ref=f6e313]: Every project includes a post-delivery support window (2–4 weeks). We're available for questions, tweaks, and guidance as you roll things out. Retainer clients simply continue.
+  - contentinfo [ref=f6e314]:
+    - generic [ref=f6e315]:
+      - link "Wormit home" [ref=f6e317]:
+        - /url: index.html
+        - img [ref=f6e318]
+      - generic [ref=f6e325]:
+        - list [ref=f6e326]:
+          - listitem [ref=f6e327]:
+            - link "Projects" [ref=f6e328]:
+              - /url: index.html#work
+          - listitem [ref=f6e329]:
+            - link "Services" [ref=f6e330]:
+              - /url: services.html
+          - listitem [ref=f6e331]:
+            - link "About Us" [ref=f6e332]:
+              - /url: index.html#about
+          - listitem [ref=f6e333]:
+            - link "Our Lab" [ref=f6e334]:
+              - /url: lab.html
+          - listitem [ref=f6e335]:
+            - link "Blogs" [ref=f6e336]:
+              - /url: "#"
+        - generic [ref=f6e337]:
+          - generic [ref=f6e338]:
+            - text: Raipur, Chhattisgarh, India
+            - text: Zenith co-working, 492001
+          - generic [ref=f6e339]:
+            - link "+91 6263068340" [ref=f6e340]:
+              - /url: tel:+916263068340
+            - link "business@wormit.co" [ref=f6e341]:
+              - /url: mailto:business@wormit.co
+          - generic [ref=f6e342]:
+            - link "LinkedIn" [ref=f6e343]:
+              - /url: https://linkedin.com
+              - img [ref=f6e344]
+            - link "Instagram" [ref=f6e348]:
+              - /url: https://instagram.com
+              - img [ref=f6e349]
+            - link "WhatsApp" [ref=f6e353]:
+              - /url: https://wa.me/916263068340
+              - img [ref=f6e354]
+        - generic [ref=f6e356]: © 2024 wormit labs pvt ltd

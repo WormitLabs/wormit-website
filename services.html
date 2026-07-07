@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Wormit Labs</title>
+  <meta name="description" content="Brand identity, product design and websites built to scale. See what Wormit can help you with.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --pr: #125CFA; --dark: #090909; --text: #111111;
+      --t2: #6A6A6A; --t3: #A0A0A0; --bd: #E5E5E5; --alt: #F6F6F7;
+
+      /* ── Type Scale ── */
+      --fs-2xs:     11px;
+      --fs-xs:      12px;
+      --fs-sm:      0.875rem;
+      --fs-base:    1rem;
+      --fs-body:    1.125rem;
+      --fs-body-lg: 1.375rem;
+      --fs-sub:     1.625rem;
+      --fs-h4:      clamp(1.5rem, 2.3vw, 2.875rem);
+      --fs-h3:      clamp(2.5rem, 4.4vw, 4.375rem);
+      --fs-h2:      clamp(3.25rem, 5.8vw, 6.125rem);
+      --fs-h1:      clamp(3.75rem, 7.25vw, 7.25rem);
+      --fs-display: clamp(4.5rem, 9.25vw, 9.25rem);
+      --fs-giant:   clamp(8.125rem, 13vw, 13.125rem);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: 'Urbanist', sans-serif; background: #0B0F1A; color: var(--text); overflow-x: clip; overflow-anchor: none; }
+    body { overflow-x: clip; cursor: none; overflow-anchor: none; }
+
+    /* ── Page transition ── */
+    #pt { position: fixed; inset: 0; z-index: 99990; background: var(--pr); transform: translateY(0); pointer-events: none; will-change: transform; }
+
+    /* ── Cursor ── */
+    a[href], button, [role="button"] { cursor: none !important; }
+    #cur-dot { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: #fff; border-radius: 50%; mix-blend-mode: difference; pointer-events: none; z-index: 100000; will-change: transform; user-select: none; opacity: 0; transition: opacity 0.22s ease-out; }
+    #cur-pointer { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: difference; opacity: 0; visibility: hidden; will-change: transform; transition: opacity 0.28s ease-out, visibility 0s 0.28s; width: 76px; height: 76px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+    #cur-pointer.cur-on { opacity: 1; visibility: visible; transition: opacity 0.28s ease-out, visibility 0s; }
+
+    /* ── Nav ── */
+    #main-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(255,255,255,.92); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border-bottom: 1px solid var(--bd); padding: 0 120px; height: 76px; display: flex; align-items: center; justify-content: space-between; transform: translateY(0); transition: transform 420ms cubic-bezier(.165,.84,.44,1); }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .nav-logo svg { height: 36px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links > li > a { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 100px; transition: color 150ms ease, background 150ms ease; }
+    .nav-links > li > a:hover { color: var(--text); background: var(--alt); }
+    .nav-links > li > a.nav-active { color: var(--text); background: var(--alt); }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pr); flex-shrink: 0; opacity: 0; transition: opacity 150ms ease; }
+    .nav-links > li > a:hover .nav-dot, .nav-links > li > a.nav-active .nav-dot { opacity: 1; }
+    .nav-chevron { color: var(--t2); transition: color 150ms ease, transform 200ms cubic-bezier(.645,.045,.355,1); flex-shrink: 0; }
+    .nav-links > li > a:hover .nav-chevron { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-cta { font-family: 'Urbanist', sans-serif; font-size: var(--fs-sm); font-weight: 700; color: var(--text); background: transparent; text-decoration: none; padding: 10px 18px 10px 22px; border-radius: 100px; letter-spacing: .01em; border: 1px solid #DDDDDD; transition: border-color 150ms ease; display: inline-flex; align-items: center; gap: 6px; }
+    .nav-cta:hover { border-color: var(--text); }
+    .nav-linkedin { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: transparent; color: var(--text); text-decoration: none; border-radius: 100px; border: 1px solid #DDDDDD; transition: border-color 150ms ease, background 150ms ease; flex-shrink: 0; }
+    .nav-linkedin:hover { border-color: var(--text); background: var(--alt); }
+    .nav-item-has-dropdown { position: relative; align-self: stretch; display: flex; align-items: center; }
+    .nav-item-has-dropdown::after { content: ''; position: absolute; top: 100%; left: -40px; right: -40px; height: 20px; }
+    .services-dropdown { position: absolute; top: calc(100% + 10px); left: 50%; transform-origin: top center; transform: translateX(-50%) translateY(-6px) scale(0.97); background: #fff; border-radius: 16px; padding: 12px; gap: 12px; display: flex; box-shadow: 0 2px 8px rgba(0,0,0,.06), 0 20px 56px rgba(0,0,0,.11); border: 1px solid rgba(0,0,0,.06); opacity: 0; pointer-events: none; transition: opacity 180ms cubic-bezier(.165,.84,.44,1), transform 180ms cubic-bezier(.165,.84,.44,1); z-index: 200; }
+    .nav-item-has-dropdown:hover .services-dropdown { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
+    .nav-item-has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
+    .service-card { display: flex; flex-direction: column; justify-content: space-between; width: 200px; height: 220px; padding: 20px; border-radius: 12px; text-decoration: none; color: inherit; flex-shrink: 0; font-family: 'Urbanist', sans-serif; font-size: inherit; font-weight: 400; letter-spacing: 0; text-transform: none; background: transparent; transition: background 150ms ease; }
+    .service-card:hover { color: inherit; background: #F4F6FB; }
+    .sc-ilus { position: relative; } .sc-ilus img { display: block; }
+    .sc-body { display: flex; flex-direction: column; gap: 8px; }
+    .sc-title-row { display: flex; align-items: center; gap: 8px; }
+    .sc-title-row span { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 600; color: #0B0F1A; white-space: nowrap; line-height: 1; flex: 1; }
+    .service-arrow { flex-shrink: 0; color: #0B0F1A; transition: transform 150ms cubic-bezier(.215,.61,.355,1); }
+    .service-card:hover .service-arrow { transform: translate(2px, -2px); }
+    .sc-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-2xs); font-weight: 400; color: var(--t2); line-height: 1.5; }
+    .nav-ham { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 40px; height: 40px; background: none; border: 1px solid #DDDDDD; border-radius: 100px; cursor: pointer; padding: 0; flex-shrink: 0; transition: border-color 150ms ease; }
+    .nav-ham:hover { border-color: var(--text); }
+    .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.32s cubic-bezier(.77,0,.175,1), opacity 0.22s ease; }
+    .nav-ham.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.is-open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile { position: fixed; top: 62px; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 490; display: flex; flex-direction: column; justify-content: center; padding: 48px 32px 64px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.77,0,.175,1); pointer-events: none; border-top: 1px solid var(--bd); }
+    .nav-mobile.is-open { transform: translateX(0); pointer-events: auto; }
+    .nav-mobile-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 48px; }
+    .nav-mobile-links li { border-bottom: 1px solid var(--bd); }
+    .nav-mobile-links a { font-family: 'Urbanist', sans-serif; font-size: clamp(32px, 9vw, 52px); font-weight: 800; letter-spacing: -.03em; color: var(--text); text-decoration: none; display: block; padding: 14px 0; opacity: 0; transform: translateX(28px); transition: opacity 0.28s ease, transform 0.28s ease, color 0.15s ease; }
+    .nav-mobile.is-open .nav-mobile-links a { opacity: 1; transform: translateX(0); }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(1) a { transition-delay: .04s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(2) a { transition-delay: .08s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(3) a { transition-delay: .12s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(4) a { transition-delay: .16s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(5) a { transition-delay: .20s; }
+    .nav-mobile-cta { display: inline-flex; align-items: center; gap: 8px; font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 700; color: var(--text); text-decoration: none; padding: 12px 20px 12px 24px; border: 1px solid #DDDDDD; border-radius: 100px; width: fit-content; opacity: 0; transform: translateX(28px); transition: opacity 0.28s ease .24s, transform 0.28s ease .24s, border-color .15s ease; }
+    .nav-mobile.is-open .nav-mobile-cta { opacity: 1; transform: translateX(0); }
+    .nav-mobile-cta:hover { border-color: var(--text); }
+
+    /* ── Hero entrance ── */
+    @keyframes sv-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .sv-anim { animation: sv-in 0.75s cubic-bezier(.19,1,.22,1) both; }
+    .sv-d1 { animation-delay: 0.86s; }
+    .sv-d2 { animation-delay: 0.96s; }
+    .sv-d3 { animation-delay: 1.08s; }
+    .sv-d4 { animation-delay: 1.2s; }
+
+    /* ── Shared layout ── */
+    .sv-inner { max-width: 1440px; margin: 0 auto; }
+    .sv-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase; color: var(--t2); }
+    .sv-eyebrow--light { color: rgba(255,255,255,.5); }
+    .sv-big-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h2); font-weight: 800; letter-spacing: -.04em; line-height: .95; color: var(--text); }
+    .sv-section-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h3); font-weight: 900; letter-spacing: -.03em; line-height: 1; color: var(--text); }
+    .sv-section-heading--light { color: #fff; }
+    .sv-body { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h4); font-weight: 500; line-height: 1.45; letter-spacing: -.02em; color: var(--text); opacity: .88; }
+    .sv-body--light { color: rgba(255,255,255,.88); }
+    .sv-btn { display: inline-flex; align-items: center; background: var(--pr); color: #fff; font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; letter-spacing: -.01em; padding: 14px 28px; border-radius: 10px; text-decoration: none; align-self: flex-start; transition: transform .28s cubic-bezier(.34,1.38,.64,1), opacity .2s ease; }
+    .sv-btn:hover { transform: scale(1.04); opacity: .9; }
+    .sv-two-col { display: flex; gap: 64px; align-items: flex-start; }
+    .sv-col-left { flex-shrink: 0; width: 220px; padding-top: 6px; }
+    .sv-col-right { flex: 1; display: flex; flex-direction: column; gap: 40px; min-width: 0; }
+
+    /* ── Hero section ── */
+    .sv-hero { background: #fff; padding: 100px 120px; min-height: 100vh; display: flex; align-items: center; position: relative; z-index: 2; }
+
+    /* ── Who can we help ── */
+    .sv-who { background: #F4F6FB; padding: 100px 120px; position: relative; z-index: 2; }
+    .sv-who-header { display: flex; flex-direction: column; gap: 20px; margin-bottom: 56px; }
+    .sv-who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .sv-wcard {
+      background: #fff; border-radius: 24px;
+      padding: 36px 32px 0; overflow: hidden;
+      display: flex; flex-direction: column;
+      min-height: 380px;
+    }
+    .sv-wcard-text { flex: 1; padding-bottom: 24px; }
+    .sv-wcard-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: var(--fs-sub); font-weight: 800;
+      letter-spacing: -.03em; line-height: 1.15;
+      color: var(--text); margin-bottom: 14px;
+    }
+    .sv-wcard-desc { font-size: var(--fs-body); line-height: 1.65; color: var(--t2); }
+    .sv-wcard-illo {
+      width: 200px; height: auto; display: block;
+      align-self: flex-end; flex-shrink: 0;
+    }
+
+    /* ── lw-card (reused from lab.html) ── */
+    .lw-card { display: block; text-decoration: none; color: inherit; }
+    .lw-card-img { overflow: hidden; border-radius: 6px; width: 100%; }
+    .lw-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.75s cubic-bezier(.19,1,.22,1); will-change: transform; }
+    .lw-card:hover .lw-card-img img { transform: scale(1.06); }
+    .lw-card-info { height: 32px; overflow: hidden; margin-top: 18px; }
+    .lw-card-info-slide { display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(.19,1,.22,1); will-change: transform; }
+    .lw-card:hover .lw-card-info-slide { transform: translateY(-32px); }
+    .lw-card-row { height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .lw-card-meta { display: flex; align-items: center; gap: 10px; min-width: 0; overflow: hidden; }
+    .lw-card-name { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; letter-spacing: -.02em; color: var(--text); white-space: nowrap; }
+    .lw-sep { width: 5px; height: 5px; border-radius: 50%; background: var(--t3); flex-shrink: 0; }
+    .lw-card-type { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 400; color: var(--t2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lw-card-year { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs); letter-spacing: .04em; color: var(--t3); flex-shrink: 0; }
+
+    /* ── Process section ── */
+
+
+    /* ── Capabilities ── */
+    .sv-cap { background: #0b0f1a; padding: 100px 120px; position: relative; z-index: 2; }
+    .sv-cap-header { margin-bottom: 72px; display: flex; flex-direction: column; gap: 20px; }
+    .sv-services { display: flex; flex-direction: column; }
+    .sv-svc { display: flex; gap: 44px; align-items: flex-start; padding: 72px 0; border-top: 1px solid rgba(255,255,255,.08); }
+    .sv-svc:first-child { padding-top: 0; border-top: none; }
+    .sv-svc-num { flex-shrink: 0; width: 56px; padding-top: 48px; }
+    .sv-num-line { display: block; width: auto; height: 1.5px; background: rgba(255,255,255,0.3); border-radius: 2px; }
+    .sv-svc-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 44px; }
+    .sv-svc-main { display: flex; gap: 28px; align-items: flex-start; }
+    .sv-svc-info { flex: 1; min-width: 0; padding-top: 30px; display: flex; flex-direction: column; gap: 32px; }
+    .sv-svc-title { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h4); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: #fff; }
+    .sv-svc-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; color: rgba(255,255,255,.75); max-width: 600px; }
+    .sv-inc-wrap { display: flex; flex-direction: column; gap: 16px; }
+    .sv-inc-label { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 500; color: rgba(255,255,255,.45); }
+    .sv-inc-grid { display: grid; grid-template-columns: repeat(2, max-content); gap: 16px 48px; }
+    .sv-inc-item { display: flex; align-items: flex-start; gap: 10px; }
+    .sv-inc-plus { color: rgba(255,255,255,.4); font-size: var(--fs-body); font-weight: 300; line-height: 1.4; flex-shrink: 0; }
+    .sv-inc-text { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 500; line-height: 1.4; letter-spacing: -.01em; color: rgba(255,255,255,.88); white-space: nowrap; }
+    .sv-svc-card { flex-shrink: 0; width: 400px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; padding: 36px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; align-self: stretch; }
+    .sv-plan-tabs { display: flex; gap: 8px; }
+    .sv-plan-tab { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 600; color: rgba(255,255,255,.6); background: transparent; border: none; cursor: pointer; padding: 10px 16px; border-radius: 6px; transition: color .2s ease, background .2s ease; }
+    .sv-plan-tab.active { background: rgba(255,255,255,.15); color: #fff; }
+    .sv-plan-panel { display: flex; flex-direction: column; gap: 16px; }
+    .sv-plan-panel[hidden] { display: none; }
+    .sv-card-title { font-family: 'Urbanist', sans-serif; font-size: var(--fs-sub); font-weight: 700; letter-spacing: -.02em; line-height: 1; color: #fff; }
+    .sv-card-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 500; line-height: 1.45; color: rgba(255,255,255,.7); }
+    .sv-card-price-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .sv-card-from { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 500; color: rgba(255,255,255,.5); }
+    .sv-card-price { font-family: 'Urbanist', sans-serif; font-size: 52px; font-weight: 700; letter-spacing: -.02em; line-height: 1; color: #fff; }
+    .sv-card-price span { font-size: 28px; opacity: .6; font-weight: 500; }
+    .sv-card-cta { display: block; background: var(--pr); color: #fff; font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; text-align: center; padding: 14px 28px; border-radius: 10px; text-decoration: none; transition: opacity .2s ease, transform .28s cubic-bezier(.34,1.38,.64,1); }
+    .sv-card-cta:hover { opacity: .88; transform: scale(1.03); }
+    .sv-svc-imgs { display: flex; gap: 20px; }
+    .sv-svc-img { flex: 1; height: 220px; overflow: hidden; border-radius: 8px; }
+    .sv-svc-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.75s cubic-bezier(.19,1,.22,1); }
+    .sv-svc-img:hover img { transform: scale(1.05); }
+
+    /* ── CTA (identical to lab.html) ── */
+    .lb-cta-outer { background: #fff; padding: 100px 80px 100px; position: relative; z-index: 2; }
+    .lb-cta-card { background: var(--pr); border-radius: 28px; padding: 80px 80px; display: flex; align-items: center; justify-content: space-between; gap: 48px; min-height: 400px; position: relative; overflow: hidden; }
+    .lb-cta-card::before { content: ''; position: absolute; bottom: -140px; right: -60px; width: 560px; height: 560px; border: 64px solid rgba(255,255,255,.07); border-radius: 50%; pointer-events: none; }
+    .lb-cta-card::after { content: ''; position: absolute; bottom: -60px; right: 160px; width: 280px; height: 280px; border: 40px solid rgba(255,255,255,.05); border-radius: 50%; pointer-events: none; }
+    .lb-cta-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h3); font-weight: 700; letter-spacing: -.03em; line-height: .96; color: #fff; position: relative; z-index: 1; }
+    .lb-cta-btn { background: #FFC940; color: #0B0F1A; font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; padding: 14px 28px; border-radius: 10px; text-decoration: none; white-space: nowrap; flex-shrink: 0; position: relative; z-index: 1; transition: transform .28s cubic-bezier(.34,1.38,.64,1), box-shadow .28s; }
+    .lb-cta-btn:hover { transform: scale(1.06); box-shadow: 0 12px 36px rgba(255,201,64,.4); }
+
+    /* ── FAQ ── */
+    .sv-faq { background: #fff; padding: 100px 120px 100px; border-radius: 0 0 48px 48px; position: relative; z-index: 2; }
+    .sv-faq-inner { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 56px; }
+    .sv-faq-list { width: 100%; max-width: 900px; display: flex; flex-direction: column; }
+    .sv-faq-item { border-bottom: 1px solid var(--bd); }
+    .sv-faq-btn { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 8px; text-align: left; }
+    .sv-faq-q { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 600; letter-spacing: -.01em; line-height: 1.35; color: var(--text); transition: color .2s ease; }
+    .sv-faq-btn:hover .sv-faq-q { color: var(--pr); }
+    .sv-faq-icon { flex-shrink: 0; width: 24px; height: 24px; border: 1.5px solid var(--bd); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .4s cubic-bezier(.19,1,.22,1), border-color .2s ease, background .2s ease; }
+    .sv-faq-item.is-open .sv-faq-icon { transform: rotate(45deg); border-color: var(--pr); background: var(--pr); }
+    .sv-faq-item.is-open .sv-faq-icon svg { stroke: #fff; }
+    .sv-faq-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(.19,1,.22,1); }
+    .sv-faq-item.is-open .sv-faq-body { max-height: 300px; }
+    .sv-faq-ans { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 500; line-height: 1.55; letter-spacing: -.01em; color: var(--t2); padding: 0 8px 28px; }
+
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .rd1 { transition-delay: .1s; } .rd2 { transition-delay: .2s; } .rd3 { transition-delay: .3s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .sv-svc-card { width: 340px; }
+      .sv-inc-grid { grid-template-columns: 1fr; gap: 12px; }
+    }
+    @media (min-width: 769px) and (max-width: 1100px) {
+      #main-nav { padding: 0 40px; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+    }
+    @media (max-width: 768px) {
+      #main-nav { padding: 0 20px; }
+      #main-nav, #main-nav.nav-hidden { transform: translateY(0) !important; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+
+      /* Hero — remove the 100vh lock so it's content height only */
+      .sv-hero { padding: 100px 24px 72px; min-height: unset; }
+
+      /* Who / Process / Cap / FAQ shared padding */
+      .sv-who, .sv-cap, .sv-faq { padding: 64px 24px; }
+
+      .sv-two-col { flex-direction: column; gap: 28px; }
+      .sv-col-left { width: 100%; padding-top: 0; }
+      .sv-big-heading { font-size: clamp(36px, 10vw, 56px); }
+
+      /* Who can we help */
+      .sv-who-grid { grid-template-columns: 1fr; }
+      .sv-wcard { padding: 28px 24px 0; min-height: 320px; }
+      .sv-wcard-illo { width: 150px; }
+
+      /* Capabilities — compress vertical rhythm */
+      .sv-cap-header { margin-bottom: 40px; }
+      .sv-svc { flex-direction: column; align-items: stretch; gap: 20px; padding: 36px 0; }
+      .sv-svc:first-child { padding-top: 0; }
+      .sv-svc-num { display: none; }
+      .sv-svc-body { gap: 24px; }
+      .sv-svc-main { flex-direction: column; gap: 20px; }
+      .sv-svc-info { padding-top: 0; gap: 16px; }
+      .sv-inc-text { white-space: normal; }
+      .sv-svc-card { width: 100%; }
+      .sv-svc-imgs { flex-direction: column; gap: 10px; }
+      .sv-svc-img { height: 160px; flex: none; }
+      .sv-inc-grid { grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+      .sv-inc-text { font-size: var(--fs-base); white-space: normal; }
+      .sv-svc-card { padding: 24px; gap: 20px; }
+
+      /* CTA */
+      .lb-cta-outer { padding: 40px 24px 64px; }
+      .lb-cta-card { flex-direction: column; align-items: flex-start; padding: 40px 28px; min-height: auto; gap: 28px; }
+      .lb-cta-heading { font-size: clamp(22px, 7vw, 32px); }
+
+      /* FAQ */
+      .sv-faq { border-radius: 0 0 24px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="pt"></div>
+<div id="cur-dot" aria-hidden="true"></div>
+
+<!-- ── Nav ── -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo" aria-label="Wormit Labs">
+    <svg width="199" height="64" viewBox="0 0 199 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M63.4327 20.9119C63.4327 22.2833 62.3266 23.3953 60.9625 23.3953H57.9434V43.2625C57.9434 44.6339 56.8373 45.7459 55.4732 45.7459H48.0627C46.6986 45.7459 45.5925 44.6339 45.5925 43.2625V33.8808H43.1224V43.2625C43.1224 44.6339 42.0163 45.7459 40.6522 45.7459H33.2417C31.8776 45.7459 30.7715 44.6339 30.7715 43.2625V43.1356L31.0158 23.3953H27.7524C26.3883 23.3953 25.2822 22.2833 25.2822 20.9119C25.2822 19.5405 26.3883 18.4285 27.7524 18.4285H33.5161C34.8802 18.4285 35.9863 19.5405 35.9863 20.9119V21.0389L35.742 40.7791H38.182V31.3974C38.182 30.026 39.2881 28.914 40.6522 28.914H48.0627C49.4268 28.914 50.5329 30.026 50.5329 31.3974V40.7791H53.0031V20.9119C53.0031 19.5405 54.1091 18.4285 55.4732 18.4285H60.9625C62.3266 18.4285 63.4327 19.5405 63.4327 20.9119Z" fill="#125CFA"/>
+      <path d="M149.614 26.7064C150.978 26.7064 152.084 25.5945 152.084 24.223C152.084 22.8514 150.978 21.7396 149.614 21.7396C148.25 21.7396 147.144 22.8514 147.144 24.223C147.144 25.5945 148.25 26.7064 149.614 26.7064Z" fill="#125CFA"/>
+      <path d="M172.943 20.9119C172.943 22.2833 171.837 23.3953 170.473 23.3953H167.056C167.095 29.1734 167.18 43.0445 167.18 43.2625C167.18 44.6339 166.074 45.7459 164.71 45.7459C163.345 45.7459 162.239 44.6339 162.239 43.2625L162.119 23.3953H158.671C157.307 23.3953 156.201 22.2833 156.201 20.9119C156.201 19.5405 157.307 18.4285 158.671 18.4285H170.473C171.837 18.4285 172.943 19.5405 172.943 20.9119Z" fill="#125CFA"/>
+      <path d="M152.084 31.6733V43.2625C152.084 44.6339 150.978 45.7459 149.614 45.7459H137.812C136.448 45.7459 135.342 44.6339 135.342 43.2625V27.4019L130.385 32.9757L130.363 33.0006L130.267 33.1082L130.256 33.122C129.806 33.591 129.177 33.8808 128.48 33.8808C127.783 33.8808 127.155 33.591 126.705 33.122L126.694 33.1082L126.598 33.0006L126.576 32.9757L121.616 27.4046V43.2625C121.619 44.6339 120.513 45.7459 119.149 45.7459H108.845L108.804 45.7431C108.777 45.7459 108.746 45.7459 108.719 45.7459C107.898 45.7459 107.171 45.343 106.721 44.7222L106.671 44.6504L98.5171 32.8985L98.5062 32.8819L98.4046 32.7329L98.3909 32.7136C98.1521 32.3328 98.0149 31.8803 98.0149 31.3974C98.0149 30.026 99.121 28.914 100.485 28.914H106.249V23.3953H95.8192V43.2625C95.8192 44.6339 94.7131 45.7459 93.349 45.7459H82.9194C81.5553 45.7459 80.4492 44.6339 80.4492 43.2625V23.3953H71.9408V40.7791H76.0578C77.4219 40.7791 78.528 41.8911 78.528 43.2625C78.528 44.6339 77.4219 45.7459 76.0578 45.7459H69.4707C68.1066 45.7459 67.0005 44.6339 67.0005 43.2625V20.9119C67.0005 19.5405 68.1066 18.4285 69.4707 18.4285H82.9194C84.2835 18.4285 85.3896 19.5405 85.3896 20.9119V40.7791H90.8788V20.9119C90.8788 19.5405 91.9849 18.4285 93.349 18.4285H108.719C110.083 18.4285 111.189 19.5405 111.189 20.9119V31.3974C111.189 32.7688 110.083 33.8808 108.719 33.8808H105.217L110.009 40.7819H116.678L116.684 21.0692V20.7381C116.774 19.4467 117.842 18.4285 119.149 18.4285C119.906 18.4285 120.584 18.7734 121.037 19.3143H121.04L128.48 27.6778L135.907 19.3336L135.929 19.3088L136.025 19.2011L136.036 19.1873C136.486 18.7183 137.115 18.4285 137.812 18.4285C139.176 18.4285 140.282 19.5405 140.282 20.9119C140.282 20.9699 140.28 21.0278 140.277 21.0858L140.282 40.7791H147.144V31.6733C147.144 30.3019 148.25 29.1899 149.614 29.1899C150.978 29.1899 152.084 30.3019 152.084 31.6733Z" fill="#125CFA"/>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#work"><span class="nav-dot"></span>Project</a></li>
+    <li><a href="services.html" class="nav-active"><span class="nav-dot"></span>Services</a></li>
+    <li><a href="index.html#about"><span class="nav-dot"></span>About Us</a></li>
+    <li><a href="lab.html"><span class="nav-dot"></span>The Lab</a></li>
+    <li><a href="#"><span class="nav-dot"></span>Blogs<svg class="nav-chevron" width="8" height="5" viewBox="0 0 8 5" fill="currentColor"><path d="M0 0L4 5L8 0H0Z"/></svg></a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html#contact" class="nav-cta">Contact<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.linkedin.com/company/wormit-labs" target="_blank" rel="noopener" class="nav-linkedin" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <button class="nav-ham" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile"><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true">
+  <ul class="nav-mobile-links">
+    <li><a href="index.html#work">Project</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="lab.html">The Lab</a></li>
+    <li><a href="#">Blogs</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-mobile-cta">Contact <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</div>
+
+<!-- ── Hero ── -->
+<section class="sv-hero">
+  <div class="sv-inner sv-two-col">
+    <div class="sv-col-left">
+      <p class="sv-eyebrow sv-anim sv-d1">[ Our Services ]</p>
+    </div>
+    <div class="sv-col-right">
+      <h1 class="sv-big-heading sv-anim sv-d2">We design for version 20,<br>not version 01.</h1>
+      <p class="sv-body sv-anim sv-d3">Launching is the easy part. Keeping products, brands and websites clear as businesses grow is harder. Wormit partners with founders and growing teams to build systems that scale without losing clarity.</p>
+      <a href="index.html#contact" class="sv-btn sv-anim sv-d4">Lets Build Together</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Who can we help ── -->
+<section class="sv-who">
+  <div class="sv-inner">
+    <div class="sv-who-header reveal">
+      <p class="sv-eyebrow">[ No surprises. Just a clear process ]</p>
+      <h2 class="sv-section-heading">Who can we help</h2>
+    </div>
+    <div class="sv-who-grid">
+
+      <div class="sv-wcard reveal">
+        <div class="sv-wcard-text">
+          <h3 class="sv-wcard-title">Launching a new product</h3>
+          <p class="sv-wcard-desc">You have the idea and the momentum. We work with early-stage founders who need design to be a foundation from day one, not something bolted on later.</p>
+        </div>
+        <svg class="sv-wcard-illo" viewBox="0 0 264 197" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M49.7461 122.182C48.8862 122.013 48.0615 122.336 47.4534 122.959C46.8453 123.584 46.5037 124.478 46.5037 125.425C46.5037 126.371 46.8453 127.266 47.4534 127.89C48.0615 128.514 48.8862 128.837 49.7461 128.667C52.4879 128.129 55.2297 127.657 57.9715 127.253C66.2378 126.034 74.5041 125.425 82.7704 125.425C123.856 125.425 164.942 126.375 206.029 128.274C208.77 128.401 211.512 128.532 214.254 128.667C215.114 128.71 215.939 128.373 216.547 127.761C217.155 127.149 217.496 126.306 217.496 125.425C217.496 124.543 217.155 123.701 216.547 123.089C215.939 122.477 215.114 122.14 214.254 122.182C211.512 122.318 208.77 122.449 206.029 122.575C164.942 124.475 123.856 125.425 82.7704 125.425C74.5041 125.425 66.2378 124.815 57.9715 123.596C55.2297 123.192 52.4879 122.721 49.7461 122.182Z" fill="#125CFA"/><path d="M139.355 71.6587C144.596 71.2489 155.814 72.2786 159.652 76.275C164.217 81.0265 162.013 87.7134 157.704 91.7479C157.946 100.375 157.155 107.604 152.353 115.074C144.833 126.772 127.903 129.236 118.748 118.105C117.089 116.087 114.655 112.654 112.557 111.235C107.558 111.512 105.491 128.495 95.2381 124.934C81.4687 120.152 88.2413 106.947 83.6081 97.6167L83.3548 97.1131C77.5109 89.3314 71.6608 93.3716 64.1366 94.8421L63.6431 93.9432C66.5756 80.5858 90.6672 81.5554 94.7394 98.2349C100.838 119.261 108.816 86.7808 116.096 99.9423C120.602 108.087 124.048 123.309 137.413 106.604C140.427 102.836 132.117 95.8617 129.917 90.7716C131.133 80.9636 129.829 76.2744 139.355 71.6587Z" fill="#125CFA"/><path d="M136.204 81.6982C138.098 81.9015 138.515 81.9969 140.312 82.6319C141.036 84.7273 136.752 85.6239 136.527 89.6921C137.54 94.0237 140.381 94.4117 144.174 94.415L144.063 95.9776C134.573 102.411 126.808 88.3817 136.204 81.6982Z" fill="#FBFAFB"/><path d="M152.295 73.7471C153.7 73.9874 154.167 74.2125 155.505 74.7431C156.001 76.6183 152.199 78.2533 152.102 80.6456C151.843 87.0607 156.016 85.912 159.617 86.4403L159.166 88.064L158.771 88.3694C151.928 93.5769 146.456 86.0304 147.715 79.5098C148.354 76.2006 149.7 75.5577 152.295 73.7471Z" fill="#FBFAFB"/></svg>
+      </div>
+
+      <div class="sv-wcard reveal">
+        <div class="sv-wcard-text">
+          <h3 class="sv-wcard-title">Prepare to raise funding</h3>
+          <p class="sv-wcard-desc">You've proven the concept. Now the product needs to grow without breaking. We bring the structure and consistency to carry what's coming next.</p>
+        </div>
+        <svg class="sv-wcard-illo" viewBox="0 0 264 197" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M41.3418 146.27C40.5461 146.138 39.7831 146.44 39.2205 147.014C38.6579 147.589 38.3418 148.407 38.3418 149.27C38.3418 150.132 38.6579 150.95 39.2205 151.525C39.7831 152.099 40.5461 152.401 41.3418 152.27C44.3637 151.771 47.3857 151.335 50.4076 150.961C59.5185 149.833 68.6294 149.27 77.7404 149.27C123.024 149.27 168.308 150.148 213.592 151.906C216.614 152.023 219.636 152.144 222.658 152.27C223.454 152.303 224.217 151.99 224.779 151.425C225.342 150.859 225.658 150.082 225.658 149.27C225.658 148.457 225.342 147.68 224.779 147.114C224.217 146.549 223.454 146.236 222.658 146.27C219.636 146.395 216.614 146.516 213.592 146.633C168.308 148.391 123.024 149.27 77.7404 149.27C68.6294 149.27 59.5185 148.706 50.4076 147.578C47.3857 147.204 44.3637 146.768 41.3418 146.27Z" fill="#125CFA"/><path d="M118.274 73.0155C122.3 72.6436 132.913 73.5263 136.084 75.9131C143.697 81.6436 138.965 89.5093 134.928 95.4829C142.215 115.902 140.378 146.778 112.531 146.8C98.2308 146.811 96.6986 133.157 84.8717 129.176C81.1093 130.296 79.8176 130.821 77.122 133.641C75.088 136.995 73.9009 140.929 72.5973 144.649C66.2202 134.234 69.6047 120.513 81.3432 115.269C92.0709 110.476 101.001 122.778 108.68 127.323C112.61 129.648 118.716 124.099 119.774 120.36C124.889 107.881 111.925 101.243 108.597 92.6779C107.169 88.93 107.273 84.7708 108.887 81.0988C110.908 76.5845 113.855 74.6855 118.274 73.0155Z" fill="#125CFA"/><path d="M115.204 82.2591C118.728 80.864 119.564 81.5074 122.816 83.2119C131.464 96.9698 113.455 101.323 111.287 89.4291C110.835 86.9486 113.453 83.9852 115.204 82.2591Z" fill="#FBFAFB"/><path d="M130.609 76.125L131.012 76.7162C128.913 80.2755 128.592 83.5552 133.504 84.7742C135.288 84.3786 137.028 83.3618 137.689 81.5721L138.279 81.7273C138.752 84.779 138.577 85.3702 137.799 88.3988C131.172 97.1875 119.253 83.0654 130.609 76.125Z" fill="#FBFAFB"/></svg>
+      </div>
+
+      <div class="sv-wcard reveal">
+        <div class="sv-wcard-text">
+          <h3 class="sv-wcard-title">Rebranding after Growth</h3>
+          <p class="sv-wcard-desc">The brand is established, the product is live, but things have gotten inconsistent along the way. We work with larger organisations that need a fresh pair of eyes on what exists.</p>
+        </div>
+        <svg class="sv-wcard-illo" viewBox="0 0 264 197" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M41.3418 133.394C40.5461 133.262 39.7831 133.564 39.2205 134.138C38.6579 134.713 38.3418 135.531 38.3418 136.394C38.3418 137.256 38.6579 138.074 39.2205 138.649C39.7831 139.223 40.5461 139.525 41.3418 139.394C44.3637 138.895 47.3857 138.459 50.4076 138.085C59.5185 136.957 68.6294 136.394 77.7404 136.394C123.024 136.394 168.308 137.272 213.592 139.03C216.614 139.147 219.636 139.268 222.658 139.394C223.454 139.427 224.217 139.114 224.779 138.549C225.342 137.983 225.658 137.206 225.658 136.394C225.658 135.581 225.342 134.804 224.779 134.239C224.217 133.673 223.454 133.36 222.658 133.394C219.636 133.519 216.614 133.64 213.592 133.757C168.308 135.515 123.024 136.394 77.7404 136.394C68.6294 136.394 59.5185 135.83 50.4076 134.702C47.3857 134.328 44.3637 133.892 41.3418 133.394Z" fill="#125CFA"/><path d="M103.094 58.5524C117.929 56.9945 137.885 60.6074 124.027 79.7309C123.941 79.8493 125.23 88.5266 125.329 89.4842C138.587 85.7262 151.954 83.5241 165.742 84.37C165.626 85.7395 165.233 89.7085 165.516 90.8172C166.734 95.5987 167.936 92.8736 170.723 94.8048C171.88 99.8186 163.915 125.745 162.088 132.425C137.238 131.904 130.229 131.508 106.51 138.771C102.702 138.258 93.2979 134.991 88.1563 134.039C74.8758 131.581 63.6764 132.167 50.3067 132.465C48.5618 125.882 39.0321 98.2886 42.4062 94.0847C44.3149 93.6548 44.7663 93.6256 46.2969 92.4397C47.4593 90.2243 46.6564 86.9774 46.2995 84.382C64.482 83.1162 81.3023 87.1231 98.2458 93.2495C95.4376 79.5086 86.0152 66.8576 103.094 58.5524Z" fill="#125CFA"/><path d="M105.725 101.003C107.027 100.186 108.339 99.3863 109.661 98.6024C121.026 91.9841 150.656 83.8671 162.492 86.9956C163.489 88.7425 162.903 91.7652 162.713 93.9706C134.505 98.1585 132.339 97.9562 105.69 108.1C101.62 106.444 98.4938 104.641 93.9587 103.002C78.7595 97.5083 65.6894 95.828 49.9216 94.0345L48.6294 86.7121C65.702 86.195 92.1379 89.7215 105.725 101.003Z" fill="#FBFAFB"/><path d="M100.596 67.5381L101.995 68.0844C101.842 70.8289 101.941 75.4135 104.752 76.8136C106.571 76.3139 107.728 75.8746 109.466 75.1978L110.336 75.7735C111.093 78.4747 109.616 81.8394 107.813 83.8618C96.026 87.6058 91.654 74.3613 100.596 67.5381Z" fill="#FBFAFB"/><path d="M116.075 60.5527L117.549 61.0472C119.746 64.0059 116.418 66.4203 120.31 70.0319C122.108 70.762 122.558 70.5357 124.455 70.1085L125.049 69.9714L125.684 70.4618C126.259 73.4812 124.583 75.6913 122.659 77.7802C121.86 77.8088 121.061 77.8208 120.26 77.8155C111.197 77.7196 109.29 67.0193 116.075 60.5527Z" fill="#FBFAFB"/></svg>
+      </div>
+
+      <div class="sv-wcard reveal">
+        <div class="sv-wcard-text">
+          <h3 class="sv-wcard-title">Building a scalable design system</h3>
+          <p class="sv-wcard-desc">Sometimes the right move is bringing in a specialist. We work with agencies that need a dedicated design partner for overflow, specific expertise, or projects that need more depth.</p>
+        </div>
+        <svg class="sv-wcard-illo" viewBox="0 0 264 197" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M39.4727 144.878C38.677 144.746 37.9139 145.048 37.3513 145.622C36.7887 146.198 36.4727 147.015 36.4727 147.878C36.4727 148.741 36.7887 149.558 37.3513 150.133C37.9139 150.708 38.677 151.01 39.4727 150.878C42.4946 150.38 45.5165 149.944 48.5385 149.57C57.6494 148.442 66.7603 147.878 75.8712 147.878C121.155 147.878 166.439 148.757 211.723 150.514C214.745 150.632 217.767 150.753 220.789 150.878C221.584 150.911 222.348 150.599 222.91 150.033C223.473 149.467 223.789 148.69 223.789 147.878C223.789 147.065 223.473 146.289 222.91 145.723C222.348 145.157 221.584 144.845 220.789 144.878C217.767 145.003 214.745 145.124 211.723 145.242C166.439 146.999 121.155 147.878 75.8712 147.878C66.7603 147.878 57.6494 147.314 48.5385 146.186C45.5165 145.812 42.4946 145.376 39.4727 144.878Z" fill="#125CFA"/><path d="M107.605 65.4922C110.709 65.5095 123.205 68.2169 125.644 69.7959C134.773 75.7053 126.474 84.3914 124.06 90.7497C124.126 95.2536 125.829 100.535 127.08 104.992C133.929 129.401 112.084 162.169 85.8381 144.041C81.729 141.203 78.055 135.271 73.6831 132.723C63.371 126.713 60.1973 139.391 49.4333 141.703C44.9019 141.349 41.464 140.185 38.9895 135.837C38.0558 134.196 37.0561 130.989 37.6044 129.194C39.8891 128.831 44.4195 132.087 45.9656 131.045C56.019 123.011 52.2568 117.899 66.2843 113.469C83.3744 108.073 93.9565 139.697 105.537 121.831C118.255 102.211 82.791 91.6496 96.0448 72.3629C99.2621 67.6811 102.333 66.5638 107.605 65.4922Z" fill="#125CFA"/><path d="M103.086 75.3857C104.868 75.4844 106.316 75.3952 107.785 76.4267C107.906 78.8827 104.829 80.2911 104.748 83.4022C105.934 87.2253 109.498 86.5501 112.381 86.0672L112.649 86.7631L110.883 90.1045C103.4 97.1669 92.5074 83.0911 103.086 75.3857Z" fill="#FBFAFB"/><path d="M118.531 69.1799C120.138 69.1554 121.291 69.1699 122.224 70.406C120.671 73.0794 118.564 75.3815 120.775 78.4469C123.581 82.3386 124.939 79.9835 127.092 80.4435C127.077 82.333 126.182 83.3941 125.162 84.9647C117.487 90.0818 108.46 76.8116 118.531 69.1799Z" fill="#FBFAFB"/><path d="M197.339 47.7282C205.486 47.4762 203.702 50.5629 208.225 55.1236C209.421 55.2945 213.689 55.2542 214.551 55.8828C223.262 62.234 217.834 65.5189 215.232 70.4332C214.823 71.1987 217.209 78.4361 215.294 82.9999C211.855 86.2773 207.277 84.9049 203.324 83.1516C203.435 91.2654 203.72 103.198 202.872 111.062C206.186 103.892 210.938 96.5754 219.526 95.5554C221.508 95.3194 224.036 94.9776 225.684 96.2255C229.526 105.412 219.817 112.258 211.961 114.063C208.473 114.864 206.038 114.036 202.649 113.111C202.525 114.914 202.351 116.713 202.134 118.507C200.778 129.125 193.685 148.54 179.532 149.283C178.787 149.321 178.764 148.875 178.41 148.262L178.915 146.604L180.828 145.592C195.939 137.86 198.634 124.049 199.687 108.687C181.5 115.808 169.44 109.852 169.416 89.4148C185.267 85.183 193.515 92.2432 199.712 106.068C199.854 101.655 200.548 89.8582 199.693 86.2612C183.443 87.9588 190.981 76.4505 188.07 74.6446C179.588 69.381 178.978 61.6989 189.664 58.3738C193.748 57.1023 189.332 51.6653 197.339 47.7282Z" fill="#125CFA"/><path d="M199.762 61.2315C202.141 60.7342 204.6 61.5579 206.199 63.3849C207.797 65.2125 208.287 67.7604 207.481 70.0494C206.67 72.3384 204.687 74.013 202.296 74.4298C198.684 75.0603 195.226 72.6772 194.537 69.0752C193.847 65.4726 196.174 61.9821 199.762 61.2315Z" fill="#FBFAFB"/></svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Our Process ── -->
+
+<!-- ── Capabilities ── -->
+<section class="sv-cap">
+  <div class="sv-inner">
+    <div class="sv-cap-header reveal">
+      <p class="sv-eyebrow sv-eyebrow--light">[ Our Capabilities ]</p>
+      <h2 class="sv-section-heading sv-section-heading--light">Things we can help with</h2>
+    </div>
+
+    <div class="sv-services">
+
+      <!-- Service 1: UI/UX & Product Design -->
+      <div class="sv-svc reveal">
+        <div class="sv-svc-num">
+          <span class="sv-num-line"></span>
+        </div>
+        <div class="sv-svc-body">
+          <div class="sv-svc-main">
+            <div class="sv-svc-info">
+              <h3 class="sv-svc-title">UI/UX &amp; Product Design</h3>
+              <p class="sv-svc-desc">End-to-end product design — from the first rough flow to pixel-perfect screens. We help you understand the problem clearly, then build the right interface around it.</p>
+              <div class="sv-inc-wrap">
+                <p class="sv-inc-label">What's included:</p>
+                <div class="sv-inc-grid">
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Market Research</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Full discovery &amp; strategy workshop</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Prototypes</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Product Design</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Solution Analysis</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Motion design animations</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Market Positioning Strategy</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Slack Channel Communication</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Handoff Documentation</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Post-launch support (4 weeks)</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="sv-svc-card">
+              <div class="sv-plan-tabs">
+                <button class="sv-plan-tab active" data-plan="retainer">Monthly Retainer</button>
+                <button class="sv-plan-tab" data-plan="contract">Project Contract</button>
+              </div>
+              <div class="sv-plan-panel" data-plan="retainer">
+                <p class="sv-card-title">Monthly Design Retainer</p>
+                <p class="sv-card-desc">On-going design &amp; motion support. Dedicated hours, priority access.</p>
+              </div>
+              <div class="sv-plan-panel" data-plan="contract" hidden>
+                <p class="sv-card-title">Project Contract</p>
+                <p class="sv-card-desc">Scoped deliverables, clear timeline and fixed cost.</p>
+              </div>
+              <div class="sv-card-price-wrap">
+                <p class="sv-card-from" data-retainer="hide" data-contract="show" style="display:none">Starting from</p>
+                <p class="sv-card-price" data-retainer-price="$4500<span>/m</span>" data-contract-price="$3200">$4500<span>/m</span></p>
+              </div>
+              <a href="index.html#contact" class="sv-card-cta">Get Started</a>
+            </div>
+          </div>
+          <div class="sv-svc-imgs">
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&auto=format&fit=crop&q=80" alt=""></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 2: Branding -->
+      <div class="sv-svc reveal">
+        <div class="sv-svc-num">
+          <span class="sv-num-line"></span>
+        </div>
+        <div class="sv-svc-body">
+          <div class="sv-svc-main">
+            <div class="sv-svc-info">
+              <h3 class="sv-svc-title">Branding</h3>
+              <p class="sv-svc-desc">A brand built for where you're going, not just where you are. We create identity systems with room to grow — logomarks, voice, visual language, and everything in between.</p>
+              <div class="sv-inc-wrap">
+                <p class="sv-inc-label">What's included:</p>
+                <div class="sv-inc-grid">
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Market Research</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Full discovery &amp; strategy workshop</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">3–5 Original Ideas</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Comprehensive Brand Book</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Logo &amp; Variation</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Logo Animation</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Branding Collaterals</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Branding Assets Website</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Social Templates</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Slack Channel Communication</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Handoff Documentation</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Post-handoff support (2 weeks)</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="sv-svc-card">
+              <div class="sv-plan-panel" data-plan="contract">
+                <p class="sv-card-title">Project Contract</p>
+                <p class="sv-card-desc">Fixed scope, clear deliverables, zero surprises.</p>
+              </div>
+              <div class="sv-card-price-wrap">
+                <p class="sv-card-from">Starting from</p>
+                <p class="sv-card-price">$1660</p>
+              </div>
+              <a href="index.html#contact" class="sv-card-cta">Get Started</a>
+            </div>
+          </div>
+          <div class="sv-svc-imgs">
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=700&auto=format&fit=crop&q=80" alt=""></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 3: Website -->
+      <div class="sv-svc reveal">
+        <div class="sv-svc-num">
+          <span class="sv-num-line"></span>
+        </div>
+        <div class="sv-svc-body">
+          <div class="sv-svc-main">
+            <div class="sv-svc-info">
+              <h3 class="sv-svc-title">Website</h3>
+              <p class="sv-svc-desc">Award-worthy websites that convert. Built for performance, designed for clarity. We handle UX, UI, and front-end — from landing pages to full product sites.</p>
+              <div class="sv-inc-wrap">
+                <p class="sv-inc-label">What's included:</p>
+                <div class="sv-inc-grid">
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Market Research</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Full discovery &amp; strategy workshop</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">3–5 Design Directions</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">UX Architecture &amp; Sitemap</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Responsive UI Design</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Motion &amp; Interactions</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Figma Prototype</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Slack Channel Communication</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Dev-ready Handoff</span></div>
+                  <div class="sv-inc-item"><span class="sv-inc-plus">+</span><span class="sv-inc-text">Post-handoff support (2 weeks)</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="sv-svc-card">
+              <div class="sv-plan-panel" data-plan="contract">
+                <p class="sv-card-title">Project Contract</p>
+                <p class="sv-card-desc">Fixed scope, clear deliverables, zero surprises.</p>
+              </div>
+              <div class="sv-card-price-wrap">
+                <p class="sv-card-from">Starting from</p>
+                <p class="sv-card-price">$1800</p>
+              </div>
+              <a href="index.html#contact" class="sv-card-cta">Get Started</a>
+            </div>
+          </div>
+          <div class="sv-svc-imgs">
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format&fit=crop&q=80" alt=""></div>
+            <div class="sv-svc-img"><img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=700&auto=format&fit=crop&q=80" alt=""></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="lb-cta-outer">
+  <div class="lb-cta-card reveal">
+    <h2 class="lb-cta-heading">Still thinking,<br>lets talk,<br>it won't cost.</h2>
+    <a href="mailto:business@wormit.co" class="lb-cta-btn">Let's Talk →</a>
+  </div>
+</div>
+
+<!-- ── FAQ ── -->
+<section class="sv-faq">
+  <div class="sv-faq-inner">
+    <p class="sv-eyebrow reveal">[ Frequently Asked Questions ]</p>
+    <div class="sv-faq-list reveal">
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">How long does a typical project take?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">Brand identity projects usually run 3–5 weeks. Product design and websites range from 4–10 weeks depending on scope. We define timelines clearly before work begins — no open-ended engagements.</p>
+        </div>
+      </div>
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">Do you handle development, or just design?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">We specialise in design — brand identity, product UI, and web. For development, we partner with trusted engineers and can coordinate the full handoff, so your files never sit in limbo.</p>
+        </div>
+      </div>
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">What's the difference between a retainer and a project contract?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">A project contract is scoped and delivered once — fixed deliverables, fixed cost. A monthly retainer means we're your ongoing design partner: dedicated hours each month, faster turnaround, and no re-briefing overhead.</p>
+        </div>
+      </div>
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">What do I need to provide to get started?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">Not much. A brief conversation is enough. We'll ask about your goals, timeline, budget, and any references you love. From there we send a proposal within 48 hours.</p>
+        </div>
+      </div>
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">Do you work with early-stage startups?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">Yes — and some of our best work has come from pre-revenue founders. We don't just push pixels; we help shape the story and the system from the ground up.</p>
+        </div>
+      </div>
+
+      <div class="sv-faq-item">
+        <button class="sv-faq-btn" aria-expanded="false">
+          <span class="sv-faq-q">What happens after the project is delivered?</span>
+          <span class="sv-faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="sv-faq-body" role="region">
+          <p class="sv-faq-ans">Every project includes a post-delivery support window (2–4 weeks). We're available for questions, tweaks, and guidance as you roll things out. Retainer clients simply continue.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer"></footer>
+
+<div id="cur-pointer" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L18 4M18 4H7M18 4v11"/></svg>
+</div>
+
+<script>
+  /* ── Page transition ── */
+  const pt = document.getElementById('pt');
+  setTimeout(() => {
+    pt.style.transition = 'transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)';
+    pt.style.transform  = 'translateY(-100%)';
+  }, 320);
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || a.target === '_blank') return;
+    e.preventDefault();
+    pt.style.transition = 'none';
+    pt.style.transform  = 'translateY(100%)';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        pt.style.transition = 'transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)';
+        pt.style.transform  = 'translateY(0)';
+        setTimeout(() => { window.location.href = href; }, 860);
+      });
+    });
+  });
+
+  /* ── Cursor ── */
+  (function initCursor() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot = document.getElementById('cur-dot');
+    const cp  = document.getElementById('cur-pointer');
+    if (!dot || !cp) return;
+
+    let mx = -300, my = -300, cx = -300, cy = -300;
+    let mode = '', entered = false;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (!entered) { entered = true; dot.style.opacity = '1'; }
+    });
+
+    function setMode(m) {
+      if (mode === m) return;
+      mode = m;
+      dot.style.opacity = (m === '' && entered) ? '1' : '0';
+      cp.classList.toggle('cur-on', m === 'pointer');
+    }
+
+    (function dotTick() {
+      dot.style.transform = `translate(${(mx - 6).toFixed(1)}px,${(my - 6).toFixed(1)}px)`;
+      requestAnimationFrame(dotTick);
+    })();
+
+    (function lerpTick() {
+      cx += (mx - cx) * 0.15;
+      cy += (my - cy) * 0.15;
+      cp.style.transform = `translate(${(cx - 38).toFixed(1)}px,${(cy - 38).toFixed(1)}px)`;
+      requestAnimationFrame(lerpTick);
+    })();
+
+    document.querySelectorAll('a[href], button, [role="button"]').forEach(el => {
+      el.addEventListener('mouseenter', () => setMode('pointer'));
+      el.addEventListener('mouseleave', () => setMode(''));
+    });
+  })();
+
+  /* ── Nav hide/show ── */
+  (function() {
+    const nav = document.getElementById('main-nav');
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > lastY && y > 80) nav.classList.add('nav-hidden');
+      else nav.classList.remove('nav-hidden');
+      lastY = y;
+    }, { passive: true });
+  })();
+
+  /* ── Reveal ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── Card text slide ── */
+  document.querySelectorAll('.lw-card-info').forEach(info => {
+    const row = document.createElement('div');
+    row.className = 'lw-card-row';
+    while (info.firstChild) row.appendChild(info.firstChild);
+    const slide = document.createElement('div');
+    slide.className = 'lw-card-info-slide';
+    slide.appendChild(row);
+    slide.appendChild(row.cloneNode(true));
+    info.appendChild(slide);
+  });
+
+  /* ── Pricing tabs (UI/UX card) ── */
+  document.querySelectorAll('.sv-plan-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const card = tab.closest('.sv-svc-card');
+      const key  = tab.dataset.plan;
+      card.querySelectorAll('.sv-plan-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      card.querySelectorAll('.sv-plan-panel').forEach(p => { p.hidden = p.dataset.plan !== key; });
+      const priceEl = card.querySelector('.sv-card-price');
+      const fromEl  = card.querySelector('.sv-card-from');
+      if (key === 'retainer') {
+        priceEl.innerHTML = '$4500<span>/m</span>';
+        if (fromEl) fromEl.style.display = 'none';
+      } else {
+        priceEl.innerHTML = '$3200';
+        if (fromEl) fromEl.style.display = '';
+      }
+    });
+  });
+
+  /* ── FAQ accordion ── */
+  document.querySelectorAll('.sv-faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item   = btn.closest('.sv-faq-item');
+      const isOpen = item.classList.contains('is-open');
+      document.querySelectorAll('.sv-faq-item').forEach(i => {
+        i.classList.remove('is-open');
+        i.querySelector('.sv-faq-btn').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+
+  /* ── Hamburger ── */
+  (function() {
+    const ham    = document.querySelector('.nav-ham');
+    const drawer = document.getElementById('nav-mobile');
+    if (!ham || !drawer) return;
+    function close() { ham.classList.remove('is-open'); drawer.classList.remove('is-open'); ham.setAttribute('aria-expanded', 'false'); }
+    ham.addEventListener('click', () => {
+      const open = ham.classList.toggle('is-open');
+      drawer.classList.toggle('is-open', open);
+      ham.setAttribute('aria-expanded', String(open));
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  })();
+
+  window.addEventListener('load', () => {
+    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+  });
+</script>
+  <script src="footer.js"></script>
+</body>
+</html>
