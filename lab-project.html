@@ -15,21 +15,13 @@
     :root {
       --pr: #125CFA; --dark: #090909; --text: #111111;
       --t2: #6A6A6A; --t3: #A0A0A0; --bd: #E5E5E5; --alt: #F6F6F7;
-
-      /* ── Type Scale ── */
-      --fs-2xs:     11px;
-      --fs-xs:      12px;
-      --fs-sm:      0.875rem;
-      --fs-base:    1rem;
-      --fs-body:    1.125rem;
-      --fs-body-lg: 1.375rem;
-      --fs-sub:     1.625rem;
-      --fs-h4:      clamp(1.5rem, 2.3vw, 2.875rem);
-      --fs-h3:      clamp(2.5rem, 4.4vw, 4.375rem);
-      --fs-h2:      clamp(3.25rem, 5.8vw, 6.125rem);
-      --fs-h1:      clamp(3.75rem, 7.25vw, 7.25rem);
+      --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 0.875rem; --fs-base: 1rem;
+      --fs-body: 1.125rem; --fs-body-lg: 1.375rem; --fs-sub: 1.625rem;
+      --fs-h4: clamp(1.5rem, 2.3vw, 2.875rem);
+      --fs-h3: clamp(2.5rem, 4.4vw, 4.375rem);
+      --fs-h2: clamp(3.25rem, 5.8vw, 6.125rem);
+      --fs-h1: clamp(3.75rem, 7.25vw, 7.25rem);
       --fs-display: clamp(4.5rem, 9.25vw, 9.25rem);
-      --fs-giant:   clamp(8.125rem, 13vw, 13.125rem);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -75,11 +67,11 @@
     .service-arrow { flex-shrink: 0; color: #0B0F1A; transition: transform 150ms cubic-bezier(.215,.61,.355,1); }
     .service-card:hover .service-arrow { transform: translate(2px, -2px); }
     .sc-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-2xs); font-weight: 400; color: var(--t2); line-height: 1.5; }
-    .nav-ham { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 40px; height: 40px; background: none; border: 1px solid #DDDDDD; border-radius: 100px; cursor: pointer; padding: 0; flex-shrink: 0; transition: border-color 150ms ease; }
+    .nav-ham { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 40px; height: 40px; background: #fff; border: 1px solid #DDDDDD; border-radius: 100px; cursor: pointer; padding: 0; flex-shrink: 0; transition: border-color 150ms ease; }
     .nav-ham:hover { border-color: var(--text); }
     .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.32s cubic-bezier(.77,0,.175,1), opacity 0.22s ease; }
-    .nav-ham.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .nav-ham.is-open span:nth-child(2) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-ham.is-open span:nth-child(1) { transform: translateY(3.25px) rotate(45deg); }
+    .nav-ham.is-open span:nth-child(2) { transform: translateY(-3.25px) rotate(-45deg); }
     .nav-mobile { position: fixed; top: 62px; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 490; display: flex; flex-direction: column; justify-content: center; padding: 48px 32px 64px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.77,0,.175,1); pointer-events: none; border-top: 1px solid var(--bd); }
     .nav-mobile.is-open { transform: translateX(0); pointer-events: auto; }
     .nav-mobile-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 48px; }
@@ -95,7 +87,7 @@
     .nav-mobile.is-open .nav-mobile-cta { opacity: 1; transform: translateX(0); }
     .nav-mobile-cta:hover { border-color: var(--text); }
 
-    /* ── Hero entrance animations ── */
+    /* ── Entrance animations ── */
     @keyframes lp-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     .lp-anim { animation: lp-in 0.75s cubic-bezier(.19,1,.22,1) both; }
     .lp-d1 { animation-delay: 0.86s; }
@@ -104,128 +96,63 @@
     .lp-d4 { animation-delay: 1.18s; }
 
     /* ── Back link ── */
-    .lp-back {
-      background: #fff;
-      padding: 104px 120px 0;
-      position: relative; z-index: 2;
-    }
-    .lp-back-link {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase;
-      color: var(--t2); text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: color 180ms ease;
-    }
+    .lp-back { background: #fff; padding: 104px 120px 0; position: relative; z-index: 2; }
+    .lp-back-link { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 180ms ease; }
     .lp-back-link:hover { color: var(--text); }
     .lp-back-link svg { transition: transform 220ms cubic-bezier(.19,1,.22,1); }
     .lp-back-link:hover svg { transform: translateX(-3px); }
 
-    /* ── Hero ── */
-    .lp-hero {
-      background: #fff;
-      padding: 44px 120px 80px;
-      position: relative; z-index: 2;
-    }
-    .lp-hero-inner {
-      max-width: 1440px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: stretch;
-    }
-    .lp-hero-left {
-      display: flex; flex-direction: column; justify-content: space-between;
-      padding: 6px 0;
-    }
-    .lp-category {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase;
-      color: var(--t2); text-align: right;
-    }
-    .lp-visit {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: var(--fs-sm); letter-spacing: .04em;
-      color: var(--text); text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: gap 300ms cubic-bezier(.19,1,.22,1), opacity 180ms ease;
-    }
-    .lp-visit:hover { gap: 14px; opacity: .65; }
-    .lp-title {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-h2);
-      font-weight: 800; letter-spacing: -.04em; line-height: .96;
-      color: var(--text); margin-bottom: 28px;
-    }
-    .lp-hero-desc {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-h4); font-weight: 500; line-height: 1.42;
-      letter-spacing: -.02em; color: var(--text); opacity: .88;
-      max-width: 640px;
-    }
+    /* ── Two-column sticky split ── */
+    .lp-split { display: grid; grid-template-columns: 5fr 8fr; background: #fff; position: relative; z-index: 2; align-items: start; }
 
-    /* ── Content blocks ── */
-    .lp-block {
-      background: #fff;
-      padding: 80px 120px;
-      position: relative; z-index: 2;
+    /* ── Left: sticky meta panel ── */
+    .lp-split-left {
+      align-self: start;
+      position: sticky;
+      top: 76px;
+      min-height: calc(100vh - 76px);
+      padding: 56px 64px 60px 120px;
+      display: flex; flex-direction: column; gap: 36px;
     }
-    .lp-block-inner {
-      max-width: 1440px; margin: 0 auto;
-      display: flex; gap: 72px; align-items: flex-start;
-    }
-    .lp-block--right .lp-block-inner { flex-direction: row-reverse; }
-    .lp-block-img {
-      flex: 1; height: 500px;
-      overflow: hidden; border-radius: 8px;
-    }
-    .lp-block-img img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transform: scale(1);
-      transition: transform 0.85s cubic-bezier(.19,1,.22,1);
-      will-change: transform;
-    }
-    .lp-block-img:hover img { transform: scale(1.05); }
-    .lp-block-text {
-      flex: 1;
-      padding-top: 140px;
-      display: flex; flex-direction: column; gap: 20px;
-    }
-    .lp-body {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-body); font-weight: 500; line-height: 1.45;
-      letter-spacing: -.015em; color: var(--text); opacity: .9;
-    }
-    .lp-body-bold {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-body); font-weight: 700; line-height: 1.45;
-      letter-spacing: -.015em; color: var(--text); opacity: .9;
-    }
-    .lp-list {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-body); font-weight: 500; line-height: 1.5;
-      letter-spacing: -.015em; color: var(--text); opacity: .9;
-      padding-left: 22px; margin-top: -4px;
-    }
-    .lp-list li + li { margin-top: 4px; }
+    .lp-title { font-size: var(--fs-h2); font-weight: 800; letter-spacing: -.04em; line-height: .94; color: var(--text); margin-bottom: 14px; }
+    .lp-tagline { font-size: var(--fs-body); font-weight: 500; line-height: 1.6; letter-spacing: -.01em; color: var(--t2); }
+    .lp-meta-table { display: flex; flex-direction: column; border-top: 1px solid var(--bd); }
+    .lp-meta-row { display: flex; align-items: center; border-bottom: 1px solid var(--bd); padding: 12px 0; gap: 12px; }
+    .lp-meta-key { font-size: var(--fs-sm); font-weight: 600; color: var(--text); width: 110px; flex-shrink: 0; }
+    .lp-meta-val { font-size: var(--fs-sm); color: var(--t2); }
+    .lp-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .lp-chip { font-size: var(--fs-xs); font-weight: 500; color: var(--text); border: 1.5px solid var(--bd); border-radius: 100px; padding: 6px 14px; letter-spacing: .01em; }
+    .lp-visit { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); letter-spacing: .04em; color: var(--text); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--bd); display: inline-flex; align-items: center; gap: 8px; transition: gap 300ms cubic-bezier(.19,1,.22,1), text-decoration-color 180ms ease; }
+    .lp-visit:hover { gap: 14px; text-decoration-color: var(--text); }
+
+    /* ── Right: scrollable content column ── */
+    .lp-split-right { display: flex; flex-direction: column; padding-right: 120px; }
+
+    /* Hero image — first item in right col */
+    .lp-r-hero { overflow: hidden; background: var(--alt); flex-shrink: 0; }
+    .lp-r-hero img { width: 100%; display: block; height: 72vh; object-fit: cover; }
+
+    /* Text sections inside right col */
+    .lp-r-section { padding: 64px 0; display: grid; grid-template-columns: 150px 1fr; gap: 48px; align-items: start; }
+    .lp-r-label { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); letter-spacing: .06em; text-transform: uppercase; color: var(--t2); padding-top: 4px; }
+    .lp-r-body { display: flex; flex-direction: column; gap: 20px; }
+    .lp-body { font-size: var(--fs-body); font-weight: 500; line-height: 1.72; letter-spacing: -.015em; color: var(--text); opacity: .9; }
+    .lp-body-em { font-size: var(--fs-body); font-weight: 700; line-height: 1.72; letter-spacing: -.015em; color: var(--text); }
+    .lp-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+    .lp-list li { font-size: var(--fs-body); font-weight: 500; line-height: 1.55; letter-spacing: -.015em; color: var(--text); opacity: .9; padding-left: 22px; position: relative; }
+    .lp-list li::before { content: '→'; position: absolute; left: 0; color: var(--t3); font-weight: 400; }
+
+    /* Images inside right col */
+    .lp-r-imgs { display: flex; flex-direction: column; gap: 4px; }
+    .lp-r-imgs img { width: 100%; display: block; object-fit: cover; background: var(--alt); }
 
     /* ── Related ── */
-    .lp-related {
-      background: #fff;
-      padding: 0 120px 80px;
-      position: relative; z-index: 2;
-    }
+    .lp-related { background: #fff; border-top: 1px solid var(--bd); padding: 80px 120px; position: relative; z-index: 2; }
     .lp-related-inner { max-width: 1440px; margin: 0 auto; }
-    .lp-related-heading {
-      font-family: 'Urbanist', sans-serif;
-      font-size: var(--fs-h3);
-      font-weight: 900; letter-spacing: -.03em; line-height: 1;
-      color: var(--text); margin-bottom: 48px;
-    }
-    .lp-related-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
-    }
+    .lp-related-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h3); font-weight: 900; letter-spacing: -.03em; line-height: 1; color: var(--text); margin-bottom: 48px; }
+    .lp-related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 
-    /* ── lw-card (reused from lab.html) ── */
+    /* ── lw-card ── */
     .lw-card { display: block; text-decoration: none; color: inherit; }
     .lw-card-img { overflow: hidden; border-radius: 6px; width: 100%; }
     .lw-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.75s cubic-bezier(.19,1,.22,1); will-change: transform; }
@@ -249,27 +176,30 @@
     .lb-cta-btn { background: #FFC940; color: #0B0F1A; font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; padding: 14px 28px; border-radius: 10px; text-decoration: none; white-space: nowrap; flex-shrink: 0; position: relative; z-index: 1; transition: transform .28s cubic-bezier(.34,1.38,.64,1), box-shadow .28s; }
     .lb-cta-btn:hover { transform: scale(1.06); box-shadow: 0 12px 36px rgba(255,201,64,.4); }
 
-
     /* ── Reveal ── */
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
     .rd1 { transition-delay: .1s; } .rd2 { transition-delay: .2s; } .rd3 { transition-delay: .3s; }
-    section, .lb-cta-outer, .lp-back { position: relative; z-index: 2; }
+    .lb-cta-outer, .lp-back, .lp-split, .lp-related { position: relative; z-index: 2; }
 
     /* ── Custom cursor ── */
     #cur-pointer { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: difference; opacity: 0; visibility: hidden; will-change: transform; transition: opacity 0.28s ease-out, visibility 0s 0.28s; user-select: none; width: 76px; height: 76px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
     #cur-pointer.cur-on { opacity: 1; visibility: visible; transition: opacity 0.28s ease-out, visibility 0s; }
 
     /* ── Responsive ── */
-    @media (max-width: 1100px) {
-      .lp-block-img { height: 420px; }
-      .lp-block-text { padding-top: 80px; }
-    }
     @media (min-width: 769px) and (max-width: 1100px) {
       #main-nav { padding: 0 40px; }
       .nav-links { display: none; }
       .nav-ham { display: flex !important; }
       .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+      .lp-back { padding: 104px 40px 0; }
+      .lp-split { display: block; }
+      .lp-split-left { position: static; min-height: auto; padding: 48px 40px 48px 40px; border-bottom: 1px solid var(--bd); }
+      .lp-split-right { padding: 0 40px; }
+      .lp-r-hero img { height: 56vw; }
+      .lp-r-section { padding: 48px 0; grid-template-columns: 140px 1fr; gap: 32px; }
+      .lp-related { padding: 64px 40px; }
+      .lb-cta-outer { padding: 0 40px 80px; }
     }
     @media (max-width: 768px) {
       #main-nav { padding: 0 20px; }
@@ -278,17 +208,12 @@
       .nav-ham { display: flex !important; }
       .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
       .lp-back { padding: 20px 24px 0; }
-      .lp-hero { padding: 28px 24px 56px; }
-      .lp-hero-inner { grid-template-columns: 1fr; gap: 24px; }
-      .lp-hero-left { flex-direction: row; justify-content: space-between; align-items: center; padding: 0; }
-      .lp-category { text-align: left; }
-      .lp-title { font-size: clamp(40px, 11vw, 64px); }
-      .lp-hero-desc { font-size: var(--fs-base); max-width: 100%; }
-      .lp-block { padding: 48px 24px; }
-      .lp-block-inner, .lp-block--right .lp-block-inner { flex-direction: column; }
-      .lp-block-img { height: 280px; }
-      .lp-block-text { padding-top: 0; }
-      .lp-related { padding: 0 24px 60px; }
+      .lp-split { display: block; }
+      .lp-split-left { position: static; min-height: auto; padding: 32px 24px 40px; border-bottom: 1px solid var(--bd); }
+      .lp-split-right { padding: 0 24px; }
+      .lp-r-hero img { height: 52vw; }
+      .lp-r-section { padding: 40px 0; grid-template-columns: 1fr; gap: 12px; }
+      .lp-related { padding: 48px 24px; }
       .lp-related-grid { grid-template-columns: 1fr; }
       .lb-cta-outer { padding: 0 20px 80px; }
       .lb-cta-card { flex-direction: column; align-items: flex-start; padding: 48px 32px; min-height: auto; gap: 32px; }
@@ -350,62 +275,99 @@
     </a>
   </div>
 
-  <!-- ── Hero ── -->
-  <section class="lp-hero">
-    <div class="lp-hero-inner">
-      <div class="lp-hero-left lp-anim lp-d2">
-        <span class="lp-category">[ Figma Plugin ]</span>
-        <a href="#" class="lp-visit" target="_blank" rel="noopener">Visit Plugin →</a>
-      </div>
-      <div class="lp-hero-right">
-        <h1 class="lp-title lp-anim lp-d3">Font Saver</h1>
-        <p class="lp-hero-desc lp-anim lp-d4">We all discover fonts we fall in love with, often by accident — then forget their names with time. Font Saver helps you capture those small discoveries, so the fonts you once loved are never lost again.</p>
-      </div>
-    </div>
-  </section>
+  <!-- ── Sticky split layout ── -->
+  <div class="lp-split">
 
-  <!-- ── Content Block 1: Image Left, Text Right ── -->
-  <section class="lp-block">
-    <div class="lp-block-inner reveal">
-      <div class="lp-block-img">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80" alt="Font Saver plugin interface">
+    <!-- LEFT: sticky meta panel -->
+    <div class="lp-split-left lp-anim lp-d2">
+      <div>
+        <h1 class="lp-title">Font Saver</h1>
+        <p class="lp-tagline">Figma doesn't let you save fonts. So we built the thing that does.</p>
       </div>
-      <div class="lp-block-text">
-        <p class="lp-body">Save your favourite fonts once, preview them, and apply them instantly to any text layer.</p>
-        <p class="lp-body">Designed for quick typography decisions and faster workflows, Font Saver keeps your most-used fonts always within reach.</p>
-        <p class="lp-body-bold">What you can do:</p>
-        <ul class="lp-list">
-          <li>Save selected fonts from your canvas</li>
-          <li>Preview saved fonts directly in the plugin</li>
-          <li>Apply fonts with a single click</li>
-          <li>Manage your personal font collection</li>
-        </ul>
+      <div class="lp-meta-table">
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Category</span>
+          <span class="lp-meta-val">Figma Plugin</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Year</span>
+          <span class="lp-meta-val">2025</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Platform</span>
+          <span class="lp-meta-val">Figma Community</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Availability</span>
+          <span class="lp-meta-val">Free</span>
+        </div>
       </div>
+      <div class="lp-chips">
+        <span class="lp-chip">UI Design</span>
+        <span class="lp-chip">Plugin Dev</span>
+        <span class="lp-chip">Typography</span>
+      </div>
+      <a href="#" class="lp-visit" target="_blank" rel="noopener">
+        Visit Plugin
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
-  </section>
 
-  <!-- ── Content Block 2: Text Left, Image Right ── -->
-  <section class="lp-block lp-block--right">
-    <div class="lp-block-inner reveal">
-      <div class="lp-block-img">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&auto=format&fit=crop&q=80" alt="Font Saver in use">
+    <!-- RIGHT: scrollable content -->
+    <div class="lp-split-right lp-anim lp-d3">
+
+      <!-- Hero image -->
+      <div class="lp-r-hero">
+        <img src="Brand_assets/font-saver-cover.png" alt="Font Saver — Save. Preview. Apply. Instantly.">
       </div>
-      <div class="lp-block-text">
-        <p class="lp-body-bold">How it works:</p>
-        <ul class="lp-list">
-          <li>Select a text layer on your canvas</li>
-          <li>Open Font Saver from the plugin panel</li>
-          <li>Hit Save — the font is added to your collection</li>
-          <li>Click any saved font to apply it instantly</li>
-        </ul>
-        <p class="lp-body-bold">Font previews are supported for Google Fonts and system-installed fonts. All fonts apply correctly on the canvas.</p>
-        <p class="lp-body">Built for designers who think in type. No more hunting for that perfect font you used three projects ago.</p>
+
+      <!-- Overview -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">Overview</span>
+        <div class="lp-r-body">
+          <p class="lp-body">It started with a font. Someone on the team found one, loved it, moved on to ten other tasks, and by the time they went looking for it again, it was gone. Not deleted. Just lost in the noise of hundreds of typefaces with no way to bookmark the one that mattered.</p>
+          <p class="lp-body">That's the gap. Figma has no native way to save a font for later. You either remember the name, screenshot it, or lose it. Font Saver fixes that.</p>
+        </div>
       </div>
+
+      <!-- Image -->
+      <div class="lp-r-imgs">
+        <img src="Brand_assets/font-saver-cover2.png" alt="Font Saver on Figma Community">
+      </div>
+
+      <!-- What it does -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">What it does</span>
+        <div class="lp-r-body">
+          <ul class="lp-list">
+            <li>Save any font you come across, by name, so it's there when you need it again</li>
+            <li>Preview it before you commit, see exactly how it looks, not just what it's called</li>
+            <li>Apply it to any text layer with a single click</li>
+            <li>Manage your collection, add, organise, delete, keep it clean</li>
+            <li>Works with local fonts installed on your system too, not just the ones in Figma's library</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="lp-r-imgs">
+        <img src="Brand_assets/font-saver-cover3.png" alt="Font Saver plugin listing">
+      </div>
+
+      <!-- Built right -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">Built right</span>
+        <div class="lp-r-body">
+          <p class="lp-body-em">One feature. Done properly.</p>
+          <p class="lp-body">No clutter, no extra settings to dig through, just a place to keep the fonts worth keeping.</p>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div><!-- end .lp-split -->
 
   <!-- ── Related ── -->
-  <section class="lp-related">
+  <div class="lp-related">
     <div class="lp-related-inner">
       <h2 class="lp-related-heading reveal">Related</h2>
       <div class="lp-related-grid">
@@ -437,7 +399,7 @@
         </a>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- ── CTA ── -->
   <div class="lb-cta-outer">
@@ -447,7 +409,7 @@
     </div>
   </div>
 
-<footer id="site-footer"></footer>
+  <footer id="site-footer"></footer>
 
   <div id="cur-pointer" aria-hidden="true">
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L18 4M18 4H7M18 4v11"/></svg>
@@ -475,13 +437,6 @@
           setTimeout(() => { window.location.href = href; }, 860);
         });
       });
-    });
-
-    /* ── Cursor ── */
-    const cur = document.getElementById('cur');
-    document.addEventListener('mousemove', e => {
-      cur.style.left = e.clientX + 'px';
-      cur.style.top  = e.clientY + 'px';
     });
 
     /* ── Nav hide/show ── */
@@ -515,7 +470,6 @@
       slide.appendChild(row.cloneNode(true));
       info.appendChild(slide);
     });
-
 
     /* ── Custom cursor ── */
     (function initCursor() {
