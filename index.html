@@ -1053,7 +1053,7 @@
     }
     .cta-right {
       display: flex; flex-direction: column;
-      align-items: flex-end; justify-content: space-between;
+      align-items: flex-end; justify-content: center;
       align-self: stretch; flex-shrink: 0;
       position: relative; z-index: 2; gap: 32px;
     }
@@ -1612,7 +1612,7 @@
           <div class="hw-step-body">
             <span class="hw-badge">2–4 weeks</span>
             <h3 class="hw-step-title">Design &amp;<br>Build</h3>
-            <p class="hw-step-desc">Our favourite step. We build the solution — rebrand, identity or product design. This part we know like method acting.</p>
+            <p class="hw-step-desc">Our favourite step. We build the solution, rebrand, identity or product design. This part we know like method acting.</p>
           </div>
         </div>
         <div class="hw-step" data-hw-step="2">
@@ -1743,7 +1743,7 @@
         <div class="pc">
           <div class="pc-num">03</div>
           <h3 class="pc-name">Website Design &amp;<br>Development</h3>
-          <p class="pc-desc">Pixel-perfect websites built with modern stacks — fast, accessible, and designed to convert. End-to-end from concept to launch.</p>
+          <p class="pc-desc">Pixel-perfect websites built with modern stacks, fast, accessible, and designed to convert. End-to-end from concept to launch.</p>
           <div class="pc-pricing-area">
             <div class="pc-pricing-label">Pricing</div>
             <div class="pc-price">Starting from $2,110.00</div>
@@ -2642,8 +2642,8 @@
     });
 
     // POINTER cursor: links and buttons not inside thumbnail containers
-    // Exclude the mute button — it sits over the video and needs a neutral cursor.
-    document.querySelectorAll('a[href], button:not(#hero-mute-btn), [role="button"]:not(#hero-mute-btn)').forEach(el => {
+    // Exclude in-place toggles (mute, play, hamburger, carousel dots) — they don't redirect.
+    document.querySelectorAll('a[href], button:not(#hero-mute-btn):not(.nav-ham):not(.hc-mobile-play):not(.hw-nav-btn), [role="button"]:not(#hero-mute-btn)').forEach(el => {
       el.addEventListener('mouseenter', () => { if (!inView) setMode('pointer'); });
       el.addEventListener('mouseleave', () => { if (!inView) setMode('');        });
     });

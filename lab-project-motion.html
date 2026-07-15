@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Font Saver — Wormit Lab</title>
-  <meta name="description" content="A Figma plugin that saves and manages your favourite fonts.">
+  <title>Motion Library — Wormit Lab</title>
+  <meta name="description" content="A system of icon and micro-interaction animations built for a product super-app.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <style>
     :root {
@@ -128,9 +129,11 @@
     /* ── Right: scrollable content column ── */
     .lp-split-right { display: flex; flex-direction: column; padding-right: 120px; }
 
-    /* Hero image — first item in right col */
-    .lp-r-hero { overflow: hidden; background: var(--alt); flex-shrink: 0; }
-    .lp-r-hero img { width: 100%; display: block; height: 72vh; object-fit: cover; }
+    /* Hero — first item in right col */
+    .lp-r-hero { flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .lp-r-hero-cell { overflow: hidden; background: var(--dark); border-radius: 16px; }
+    .lp-r-hero img { width: 100%; display: block; height: 58vh; object-fit: cover; }
+    .lp-r-hero-cell lottie-player { width: 100%; height: 58vh; display: block; background: var(--dark); }
 
     /* Text sections inside right col */
     .lp-r-section { padding: 64px 0; display: grid; grid-template-columns: 150px 1fr; gap: 48px; align-items: start; }
@@ -145,6 +148,14 @@
     /* Images inside right col */
     .lp-r-imgs { display: flex; flex-direction: column; gap: 4px; }
     .lp-r-imgs img { width: 100%; display: block; object-fit: cover; background: var(--alt); }
+
+    /* ── Motion library grid ── */
+    .lp-motion-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .lp-motion-card { background: var(--alt); border: 1px solid var(--bd); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .lp-motion-player-wrap { width: 100%; height: 200px; border-radius: 10px; overflow: hidden; background: var(--dark); display: flex; align-items: center; justify-content: center; }
+    .lp-motion-player-wrap lottie-player { width: 100%; height: 100%; }
+    .lp-motion-title { font-size: var(--fs-base); font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+    .lp-motion-desc { font-size: var(--fs-sm); font-weight: 500; line-height: 1.5; color: var(--t2); }
 
     /* ── Related ── */
     .lp-related { background: #fff; border-top: 1px solid var(--bd); padding: 80px 120px; position: relative; z-index: 2; }
@@ -196,8 +207,9 @@
       .lp-split { display: block; }
       .lp-split-left { position: static; min-height: auto; padding: 48px 40px 48px 40px; border-bottom: 1px solid var(--bd); }
       .lp-split-right { padding: 0 40px; }
-      .lp-r-hero img { height: 56vw; }
+      .lp-r-hero img, .lp-r-hero-cell lottie-player { height: 22vw; }
       .lp-r-section { padding: 48px 0; grid-template-columns: 140px 1fr; gap: 32px; }
+      .lp-motion-grid { grid-template-columns: 1fr 1fr; }
       .lp-related { padding: 64px 40px; }
       .lb-cta-outer { padding: 0 40px 80px; }
     }
@@ -211,8 +223,10 @@
       .lp-split { display: block; }
       .lp-split-left { position: static; min-height: auto; padding: 32px 24px 40px; border-bottom: 1px solid var(--bd); }
       .lp-split-right { padding: 0 24px; }
-      .lp-r-hero img { height: 52vw; }
+      .lp-r-hero { grid-template-columns: 1fr; }
+      .lp-r-hero img, .lp-r-hero-cell lottie-player { height: 42vw; }
       .lp-r-section { padding: 40px 0; grid-template-columns: 1fr; gap: 12px; }
+      .lp-motion-grid { grid-template-columns: 1fr; }
       .lp-related { padding: 48px 24px; }
       .lp-related-grid { grid-template-columns: 1fr; }
       .lb-cta-outer { padding: 0 20px 80px; }
@@ -281,34 +295,34 @@
     <!-- LEFT: sticky meta panel -->
     <div class="lp-split-left lp-anim lp-d2">
       <div>
-        <h1 class="lp-title">Font Saver</h1>
-        <p class="lp-tagline">Figma doesn't let you save fonts. So we built the thing that does.</p>
+        <h1 class="lp-title">Motion Library</h1>
+        <p class="lp-tagline">A system of icon and micro-interaction animations built for a product super-app — from valet pickups to payment confirmations.</p>
       </div>
       <div class="lp-meta-table">
         <div class="lp-meta-row">
           <span class="lp-meta-key">Category</span>
-          <span class="lp-meta-val">Figma Plugin</span>
+          <span class="lp-meta-val">Motion Design</span>
         </div>
         <div class="lp-meta-row">
           <span class="lp-meta-key">Year</span>
-          <span class="lp-meta-val">2025</span>
+          <span class="lp-meta-val">2024</span>
         </div>
         <div class="lp-meta-row">
           <span class="lp-meta-key">Platform</span>
-          <span class="lp-meta-val">Figma Community</span>
+          <span class="lp-meta-val">Product App</span>
         </div>
         <div class="lp-meta-row">
-          <span class="lp-meta-key">Availability</span>
-          <span class="lp-meta-val">Free</span>
+          <span class="lp-meta-key">Format</span>
+          <span class="lp-meta-val">Lottie (JSON)</span>
         </div>
       </div>
       <div class="lp-chips">
-        <span class="lp-chip">UI Design</span>
-        <span class="lp-chip">Plugin Dev</span>
-        <span class="lp-chip">Typography</span>
+        <span class="lp-chip">Motion Design</span>
+        <span class="lp-chip">Micro-interactions</span>
+        <span class="lp-chip">Lottie</span>
       </div>
-      <a href="#" class="lp-visit" target="_blank" rel="noopener">
-        Visit Plugin
+      <a href="https://github.com/Kshamanidhi/wormit/tree/main/DIFC%2BApp_Animation" class="lp-visit" target="_blank" rel="noopener">
+        View Source
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -316,50 +330,121 @@
     <!-- RIGHT: scrollable content -->
     <div class="lp-split-right lp-anim lp-d3">
 
-      <!-- Hero image -->
+      <!-- Hero animation -->
       <div class="lp-r-hero">
-        <img src="Brand_assets/font-saver-cover.png" alt="Font Saver — Save. Preview. Apply. Instantly.">
+        <div class="lp-r-hero-cell">
+          <lottie-player src="lab-assets/difc-motion/city-lounge-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+        </div>
+        <div class="lp-r-hero-cell">
+          <lottie-player src="lab-assets/difc-motion/cinema-main-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+        </div>
       </div>
 
       <!-- Overview -->
       <div class="lp-r-section reveal">
         <span class="lp-r-label">Overview</span>
         <div class="lp-r-body">
-          <p class="lp-body">It started with a font. Someone on the team found one, loved it, moved on to ten other tasks, and by the time they went looking for it again, it was gone. Not deleted. Just lost in the noise of hundreds of typefaces with no way to bookmark the one that mattered.</p>
-          <p class="lp-body">That's the gap. Figma has no native way to save a font for later. You either remember the name, screenshot it, or lose it. Font Saver fixes that.</p>
+          <p class="lp-body">A super-app has a lot of moments — booking, paying, waiting, confirming — and every one of them needed to feel like part of the same product, not eighteen separate afterthoughts.</p>
+          <p class="lp-body">So instead of static icons, we built a small library of Lottie animations: one motion language reused across valet, payments, dashboards, and home cards, tuned to read clearly at a glance without slowing anything down.</p>
         </div>
       </div>
 
-      <!-- Image -->
-      <div class="lp-r-imgs">
-        <img src="Brand_assets/font-saver-cover2.png" alt="Font Saver on Figma Community">
-      </div>
-
-      <!-- What it does -->
+      <!-- Library -->
       <div class="lp-r-section reveal">
-        <span class="lp-r-label">What it does</span>
+        <span class="lp-r-label">Library</span>
         <div class="lp-r-body">
-          <ul class="lp-list">
-            <li>Save any font you come across, by name, so it's there when you need it again</li>
-            <li>Preview it before you commit, see exactly how it looks, not just what it's called</li>
-            <li>Apply it to any text layer with a single click</li>
-            <li>Manage your collection, add, organise, delete, keep it clean</li>
-            <li>Works with local fonts installed on your system too, not just the ones in Figma's library</li>
-          </ul>
-        </div>
-      </div>
+          <div class="lp-motion-grid">
 
-      <!-- Image -->
-      <div class="lp-r-imgs">
-        <img src="Brand_assets/font-saver-cover3.png" alt="Font Saver plugin listing">
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/book-meeting-render.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Book Meeting</p>
+              <p class="lp-motion-desc">Success animation when a meeting booking is confirmed.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/car-animation-valet.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Valet Pickup</p>
+              <p class="lp-motion-desc">Car arriving for valet handoff at drop-off.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/car-beep-dashboard.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Dashboard Alert</p>
+              <p class="lp-motion-desc">Beep cue on the dashboard when the vehicle needs attention.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/difc-handoff-failed-payment.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Payment Failed</p>
+              <p class="lp-motion-desc">Error state for a failed handoff payment.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/difc-lens-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Lens Scan</p>
+              <p class="lp-motion-desc">Scan and loading animation for the in-app lens feature.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/home-major-ug-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Home — Major Update</p>
+              <p class="lp-motion-desc">Hero illustration for major update cards on the home screen.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/home-minor-ug-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Home — Minor Update</p>
+              <p class="lp-motion-desc">Hero illustration for minor update cards on the home screen.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/payment-success.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Payment Success</p>
+              <p class="lp-motion-desc">Confirmation animation after a completed payment.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/put-cable.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Connect Cable</p>
+              <p class="lp-motion-desc">Onboarding cue guiding a cable or charger connection.</p>
+            </div>
+
+            <div class="lp-motion-card">
+              <div class="lp-motion-player-wrap">
+                <lottie-player src="lab-assets/difc-motion/subtle-card-animation.json" background="transparent" speed="1" autoplay loop></lottie-player>
+              </div>
+              <p class="lp-motion-title">Idle Card</p>
+              <p class="lp-motion-desc">Ambient micro-motion for cards at rest.</p>
+            </div>
+
+          </div>
+        </div>
       </div>
 
       <!-- Built right -->
       <div class="lp-r-section reveal">
         <span class="lp-r-label">Built right</span>
         <div class="lp-r-body">
-          <p class="lp-body-em">One feature. Done properly.</p>
-          <p class="lp-body">No clutter, no extra settings to dig through, just a place to keep the fonts worth keeping.</p>
+          <p class="lp-body-em">One system, many moments.</p>
+          <p class="lp-body">Every animation was tuned frame-by-frame so it reads instantly, stays lightweight, and never slows down the interaction it lives inside.</p>
         </div>
       </div>
 
@@ -371,28 +456,28 @@
     <div class="lp-related-inner">
       <h2 class="lp-related-heading reveal">Related</h2>
       <div class="lp-related-grid">
-        <a href="lab-project-illustrations.html" class="lw-card reveal rd1">
+        <a href="lab-project.html" class="lw-card reveal rd1">
           <div class="lw-card-img" style="height:380px">
-            <img src="Brand_assets/illus-Office_wall_Mockup.png" alt="Illustrations">
+            <img src="Brand_assets/font-saver-cover.png" alt="Font Saver">
           </div>
           <div class="lw-card-info">
             <div class="lw-card-meta">
-              <span class="lw-card-name">Illustrations</span>
+              <span class="lw-card-name">Font Saver</span>
               <span class="lw-sep"></span>
-              <span class="lw-card-type">Visual Art</span>
+              <span class="lw-card-type">Figma Plugin</span>
             </div>
             <span class="lw-card-year">2025</span>
           </div>
         </a>
-        <a href="lab-project-motion.html" class="lw-card reveal rd2">
+        <a href="lab.html" class="lw-card reveal rd2">
           <div class="lw-card-img" style="height:380px">
-            <img src="https://images.unsplash.com/photo-1557683311-eac922347aa1?w=900&auto=format&fit=crop&q=80" alt="Motion Lab">
+            <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=900&auto=format&fit=crop&q=80" alt="More from the Lab">
           </div>
           <div class="lw-card-info">
             <div class="lw-card-meta">
-              <span class="lw-card-name">Motion Lab</span>
+              <span class="lw-card-name">More from the Lab</span>
               <span class="lw-sep"></span>
-              <span class="lw-card-type">Animation</span>
+              <span class="lw-card-type">All Projects</span>
             </div>
             <span class="lw-card-year">2025</span>
           </div>

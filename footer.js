@@ -207,11 +207,10 @@
           <div class="f-contact">
             <div class="f-contact-top">
               <a href="tel:+916263068340" class="f-phone">+91 6263068340</a>
-              <a href="mailto:business@wormit.co" class="f-email">business@wormit.co</a>
+              <a href="mailto:work@wormit.co" class="f-email">work@wormit.co</a>
             </div>
             <div class="f-addr">
-              <p>Raipur, Chhattisgarh, India</p>
-              <p>Zenith co-working Raipur, 492001</p>
+              <p>Raipur, Chhattisgarh, India, 492001</p>
             </div>
           </div>
         </div>
