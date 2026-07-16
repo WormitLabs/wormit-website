@@ -354,13 +354,13 @@
     .lw-col-q  { flex: 1; min-width: 0; }
     .lw-card { display: block; text-decoration: none; color: inherit; }
     .lw-card-img { overflow: hidden; border-radius: 6px; width: 100%; }
-    .lw-card-img img {
+    .lw-card-img img, .lw-card-img video {
       width: 100%; height: 100%; object-fit: cover; display: block;
       transform: scale(1);
       transition: transform 0.75s cubic-bezier(.19,1,.22,1);
       will-change: transform;
     }
-    .lw-card:hover .lw-card-img img { transform: scale(1.06); }
+    .lw-card:hover .lw-card-img img, .lw-card:hover .lw-card-img video { transform: scale(1.06); }
     .lw-card-img-motion { background: var(--dark); display: flex; align-items: center; justify-content: center; }
     .lw-motion-thumb { width: 120px; height: 120px; opacity: 1; transition: opacity .35s ease, transform .35s ease; }
     .lw-motion-thumb.is-swapping { opacity: 0; transform: scale(.92); }
@@ -654,7 +654,7 @@
           <p class="lw-eyebrow">[ Weird things we built ]</p>
           <h2 class="lw-heading">Some things<br>we made.</h2>
         </div>
-        <span class="lw-count">08 projects</span>
+        <span class="lw-count">05 projects</span>
       </div>
 
       <div class="lw-rows">
@@ -677,17 +677,17 @@
             </a>
           </div>
           <div class="lw-col-r">
-            <a href="lab-project.html" class="lw-card reveal rd2">
+            <a href="lab-project-figma-makeathon.html" class="lw-card reveal rd2">
               <div class="lw-card-img" style="height:420px">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop&q=80" alt="Makthron">
+                <video src="Brand_assets/Lab_FigmaMakethon.mp4" poster="Brand_assets/lab_figmaMakethon.png" autoplay muted loop playsinline></video>
               </div>
               <div class="lw-card-info">
                 <div class="lw-card-meta">
-                  <span class="lw-card-name">Makthron</span>
+                  <span class="lw-card-name">Monster Wall</span>
                   <span class="lw-sep"></span>
-                  <span class="lw-card-type">Brand Identity</span>
+                  <span class="lw-card-type">Figma Makeathon</span>
                 </div>
-                <span class="lw-card-year">2024</span>
+                <span class="lw-card-year">2026</span>
               </div>
             </a>
           </div>
@@ -730,24 +730,24 @@
             </a>
           </div>
           <div class="lw-col-mid">
-            <a href="lab-project.html" class="lw-card reveal rd2">
+            <a href="lab-project-font-randomiser.html" class="lw-card reveal rd2">
               <div class="lw-card-img" style="height:520px">
-                <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=900&auto=format&fit=crop&q=80" alt="Color Studies">
+                <img src="Brand_assets/Lab_font-randomiser-cover.png" alt="Font Randomiser">
               </div>
               <div class="lw-card-info">
                 <div class="lw-card-meta">
-                  <span class="lw-card-name">Color Studies</span>
+                  <span class="lw-card-name">Font Randomiser</span>
                   <span class="lw-sep"></span>
-                  <span class="lw-card-type">Research</span>
+                  <span class="lw-card-type">Figma Plugin</span>
                 </div>
-                <span class="lw-card-year">2024</span>
+                <span class="lw-card-year">2025</span>
               </div>
             </a>
           </div>
         </div>
 
-        <!-- Row 4: three equal small cards -->
-        <div class="lw-row lw-row--small">
+        <!-- Row 4: three equal small cards — hidden until content is ready -->
+        <div class="lw-row lw-row--small" style="display:none">
           <div class="lw-col-q">
             <a href="lab-project.html" class="lw-card reveal rd1">
               <div class="lw-card-img" style="height:320px">

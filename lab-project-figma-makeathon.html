@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Wall — Wormit Lab</title>
+  <meta name="description" content="Built at Figma Makeathon 2026. A generative wall of monsters made by real people.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --pr: #125CFA; --dark: #090909; --text: #111111;
+      --t2: #6A6A6A; --t3: #A0A0A0; --bd: #E5E5E5; --alt: #F6F6F7;
+      --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 0.875rem; --fs-base: 1rem;
+      --fs-body: 1.125rem; --fs-body-lg: 1.375rem; --fs-sub: 1.625rem;
+      --fs-h4: clamp(1.5rem, 2.3vw, 2.875rem);
+      --fs-h3: clamp(2.5rem, 4.4vw, 4.375rem);
+      --fs-h2: clamp(3.25rem, 5.8vw, 6.125rem);
+      --fs-h1: clamp(3.75rem, 7.25vw, 7.25rem);
+      --fs-display: clamp(4.5rem, 9.25vw, 9.25rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: 'Urbanist', sans-serif; background: #0B0F1A; color: var(--text); overflow-x: clip; overflow-anchor: none; }
+    body { overflow-x: clip; cursor: none; overflow-anchor: none; }
+
+    /* ── Page Transition ── */
+    #pt { position: fixed; inset: 0; z-index: 99990; background: var(--pr); transform: translateY(0); pointer-events: none; will-change: transform; }
+
+    /* ── Cursor ── */
+    a[href], button, [role="button"] { cursor: none !important; }
+    #cur-dot { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: #fff; border-radius: 50%; mix-blend-mode: difference; pointer-events: none; z-index: 100000; will-change: transform; user-select: none; opacity: 0; transition: opacity 0.22s ease-out; }
+
+    /* ── Nav ── */
+    #main-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(255,255,255,.92); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border-bottom: 1px solid var(--bd); padding: 0 120px; height: 76px; display: flex; align-items: center; justify-content: space-between; transform: translateY(0); transition: transform 420ms cubic-bezier(.165,.84,.44,1); }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .nav-logo svg { height: 36px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links > li > a { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 100px; transition: color 150ms ease, background 150ms ease; }
+    .nav-links > li > a:hover { color: var(--text); background: var(--alt); }
+    .nav-links > li > a.nav-active { color: var(--text); background: var(--alt); }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pr); flex-shrink: 0; opacity: 0; transition: opacity 150ms ease; }
+    .nav-links > li > a:hover .nav-dot, .nav-links > li > a.nav-active .nav-dot { opacity: 1; }
+    .nav-chevron { color: var(--t2); transition: color 150ms ease, transform 200ms cubic-bezier(.645,.045,.355,1); flex-shrink: 0; }
+    .nav-links > li > a:hover .nav-chevron { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-cta { font-family: 'Urbanist', sans-serif; font-size: var(--fs-sm); font-weight: 700; color: var(--text); background: transparent; text-decoration: none; padding: 10px 18px 10px 22px; border-radius: 100px; letter-spacing: .01em; border: 1px solid #DDDDDD; transition: border-color 150ms ease; display: inline-flex; align-items: center; gap: 6px; }
+    .nav-cta:hover { border-color: var(--text); }
+    .nav-linkedin { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: transparent; color: var(--text); text-decoration: none; border-radius: 100px; border: 1px solid #DDDDDD; transition: border-color 150ms ease, background 150ms ease; flex-shrink: 0; }
+    .nav-linkedin:hover { border-color: var(--text); background: var(--alt); }
+    .nav-item-has-dropdown { position: relative; align-self: stretch; display: flex; align-items: center; }
+    .nav-item-has-dropdown::after { content: ''; position: absolute; top: 100%; left: -40px; right: -40px; height: 20px; }
+    .services-dropdown { position: absolute; top: calc(100% + 10px); left: 50%; transform-origin: top center; transform: translateX(-50%) translateY(-6px) scale(0.97); background: #fff; border-radius: 16px; padding: 12px; gap: 12px; display: flex; box-shadow: 0 2px 8px rgba(0,0,0,.06), 0 20px 56px rgba(0,0,0,.11); border: 1px solid rgba(0,0,0,.06); opacity: 0; pointer-events: none; transition: opacity 180ms cubic-bezier(.165,.84,.44,1), transform 180ms cubic-bezier(.165,.84,.44,1); z-index: 200; }
+    .nav-item-has-dropdown:hover .services-dropdown { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
+    .nav-item-has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
+    .service-card { display: flex; flex-direction: column; justify-content: space-between; width: 200px; height: 220px; padding: 20px; border-radius: 12px; text-decoration: none; color: inherit; flex-shrink: 0; font-family: 'Urbanist', sans-serif; font-size: inherit; font-weight: 400; letter-spacing: 0; text-transform: none; background: transparent; transition: background 150ms ease; }
+    .service-card:hover { color: inherit; background: #F4F6FB; }
+    .sc-ilus { position: relative; } .sc-ilus img { display: block; }
+    .sc-body { display: flex; flex-direction: column; gap: 8px; }
+    .sc-title-row { display: flex; align-items: center; gap: 8px; }
+    .sc-title-row span { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 600; color: #0B0F1A; white-space: nowrap; line-height: 1; flex: 1; }
+    .service-arrow { flex-shrink: 0; color: #0B0F1A; transition: transform 150ms cubic-bezier(.215,.61,.355,1); }
+    .service-card:hover .service-arrow { transform: translate(2px, -2px); }
+    .sc-desc { font-family: 'Urbanist', sans-serif; font-size: var(--fs-2xs); font-weight: 400; color: var(--t2); line-height: 1.5; }
+    .nav-ham { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 40px; height: 40px; background: #fff; border: 1px solid #DDDDDD; border-radius: 100px; cursor: pointer; padding: 0; flex-shrink: 0; transition: border-color 150ms ease; }
+    .nav-ham:hover { border-color: var(--text); }
+    .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.32s cubic-bezier(.77,0,.175,1), opacity 0.22s ease; }
+    .nav-ham.is-open span:nth-child(1) { transform: translateY(3.25px) rotate(45deg); }
+    .nav-ham.is-open span:nth-child(2) { transform: translateY(-3.25px) rotate(-45deg); }
+    .nav-mobile { position: fixed; top: 62px; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 490; display: flex; flex-direction: column; justify-content: center; padding: 48px 32px 64px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.77,0,.175,1); pointer-events: none; border-top: 1px solid var(--bd); }
+    .nav-mobile.is-open { transform: translateX(0); pointer-events: auto; }
+    .nav-mobile-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 48px; }
+    .nav-mobile-links li { border-bottom: 1px solid var(--bd); }
+    .nav-mobile-links a { font-family: 'Urbanist', sans-serif; font-size: clamp(32px, 9vw, 52px); font-weight: 800; letter-spacing: -.03em; color: var(--text); text-decoration: none; display: block; padding: 14px 0; opacity: 0; transform: translateX(28px); transition: opacity 0.28s ease, transform 0.28s ease, color 0.15s ease; }
+    .nav-mobile.is-open .nav-mobile-links a { opacity: 1; transform: translateX(0); }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(1) a { transition-delay: .04s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(2) a { transition-delay: .08s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(3) a { transition-delay: .12s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(4) a { transition-delay: .16s; }
+    .nav-mobile.is-open .nav-mobile-links li:nth-child(5) a { transition-delay: .20s; }
+    .nav-mobile-cta { display: inline-flex; align-items: center; gap: 8px; font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 700; color: var(--text); text-decoration: none; padding: 12px 20px 12px 24px; border: 1px solid #DDDDDD; border-radius: 100px; width: fit-content; opacity: 0; transform: translateX(28px); transition: opacity 0.28s ease .24s, transform 0.28s ease .24s, border-color .15s ease; }
+    .nav-mobile.is-open .nav-mobile-cta { opacity: 1; transform: translateX(0); }
+    .nav-mobile-cta:hover { border-color: var(--text); }
+
+    /* ── Entrance animations ── */
+    @keyframes lp-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .lp-anim { animation: lp-in 0.75s cubic-bezier(.19,1,.22,1) both; }
+    .lp-d1 { animation-delay: 0.86s; }
+    .lp-d2 { animation-delay: 0.96s; }
+    .lp-d3 { animation-delay: 1.06s; }
+    .lp-d4 { animation-delay: 1.18s; }
+
+    /* ── Back link ── */
+    .lp-back { background: #fff; padding: 104px 120px 0; position: relative; z-index: 2; }
+    .lp-back-link { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-base); letter-spacing: .06em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 180ms ease; }
+    .lp-back-link:hover { color: var(--text); }
+    .lp-back-link svg { transition: transform 220ms cubic-bezier(.19,1,.22,1); }
+    .lp-back-link:hover svg { transform: translateX(-3px); }
+
+    /* ── Two-column sticky split ── */
+    .lp-split { display: grid; grid-template-columns: 5fr 8fr; background: #fff; position: relative; z-index: 2; align-items: start; }
+
+    /* ── Left: sticky meta panel ── */
+    .lp-split-left {
+      align-self: start;
+      position: sticky;
+      top: 76px;
+      min-height: calc(100vh - 76px);
+      padding: 56px 64px 60px 120px;
+      display: flex; flex-direction: column; gap: 36px;
+    }
+    .lp-title { font-size: var(--fs-h2); font-weight: 800; letter-spacing: -.04em; line-height: .94; color: var(--text); margin-bottom: 14px; }
+    .lp-tagline { font-size: var(--fs-body); font-weight: 500; line-height: 1.6; letter-spacing: -.01em; color: var(--t2); }
+    .lp-meta-table { display: flex; flex-direction: column; border-top: 1px solid var(--bd); }
+    .lp-meta-row { display: flex; align-items: center; border-bottom: 1px solid var(--bd); padding: 12px 0; gap: 12px; }
+    .lp-meta-key { font-size: var(--fs-sm); font-weight: 600; color: var(--text); width: 110px; flex-shrink: 0; }
+    .lp-meta-val { font-size: var(--fs-sm); color: var(--t2); }
+    .lp-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .lp-chip { font-size: var(--fs-xs); font-weight: 500; color: var(--text); border: 1.5px solid var(--bd); border-radius: 100px; padding: 6px 14px; letter-spacing: .01em; }
+    .lp-visit { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); letter-spacing: .04em; color: var(--text); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--bd); display: inline-flex; align-items: center; gap: 8px; transition: gap 300ms cubic-bezier(.19,1,.22,1), text-decoration-color 180ms ease; }
+    .lp-visit:hover { gap: 14px; text-decoration-color: var(--text); }
+
+    /* ── Right: scrollable content column ── */
+    .lp-split-right { display: flex; flex-direction: column; padding-right: 120px; }
+
+    /* Hero image — first item in right col */
+    .lp-r-hero { overflow: hidden; background: var(--dark); flex-shrink: 0; }
+    .lp-r-hero img, .lp-r-hero video { width: 100%; display: block; height: 72vh; object-fit: cover; }
+
+    /* Side-by-side image pairs (card mockups) */
+    .lp-r-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .lp-r-pair img { width: 100%; display: block; object-fit: cover; background: var(--alt); }
+
+    /* Bento step flow: step 0 full-width on top, step 1 + step 2 side by side below */
+    .lp-r-bento { display: flex; flex-direction: column; gap: 4px; }
+    .lp-r-bento-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .lp-r-bento img { width: 100%; display: block; object-fit: cover; background: var(--alt); }
+
+    /* Inline hover card — small preview image that appears above the trigger text */
+    .lp-hover-trigger { position: relative; display: inline-block; border-bottom: 1.5px dotted var(--t3); cursor: default; }
+    .lp-hover-card {
+      position: absolute; left: 50%; bottom: calc(100% + 18px);
+      transform: translateX(-50%) translateY(10px) scale(.94);
+      width: 200px; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 24px 56px rgba(0,0,0,.28);
+      opacity: 0; pointer-events: none; z-index: 30;
+      transition: opacity .3s cubic-bezier(.19,1,.22,1), transform .3s cubic-bezier(.19,1,.22,1);
+    }
+    .lp-hover-trigger:hover .lp-hover-card { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    .lp-hover-card img { width: 100%; display: block; }
+
+    /* Text sections inside right col */
+    .lp-r-section { padding: 64px 0; display: grid; grid-template-columns: 150px 1fr; gap: 48px; align-items: start; }
+    .lp-r-label { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); letter-spacing: .06em; text-transform: uppercase; color: var(--t2); padding-top: 4px; }
+    .lp-r-body { display: flex; flex-direction: column; gap: 20px; }
+    .lp-body { font-size: var(--fs-body); font-weight: 500; line-height: 1.72; letter-spacing: -.015em; color: var(--text); opacity: .9; }
+    .lp-body-em { font-size: var(--fs-body); font-weight: 700; line-height: 1.72; letter-spacing: -.015em; color: var(--text); }
+    .lp-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+    .lp-list li { font-size: var(--fs-body); font-weight: 500; line-height: 1.55; letter-spacing: -.015em; color: var(--text); opacity: .9; padding-left: 22px; position: relative; }
+    .lp-list li::before { content: '→'; position: absolute; left: 0; color: var(--t3); font-weight: 400; }
+
+    /* Images inside right col */
+    .lp-r-imgs { display: flex; flex-direction: column; gap: 4px; }
+    .lp-r-imgs img { width: 100%; display: block; object-fit: cover; background: var(--alt); }
+
+    /* ── Related ── */
+    .lp-related { background: #fff; border-top: 1px solid var(--bd); padding: 80px 120px; position: relative; z-index: 2; }
+    .lp-related-inner { max-width: 1440px; margin: 0 auto; }
+    .lp-related-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h3); font-weight: 900; letter-spacing: -.03em; line-height: 1; color: var(--text); margin-bottom: 48px; }
+    .lp-related-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+
+    /* ── lw-card ── */
+    .lw-card { display: block; text-decoration: none; color: inherit; }
+    .lw-card-img { overflow: hidden; border-radius: 6px; width: 100%; }
+    .lw-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.75s cubic-bezier(.19,1,.22,1); will-change: transform; }
+    .lw-card:hover .lw-card-img img { transform: scale(1.06); }
+    .lw-card-info { height: 32px; overflow: hidden; margin-top: 18px; }
+    .lw-card-info-slide { display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(.19,1,.22,1); will-change: transform; }
+    .lw-card:hover .lw-card-info-slide { transform: translateY(-32px); }
+    .lw-card-row { height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .lw-card-meta { display: flex; align-items: center; gap: 10px; min-width: 0; overflow: hidden; }
+    .lw-card-name { font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; letter-spacing: -.02em; color: var(--text); white-space: nowrap; }
+    .lw-sep { width: 5px; height: 5px; border-radius: 50%; background: var(--t3); flex-shrink: 0; }
+    .lw-card-type { font-family: 'Urbanist', sans-serif; font-size: var(--fs-base); font-weight: 400; color: var(--t2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lw-card-year { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs); letter-spacing: .04em; color: var(--t3); flex-shrink: 0; }
+
+    /* ── CTA ── */
+    .lb-cta-outer { background: #fff; padding: 0 80px 100px; position: relative; z-index: 2; }
+    .lb-cta-card { background: var(--pr); border-radius: 28px; padding: 80px 80px; display: flex; align-items: center; justify-content: space-between; gap: 48px; min-height: 400px; position: relative; overflow: hidden; }
+    .lb-cta-card::before { content: ''; position: absolute; bottom: -140px; right: -60px; width: 560px; height: 560px; border: 64px solid rgba(255,255,255,.07); border-radius: 50%; pointer-events: none; }
+    .lb-cta-card::after { content: ''; position: absolute; bottom: -60px; right: 160px; width: 280px; height: 280px; border: 40px solid rgba(255,255,255,.05); border-radius: 50%; pointer-events: none; }
+    .lb-cta-heading { font-family: 'Urbanist', sans-serif; font-size: var(--fs-h3); font-weight: 700; letter-spacing: -.03em; line-height: .96; color: #fff; position: relative; z-index: 1; }
+    .lb-cta-btn { background: #FFC940; color: #0B0F1A; font-family: 'Urbanist', sans-serif; font-size: var(--fs-body); font-weight: 700; padding: 14px 28px; border-radius: 10px; text-decoration: none; white-space: nowrap; flex-shrink: 0; position: relative; z-index: 1; transition: transform .28s cubic-bezier(.34,1.38,.64,1), box-shadow .28s; }
+    .lb-cta-btn:hover { transform: scale(1.06); box-shadow: 0 12px 36px rgba(255,201,64,.4); }
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .rd1 { transition-delay: .1s; } .rd2 { transition-delay: .2s; } .rd3 { transition-delay: .3s; }
+    .lb-cta-outer, .lp-back, .lp-split, .lp-related { position: relative; z-index: 2; }
+
+    /* ── Custom cursor ── */
+    #cur-pointer { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: difference; opacity: 0; visibility: hidden; will-change: transform; transition: opacity 0.28s ease-out, visibility 0s 0.28s; user-select: none; width: 76px; height: 76px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+    #cur-pointer.cur-on { opacity: 1; visibility: visible; transition: opacity 0.28s ease-out, visibility 0s; }
+
+    /* ── Responsive ── */
+    @media (min-width: 769px) and (max-width: 1100px) {
+      #main-nav { padding: 0 40px; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+      .lp-back { padding: 104px 40px 0; }
+      .lp-split { display: block; }
+      .lp-split-left { position: static; min-height: auto; padding: 48px 40px 48px 40px; border-bottom: 1px solid var(--bd); }
+      .lp-split-right { padding: 0 40px; }
+      .lp-r-hero img, .lp-r-hero video { height: 56vw; }
+      .lp-r-section { padding: 48px 0; grid-template-columns: 140px 1fr; gap: 32px; }
+      .lp-related { padding: 64px 40px; }
+      .lp-related-grid { grid-template-columns: 1fr 1fr; }
+      .lb-cta-outer { padding: 0 40px 80px; }
+    }
+    @media (max-width: 768px) {
+      #main-nav { padding: 0 20px; }
+      #main-nav, #main-nav.nav-hidden { transform: translateY(0) !important; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex !important; }
+      .nav-actions .nav-cta, .nav-actions .nav-linkedin { display: none; }
+      .lp-back { padding: 20px 24px 0; }
+      .lp-split { display: block; }
+      .lp-split-left { position: static; min-height: auto; padding: 32px 24px 40px; border-bottom: 1px solid var(--bd); }
+      .lp-split-right { padding: 0 24px; }
+      .lp-r-hero img, .lp-r-hero video { height: 52vw; }
+      .lp-r-pair, .lp-r-bento-bottom { grid-template-columns: 1fr; }
+      .lp-r-section { padding: 40px 0; grid-template-columns: 1fr; gap: 12px; }
+      .lp-related { padding: 48px 24px; }
+      .lp-related-grid { grid-template-columns: 1fr; }
+      .lb-cta-outer { padding: 0 20px 80px; }
+      .lb-cta-card { flex-direction: column; align-items: flex-start; padding: 48px 32px; min-height: auto; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="pt"></div>
+  <div id="cur-dot" aria-hidden="true"></div>
+
+  <!-- ── Nav ── -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo" aria-label="Wormit Labs">
+      <svg width="199" height="64" viewBox="0 0 199 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M63.4327 20.9119C63.4327 22.2833 62.3266 23.3953 60.9625 23.3953H57.9434V43.2625C57.9434 44.6339 56.8373 45.7459 55.4732 45.7459H48.0627C46.6986 45.7459 45.5925 44.6339 45.5925 43.2625V33.8808H43.1224V43.2625C43.1224 44.6339 42.0163 45.7459 40.6522 45.7459H33.2417C31.8776 45.7459 30.7715 44.6339 30.7715 43.2625V43.1356L31.0158 23.3953H27.7524C26.3883 23.3953 25.2822 22.2833 25.2822 20.9119C25.2822 19.5405 26.3883 18.4285 27.7524 18.4285H33.5161C34.8802 18.4285 35.9863 19.5405 35.9863 20.9119V21.0389L35.742 40.7791H38.182V31.3974C38.182 30.026 39.2881 28.914 40.6522 28.914H48.0627C49.4268 28.914 50.5329 30.026 50.5329 31.3974V40.7791H53.0031V20.9119C53.0031 19.5405 54.1091 18.4285 55.4732 18.4285H60.9625C62.3266 18.4285 63.4327 19.5405 63.4327 20.9119Z" fill="#125CFA"/>
+        <path d="M149.614 26.7064C150.978 26.7064 152.084 25.5945 152.084 24.223C152.084 22.8514 150.978 21.7396 149.614 21.7396C148.25 21.7396 147.144 22.8514 147.144 24.223C147.144 25.5945 148.25 26.7064 149.614 26.7064Z" fill="#125CFA"/>
+        <path d="M172.943 20.9119C172.943 22.2833 171.837 23.3953 170.473 23.3953H167.056C167.095 29.1734 167.18 43.0445 167.18 43.2625C167.18 44.6339 166.074 45.7459 164.71 45.7459C163.345 45.7459 162.239 44.6339 162.239 43.2625L162.119 23.3953H158.671C157.307 23.3953 156.201 22.2833 156.201 20.9119C156.201 19.5405 157.307 18.4285 158.671 18.4285H170.473C171.837 18.4285 172.943 19.5405 172.943 20.9119Z" fill="#125CFA"/>
+        <path d="M152.084 31.6733V43.2625C152.084 44.6339 150.978 45.7459 149.614 45.7459H137.812C136.448 45.7459 135.342 44.6339 135.342 43.2625V27.4019L130.385 32.9757L130.363 33.0006L130.267 33.1082L130.256 33.122C129.806 33.591 129.177 33.8808 128.48 33.8808C127.783 33.8808 127.155 33.591 126.705 33.122L126.694 33.1082L126.598 33.0006L126.576 32.9757L121.616 27.4046V43.2625C121.619 44.6339 120.513 45.7459 119.149 45.7459H108.845L108.804 45.7431C108.777 45.7459 108.746 45.7459 108.719 45.7459C107.898 45.7459 107.171 45.343 106.721 44.7222L106.671 44.6504L98.5171 32.8985L98.5062 32.8819L98.4046 32.7329L98.3909 32.7136C98.1521 32.3328 98.0149 31.8803 98.0149 31.3974C98.0149 30.026 99.121 28.914 100.485 28.914H106.249V23.3953H95.8192V43.2625C95.8192 44.6339 94.7131 45.7459 93.349 45.7459H82.9194C81.5553 45.7459 80.4492 44.6339 80.4492 43.2625V23.3953H71.9408V40.7791H76.0578C77.4219 40.7791 78.528 41.8911 78.528 43.2625C78.528 44.6339 77.4219 45.7459 76.0578 45.7459H69.4707C68.1066 45.7459 67.0005 44.6339 67.0005 43.2625V20.9119C67.0005 19.5405 68.1066 18.4285 69.4707 18.4285H82.9194C84.2835 18.4285 85.3896 19.5405 85.3896 20.9119V40.7791H90.8788V20.9119C90.8788 19.5405 91.9849 18.4285 93.349 18.4285H108.719C110.083 18.4285 111.189 19.5405 111.189 20.9119V31.3974C111.189 32.7688 110.083 33.8808 108.719 33.8808H105.217L110.009 40.7819H116.678L116.684 21.0692V20.7381C116.774 19.4467 117.842 18.4285 119.149 18.4285C119.906 18.4285 120.584 18.7734 121.037 19.3143H121.04L128.48 27.6778L135.907 19.3336L135.929 19.3088L136.025 19.2011L136.036 19.1873C136.486 18.7183 137.115 18.4285 137.812 18.4285C139.176 18.4285 140.282 19.5405 140.282 20.9119C140.282 20.9699 140.28 21.0278 140.277 21.0858L140.282 40.7791H147.144V31.6733C147.144 30.3019 148.25 29.1899 149.614 29.1899C150.978 29.1899 152.084 30.3019 152.084 31.6733Z" fill="#125CFA"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#work"><span class="nav-dot"></span>Project</a></li>
+      <li><a href="services.html"><span class="nav-dot"></span>Services</a></li>
+      <li><a href="index.html#about"><span class="nav-dot"></span>About Us</a></li>
+      <li><a href="lab.html" class="nav-active"><span class="nav-dot"></span>The Lab</a></li>
+      <li><a href="#"><span class="nav-dot"></span>Blogs<svg class="nav-chevron" width="8" height="5" viewBox="0 0 8 5" fill="currentColor"><path d="M0 0L4 5L8 0H0Z"/></svg></a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="index.html#contact" class="nav-cta">
+        Contact
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/company/wormit-labs" target="_blank" rel="noopener" class="nav-linkedin" aria-label="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <button class="nav-ham" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true" aria-label="Navigation">
+    <ul class="nav-mobile-links">
+      <li><a href="index.html#work">Project</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="lab.html">The Lab</a></li>
+      <li><a href="#">Blogs</a></li>
+    </ul>
+    <a href="index.html#contact" class="nav-mobile-cta">Contact <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+
+  <!-- ── Back link ── -->
+  <div class="lp-back">
+    <a href="lab.html" class="lp-back-link lp-anim lp-d1">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M5 12L12 19M5 12L12 5"/></svg>
+      Back to The Lab
+    </a>
+  </div>
+
+  <!-- ── Sticky split layout ── -->
+  <div class="lp-split">
+
+    <!-- LEFT: sticky meta panel -->
+    <div class="lp-split-left lp-anim lp-d2">
+      <div>
+        <h1 class="lp-title">Monster Wall</h1>
+        <p class="lp-tagline">Built at Figma Makeathon 2026. What if you could build a creature that was completely, entirely yours?</p>
+      </div>
+      <div class="lp-meta-table">
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Category</span>
+          <span class="lp-meta-val">Web Experience</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Year</span>
+          <span class="lp-meta-val">2026</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Event</span>
+          <span class="lp-meta-val">Figma Makeathon</span>
+        </div>
+        <div class="lp-meta-row">
+          <span class="lp-meta-key">Stack</span>
+          <span class="lp-meta-val">Figma Make, Supabase</span>
+        </div>
+      </div>
+      <div class="lp-chips">
+        <span class="lp-chip">Vibe Coding</span>
+        <span class="lp-chip">Real-time</span>
+        <span class="lp-chip">Generative</span>
+      </div>
+      <a href="https://fig-monster.figma.site" class="lp-visit" target="_blank" rel="noopener">
+        Visit the Wall
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <!-- RIGHT: scrollable content -->
+    <div class="lp-split-right lp-anim lp-d3">
+
+      <!-- Hero video -->
+      <div class="lp-r-hero">
+        <video src="Brand_assets/Lab_FigmaMakethon.mp4" poster="Brand_assets/lab_figmaMakethon.png" autoplay muted loop playsinline></video>
+      </div>
+
+      <!-- Overview -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">Overview</span>
+        <div class="lp-r-body">
+          <p class="lp-body">We had one question going in. What if you could build a creature that was completely, entirely yours?</p>
+          <p class="lp-body">That question became Monster Wall.</p>
+        </div>
+      </div>
+
+      <!-- The Idea -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">The Idea</span>
+        <div class="lp-r-body">
+          <p class="lp-body">Most collaborative tools feel transactional. You add your piece, you leave. No sense of arrival. No sense that the world noticed you showed up.</p>
+          <p class="lp-body">We wanted the moment of publishing to feel like something. Like you gave something life and watched it find its place in a world that was already there.</p>
+          <p class="lp-body">That single feeling drove every decision we made.</p>
+        </div>
+      </div>
+
+      <!-- Building It -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">Building It</span>
+        <div class="lp-r-body">
+          <p class="lp-body">You pick a body. Give it emotional eyes, a mouth, horns, texture, color. Watch it come alive in real time on the preview card.</p>
+          <p class="lp-body">Then you name it. Give it a power. Fire, Freeze, Air, Mud. The moment you choose, a biome appears behind your monster. Desert canyon. Frozen tundra. Jungle swamp. Storm cliffs.</p>
+          <p class="lp-body">Then you write one line. What does this monster do? What does it carry? That part is yours.</p>
+        </div>
+      </div>
+
+      <!-- Bento: build flow — step 0 full width, step 1 + step 2 side by side -->
+      <div class="lp-r-bento">
+        <img src="Brand_assets/lab_figmaMakethon-step0.png" alt="Choose a base monster">
+        <div class="lp-r-bento-bottom">
+          <img src="Brand_assets/lab_figmaMakethon-step1.png" alt="Give it a character by selecting features">
+          <img src="Brand_assets/lab_figmaMakethon-step2.png" alt="Name it, give it a power, describe it">
+        </div>
+      </div>
+
+      <!-- The Publish Moment -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">The Publish Moment</span>
+        <div class="lp-r-body">
+          <p class="lp-body">Click Publish. Sound fires. A particle explosion erupts across the screen. The card flips. Fades. Then one screen. Your card. Centered. Breathing.</p>
+          <p class="lp-body">Three seconds of silence.</p>
+          <p class="lp-body-em">
+            <span class="lp-hover-trigger">Just your monster. Existing.
+              <span class="lp-hover-card"><img src="Brand_assets/lab_figmaMakethon.png" alt="A finished Fig Monster trading card — Figchoum, Fire type"></span>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <!-- The Wall -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">The Wall</span>
+        <div class="lp-r-body">
+          <p class="lp-body">A 5000 by 5000 pixel canvas full of monsters made by real people.</p>
+          <p class="lp-body">Fire cards shimmer with heat. Freeze cards drift snow. Air cards sway and push their neighbours. Mud cards creep at the edges.</p>
+          <p class="lp-body">When someone new publishes, nearby monsters slowly turn to face the arrival.</p>
+          <p class="lp-body">When you click Play, the power ripples outward. Flames float up from surrounding cards. Ice drizzles down. Wind blows cards sideways. Mud splatters on impact.</p>
+          <p class="lp-body">The wall does not sit still. It breathes.</p>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="lp-r-imgs">
+        <img src="Brand_assets/lab_figmaMakethon-step3.png" alt="The Fig Monster Wall — a 5000 by 5000 canvas of published monsters">
+      </div>
+
+      <!-- Image pair: biome variety -->
+      <div class="lp-r-imgs">
+        <img src="Brand_assets/lab_figmaMakethon2.png" alt="Card mockups across different biomes and powers">
+      </div>
+
+      <!-- The Kindred Spirit -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">The Kindred Spirit</span>
+        <div class="lp-r-body">
+          <p class="lp-body">After your card lands, something happens.</p>
+          <p class="lp-body">Gold rays pulse from your monster like sonar. A beam shoots across the canvas in an arc, accelerating, hunting. It lands on one card. That card pulses gold. A permanent thread connects the two.</p>
+          <p class="lp-body">Your monster is searching for its kindred spirit.</p>
+          <p class="lp-body-em">Kindred spirit found. Your monsters share the same soul.</p>
+          <p class="lp-body">Someone was already here. Carrying something similar. The wall found them for you.</p>
+        </div>
+      </div>
+
+      <!-- War Cry -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">War Cry</span>
+        <div class="lp-r-body">
+          <p class="lp-body">Before publishing you can record your voice for your monster. A roar. A scream. Whatever feels right.</p>
+          <p class="lp-body">On the wall every card with a War Cry has an audio button.</p>
+          <p class="lp-body">Some of them are unhinged in the best way.</p>
+        </div>
+      </div>
+
+      <!-- The Stack -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">The Stack</span>
+        <div class="lp-r-body">
+          <p class="lp-body">Built entirely in Figma Make. Supabase for the real time canvas. Scenes and particle overlays generated in Figma Weave. Every animation on the wall is pure CSS. No libraries.</p>
+        </div>
+      </div>
+
+      <!-- Built right -->
+      <div class="lp-r-section reveal">
+        <span class="lp-r-label">Built right</span>
+        <div class="lp-r-body">
+          <p class="lp-body-em">Vibe coded, start to finish.</p>
+          <p class="lp-body">Built at Figma Makeathon 2026 by Wormit Labs.</p>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end .lp-split -->
+
+  <!-- ── Related ── -->
+  <div class="lp-related">
+    <div class="lp-related-inner">
+      <h2 class="lp-related-heading reveal">Related</h2>
+      <div class="lp-related-grid">
+        <a href="lab-project-illustrations.html" class="lw-card reveal rd1">
+          <div class="lw-card-img" style="height:380px">
+            <img src="Brand_assets/illus-Office_wall_Mockup.png" alt="Illustrations">
+          </div>
+          <div class="lw-card-info">
+            <div class="lw-card-meta">
+              <span class="lw-card-name">Illustrations</span>
+              <span class="lw-sep"></span>
+              <span class="lw-card-type">Visual Art</span>
+            </div>
+            <span class="lw-card-year">2025</span>
+          </div>
+        </a>
+        <a href="lab-project-motion.html" class="lw-card reveal rd2">
+          <div class="lw-card-img" style="height:380px">
+            <img src="https://images.unsplash.com/photo-1557683311-eac922347aa1?w=900&auto=format&fit=crop&q=80" alt="Motion Lab">
+          </div>
+          <div class="lw-card-info">
+            <div class="lw-card-meta">
+              <span class="lw-card-name">Motion Lab</span>
+              <span class="lw-sep"></span>
+              <span class="lw-card-type">Animation</span>
+            </div>
+            <span class="lw-card-year">2025</span>
+          </div>
+        </a>
+        <a href="lab-project-font-randomiser.html" class="lw-card reveal rd3">
+          <div class="lw-card-img" style="height:380px">
+            <img src="Brand_assets/Lab_font-randomiser-cover.png" alt="Font Randomiser">
+          </div>
+          <div class="lw-card-info">
+            <div class="lw-card-meta">
+              <span class="lw-card-name">Font Randomiser</span>
+              <span class="lw-sep"></span>
+              <span class="lw-card-type">Figma Plugin</span>
+            </div>
+            <span class="lw-card-year">2025</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="lb-cta-outer">
+    <div class="lb-cta-card reveal">
+      <h2 class="lb-cta-heading">Still thinking,<br>lets talk,<br>it won't cost.</h2>
+      <a href="mailto:business@wormit.co" class="lb-cta-btn">Let's Talk →</a>
+    </div>
+  </div>
+
+  <footer id="site-footer"></footer>
+
+  <div id="cur-pointer" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L18 4M18 4H7M18 4v11"/></svg>
+  </div>
+
+  <script>
+    /* ── Page Transition ── */
+    const pt = document.getElementById('pt');
+    setTimeout(() => {
+      pt.style.transition = 'transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)';
+      pt.style.transform  = 'translateY(-100%)';
+    }, 320);
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href]');
+      if (!a) return;
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || a.target === '_blank') return;
+      e.preventDefault();
+      pt.style.transition = 'none';
+      pt.style.transform  = 'translateY(100%)';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          pt.style.transition = 'transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)';
+          pt.style.transform  = 'translateY(0)';
+          setTimeout(() => { window.location.href = href; }, 860);
+        });
+      });
+    });
+
+    /* ── Nav hide/show ── */
+    (function() {
+      const nav = document.getElementById('main-nav');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (y > lastY && y > 80) nav.classList.add('nav-hidden');
+        else nav.classList.remove('nav-hidden');
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* ── Reveal on scroll ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ── Card text slide ── */
+    document.querySelectorAll('.lw-card-info').forEach(info => {
+      const row = document.createElement('div');
+      row.className = 'lw-card-row';
+      while (info.firstChild) row.appendChild(info.firstChild);
+      const slide = document.createElement('div');
+      slide.className = 'lw-card-info-slide';
+      slide.appendChild(row);
+      slide.appendChild(row.cloneNode(true));
+      info.appendChild(slide);
+    });
+
+    /* ── Custom cursor ── */
+    (function initCursor() {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const dot = document.getElementById('cur-dot');
+      const cp  = document.getElementById('cur-pointer');
+      if (!dot || !cp) return;
+
+      let mx = -300, my = -300, cx = -300, cy = -300;
+      let mode = '', entered = false;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        if (!entered) { entered = true; dot.style.opacity = '1'; }
+      });
+
+      function setMode(m) {
+        if (mode === m) return;
+        mode = m;
+        dot.style.opacity = (m === '' && entered) ? '1' : '0';
+        cp.classList.toggle('cur-on', m === 'pointer');
+      }
+
+      (function dotTick() {
+        dot.style.transform = `translate(${(mx - 6).toFixed(1)}px,${(my - 6).toFixed(1)}px)`;
+        requestAnimationFrame(dotTick);
+      })();
+
+      (function lerpTick() {
+        cx += (mx - cx) * 0.15;
+        cy += (my - cy) * 0.15;
+        cp.style.transform = `translate(${(cx - 38).toFixed(1)}px,${(cy - 38).toFixed(1)}px)`;
+        requestAnimationFrame(lerpTick);
+      })();
+
+      // Exclude the hamburger — it toggles the menu in place, it doesn't redirect.
+      document.querySelectorAll('a[href], button:not(.nav-ham), [role="button"]').forEach(el => {
+        el.addEventListener('mouseenter', () => setMode('pointer'));
+        el.addEventListener('mouseleave', () => setMode(''));
+      });
+    })();
+
+    /* ── Mobile hamburger ── */
+    (function() {
+      const ham    = document.querySelector('.nav-ham');
+      const drawer = document.getElementById('nav-mobile');
+      if (!ham || !drawer) return;
+      function close() { ham.classList.remove('is-open'); drawer.classList.remove('is-open'); ham.setAttribute('aria-expanded', 'false'); }
+      ham.addEventListener('click', () => {
+        const open = ham.classList.toggle('is-open');
+        drawer.classList.toggle('is-open', open);
+        ham.setAttribute('aria-expanded', String(open));
+      });
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    })();
+
+    window.addEventListener('load', () => {
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    });
+  </script>
+  <script src="footer.js"></script>
+</body>
+</html>
