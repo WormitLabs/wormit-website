@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wormit — The Design Lab</title>
   <meta name="description" content="An independent creative agency. We solve the complicated.">
+  <link rel="icon" href="Brand_assets/fav-wormit.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -594,15 +595,6 @@
       transition: transform .2s ease, background .2s ease;
     }
     .rw-cta-btn:hover { background: #f0f5ff; transform: translateY(-2px); }
-    .rw-cta-btn-outline {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 14px 28px; background: transparent; color: #fff;
-      border: 1.5px solid rgba(255,255,255,0.55);
-      font-size: var(--fs-base); font-weight: 700; border-radius: 10px;
-      text-decoration: none; letter-spacing: .01em;
-      transition: transform .2s ease, border-color .2s ease, background .2s ease;
-    }
-    .rw-cta-btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
 
     /* ── Small Team / Measurable Impact ─── */
     .st-section {
@@ -656,8 +648,8 @@
     .st-card--mist  { background: #eceef9; }
     .st-card--dark  { background: #0B0F1A; }
 
-    .st-card-top { flex: 1; }
-    .st-card-bottom { margin-top: auto; }
+    .st-card-top { flex: 1; position: relative; z-index: 1; }
+    .st-card-bottom { margin-top: auto; position: relative; z-index: 1; }
 
     /* Large stat number — clip-path animated by JS */
     .st-num-wrap {
@@ -686,13 +678,13 @@
     }
     .st-card--dark .st-desc { color: rgba(255,255,255,0.48); }
 
-    /* Decorative circle accent (upper-right of each card) */
+    /* Decorative accent illustration (upper-right of each card, behind the text) */
     .st-decor {
-      position: absolute; top: -24px; right: -24px;
-      width: 180px; height: 180px;
-      pointer-events: none; opacity: .14;
+      position: absolute; top: -30px; right: -30px;
+      width: 180px; height: auto;
+      pointer-events: none; z-index: 0;
+      transform: translate(2px, -2px);
     }
-    .st-card--dark .st-decor { opacity: .1; }
 
     /* Client logos — now inside the pin, minimal own styling */
     .st-clients-wrap { text-align: center; padding-top: 8px; }
@@ -1332,7 +1324,7 @@
         Contact
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <a href="https://www.linkedin.com/company/wormit-labs" target="_blank" rel="noopener" class="nav-linkedin" aria-label="Wormit Labs on LinkedIn">
+      <a href="https://www.linkedin.com/company/wormit" target="_blank" rel="noopener" class="nav-linkedin" aria-label="Wormit Labs on LinkedIn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
       </a>
       <button class="nav-ham" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
@@ -1452,7 +1444,6 @@
             <div class="rw-cta-vis">
               <h2 class="rw-cta-heading">On a journey to build and create the awesome experience.</h2>
               <div class="rw-cta-btns">
-                <a href="#work" class="rw-cta-btn-outline">See all projects</a>
                 <a href="Brand_assets/Wormit_SalesDeck.pdf" class="rw-cta-btn" download>Get our deck</a>
               </div>
             </div>
@@ -1475,10 +1466,7 @@
 
       <!-- Card 1 — light -->
       <div class="st-card st-card--light" data-st="0">
-        <svg class="st-decor" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="140" cy="40" r="80"/>
-          <circle cx="140" cy="40" r="50"/>
-        </svg>
+        <img class="st-decor" src="Brand_assets/illus_ST_01.svg" alt="" aria-hidden="true">
         <div class="st-card-top">
           <div class="st-num-wrap">
             <span class="st-num" data-target="10" data-suffix="+">10+</span>
@@ -1492,10 +1480,7 @@
 
       <!-- Card 2 — mist/lavender -->
       <div class="st-card st-card--mist" data-st="1">
-        <svg class="st-decor" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="140" cy="40" r="80"/>
-          <circle cx="140" cy="40" r="50"/>
-        </svg>
+        <img class="st-decor" src="Brand_assets/illus_ST_02.svg" alt="" aria-hidden="true">
         <div class="st-card-top">
           <div class="st-num-wrap">
             <span class="st-num" data-target="6" data-suffix="">6</span>
@@ -1509,10 +1494,7 @@
 
       <!-- Card 3 — dark -->
       <div class="st-card st-card--dark" data-st="2">
-        <svg class="st-decor" viewBox="0 0 180 180" fill="none" stroke="#fff" stroke-width="1.2">
-          <circle cx="140" cy="40" r="80"/>
-          <circle cx="140" cy="40" r="50"/>
-        </svg>
+        <img class="st-decor" src="Brand_assets/illus_ST_03.svg" alt="" aria-hidden="true">
         <div class="st-card-top">
           <div class="st-num-wrap">
             <span class="st-num" data-target="100" data-suffix="%">100%</span>
