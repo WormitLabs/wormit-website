@@ -199,7 +199,7 @@
           <nav aria-label="Footer navigation">
             <ul class="f-nav-col">
               <li><a href="services.html">Services</a></li>
-              <li><a href="index.html#about">About us</a></li>
+              <li><a href="about.html">About us</a></li>
               <li><a href="lab.html">The Lab</a></li>
               <li><a href="#">Blogs</a></li>
             </ul>

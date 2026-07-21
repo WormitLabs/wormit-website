@@ -41,7 +41,7 @@
     .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
     .nav-logo svg { height: 36px; width: auto; display: block; }
     .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
-    .nav-links > li > a { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-sm); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 100px; transition: color 150ms ease, background 150ms ease; }
+    .nav-links > li > a { font-family: 'Urbanist', sans-serif; font-size: var(--fs-sm); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 100px; transition: color 150ms ease, background 150ms ease; }
     .nav-links > li > a:hover { color: var(--text); background: var(--alt); }
     .nav-links > li > a.nav-active { color: var(--text); background: var(--alt); }
     .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pr); flex-shrink: 0; opacity: 0; transition: opacity 150ms ease; }
@@ -179,7 +179,7 @@
     .lw-card-year { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs); letter-spacing: .04em; color: var(--t3); flex-shrink: 0; }
 
     /* ── CTA ── */
-    .lb-cta-outer { background: #fff; padding: 0 80px 100px; position: relative; z-index: 2; }
+    .lb-cta-outer { background: #fff; padding: 0 80px 100px; position: relative; z-index: 2; border-radius: 0 0 28px 28px; }
     .lb-cta-card { background: var(--pr); border-radius: 28px; padding: 80px 80px; display: flex; align-items: center; justify-content: space-between; gap: 48px; min-height: 400px; position: relative; overflow: hidden; }
     .lb-cta-card::before { content: ''; position: absolute; bottom: -140px; right: -60px; width: 560px; height: 560px; border: 64px solid rgba(255,255,255,.07); border-radius: 50%; pointer-events: none; }
     .lb-cta-card::after { content: ''; position: absolute; bottom: -60px; right: 160px; width: 280px; height: 280px; border: 40px solid rgba(255,255,255,.05); border-radius: 50%; pointer-events: none; }
@@ -227,7 +227,7 @@
       .lp-r-accent img { width: 100%; }
       .lp-related { padding: 48px 24px; }
       .lp-related-grid { grid-template-columns: 1fr; }
-      .lb-cta-outer { padding: 0 20px 80px; }
+      .lb-cta-outer { padding: 0 20px 80px; border-radius: 0; }
       .lb-cta-card { flex-direction: column; align-items: flex-start; padding: 48px 32px; min-height: auto; gap: 32px; }
     }
   </style>
@@ -248,9 +248,8 @@
       </svg>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html#work"><span class="nav-dot"></span>Project</a></li>
       <li><a href="services.html"><span class="nav-dot"></span>Services</a></li>
-      <li><a href="index.html#about"><span class="nav-dot"></span>About Us</a></li>
+      <li><a href="about.html"><span class="nav-dot"></span>About Us</a></li>
       <li><a href="lab.html" class="nav-active"><span class="nav-dot"></span>The Lab</a></li>
       <li><a href="#"><span class="nav-dot"></span>Blogs<svg class="nav-chevron" width="8" height="5" viewBox="0 0 8 5" fill="currentColor"><path d="M0 0L4 5L8 0H0Z"/></svg></a></li>
     </ul>
@@ -270,9 +269,8 @@
 
   <div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true" aria-label="Navigation">
     <ul class="nav-mobile-links">
-      <li><a href="index.html#work">Project</a></li>
       <li><a href="services.html">Services</a></li>
-      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="about.html">About Us</a></li>
       <li><a href="lab.html">The Lab</a></li>
       <li><a href="#">Blogs</a></li>
     </ul>
@@ -294,7 +292,7 @@
     <div class="lp-split-left lp-anim lp-d2">
       <div>
         <h1 class="lp-title">Font Randomiser</h1>
-        <p class="lp-tagline">Stop scrolling. Start discovering.</p>
+        <p class="lp-tagline">Pick a layer. Set your filters. Let the font surprise you.</p>
       </div>
       <div class="lp-meta-table">
         <div class="lp-meta-row">
@@ -337,9 +335,8 @@
       <div class="lp-r-section reveal">
         <span class="lp-r-label">Overview</span>
         <div class="lp-r-body">
-          <p class="lp-body">Finding the right font often means cycling through the same familiar typefaces. The process works — but it's slow, repetitive, and can limit creative exploration.</p>
-          <p class="lp-body">That's why we built Font Randomiser.</p>
-          <p class="lp-body">Instead of endlessly browsing font lists, simply select a text layer, choose a few filters — like category, weight, or style — and let the plugin surprise you. Every result stays within your criteria, giving you the freedom to discover without losing control.</p>
+          <p class="lp-body">Font pairing is a lot of trial and error, clicking through the same ten typefaces because they're the ones you remember. Font Randomiser breaks that loop.</p>
+          <p class="lp-body">Select a text layer, and it assigns a font to it, but not blindly. Set filters for what you're after: weight, style, category, whatever narrows it down to fonts you'd actually use, and it randomises within those bounds. You get variety without losing control.</p>
         </div>
       </div>
 
@@ -348,64 +345,16 @@
         <img src="Brand_assets/Lab_font-randomiser-cover-01.png" alt="Font Randomiser plugin panel — Font Roulette">
       </div>
 
-      <!-- Why We Built It -->
+      <!-- What it does -->
       <div class="lp-r-section reveal">
-        <span class="lp-r-label">Why We Built It</span>
-        <div class="lp-r-body">
-          <p class="lp-body">Typography is one of the most important design decisions, yet finding the right typeface can interrupt creative flow.</p>
-          <p class="lp-body">We wanted font exploration to feel more like discovery than searching. A tool that removes decision fatigue, encourages experimentation, and helps designers stumble upon combinations they might never have considered.</p>
-          <p class="lp-body-em">Sometimes the right font isn't the obvious choice — it's the unexpected one.</p>
-        </div>
-      </div>
-
-      <!-- How It Works -->
-      <div class="lp-r-section reveal">
-        <span class="lp-r-label">How It Works</span>
-        <div class="lp-r-body">
-          <div class="lp-steps">
-            <div class="lp-step">
-              <span class="lp-step-num">01</span>
-              <span class="lp-step-title">Select</span>
-              <span class="lp-step-desc">Choose any text layer in your Figma file.</span>
-            </div>
-            <div class="lp-step">
-              <span class="lp-step-num">02</span>
-              <span class="lp-step-title">Filter</span>
-              <span class="lp-step-desc">Refine the results by category, weight, or style.</span>
-            </div>
-            <div class="lp-step">
-              <span class="lp-step-num">03</span>
-              <span class="lp-step-title">Randomise</span>
-              <span class="lp-step-desc">Generate a font that matches your preferences.</span>
-            </div>
-            <div class="lp-step">
-              <span class="lp-step-num">04</span>
-              <span class="lp-step-title">Explore</span>
-              <span class="lp-step-desc">Keep going until something feels right.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Designed for Exploration -->
-      <div class="lp-r-section reveal">
-        <span class="lp-r-label">Designed for Exploration</span>
+        <span class="lp-r-label">What it does</span>
         <div class="lp-r-body">
           <ul class="lp-list">
-            <li>Break free from familiar font choices</li>
-            <li>Discover typefaces you might have overlooked</li>
-            <li>Explore ideas faster with less manual searching</li>
-            <li>Stay focused on designing, not browsing</li>
+            <li>Chooses a font for the specific layer you've selected</li>
+            <li>Lets you filter by what you actually want, so the results stay usable</li>
+            <li>Turns font exploration into something fast, not tedious</li>
           </ul>
-          <p class="lp-body-em">Less searching. More discovering.</p>
-        </div>
-      </div>
-
-      <!-- Built right -->
-      <div class="lp-r-section reveal">
-        <span class="lp-r-label">Built right</span>
-        <div class="lp-r-body">
-          <p class="lp-body">We built Font Randomiser to make typography exploration faster, more enjoyable, and a little more unexpected. Sometimes, all it takes is one random font to unlock a completely new direction.</p>
+          <p class="lp-body-em">Less scrolling through dropdowns. More finding fonts you wouldn't have picked yourself.</p>
         </div>
       </div>
 
